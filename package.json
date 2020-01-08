@@ -1,0 +1,11 @@
+{
+  "name": "pool",
+  "version": "1.0.0",
+  "description": "Netsol Pool League",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Alex Butterworth",
+  "license": "ISC"
+}
