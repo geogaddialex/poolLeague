@@ -4,6 +4,6 @@ var express = require('express');
 var router = express.Router();
 
 router.get('/', games.list );
-router.put('/:id', games.update );
+// router.put('/:id', games.update );
 
 module.exports = router;

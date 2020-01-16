@@ -3,8 +3,8 @@ var bcrypt   = require('bcrypt-nodejs');
 
 var userSchema = mongoose.Schema({
 
-    name: { type: String, validate: /^[0-9a-zA-Z\-\/_£?:.,\s]*$/, minlength: 1, maxlength: 70 },
-    password: { type: String, validate: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/ }
+    name: { type: String, validate: /^[0-9a-zA-Z\-\/_£?:.,\s]*$/, minlength: 1, maxlength: 30 },
+    password: { type: String },
     isAdmin: { type: Boolean, default: false }
 
 },
@@ -18,8 +18,8 @@ userSchema.methods.generateHash = function(password) {
 };
 
 userSchema.methods.validPassword = function(password) {
-	if(this.local.password != null){
-        return bcrypt.compareSync(password, this.local.password);
+	if(this.password != null){
+        return bcrypt.compareSync(password, this.password);
     }else{
         return false;
     }

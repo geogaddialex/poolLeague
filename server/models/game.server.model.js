@@ -4,8 +4,8 @@ var User = require('./user.server.model')
 
 var gameSchema = mongoose.Schema({
 
-    winner: { type: User },
-    loser: { type: User },
+    winner: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    loser: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     foul: { type: Boolean, default: false },
     seven: { type: Boolean, default: false }
 

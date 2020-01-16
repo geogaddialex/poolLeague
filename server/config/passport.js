@@ -45,20 +45,14 @@ module.exports = function( passport ){
                 } else {
 
                     var newUser                 = new User();
-                    newUser.name                  = req.body.name
-
-                    if( password && password.match( /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/ ) ){
-                        newUser.password      = newUser.generateHash(password);
-                    }
+                    newUser.name                = req.body.name
+                    newUser.password      = newUser.generateHash(password);
 
                     newUser.save(function(err) {
                         
                         if (err){
-                            console.log("error: " + err)
                             done(null)
                         }
-
-                        console.log("success = \n\n" + JSON.stringify(newUser))
                             
                         return done(null, newUser);
                     });
@@ -105,8 +99,6 @@ module.exports = function( passport ){
         secretOrKey   : 'your_jwt_secret'
     },
     function (jwtPayload, cb) {
-
-        console.log("payload: " + JSON.stringify(jwtPayload) )
 
         return User.findOneById(jwtPayload.id)
             .then(user => {

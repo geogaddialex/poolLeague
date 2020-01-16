@@ -40,12 +40,10 @@ exports.lookupUser = function(req, res, next) {
 
     User.findOne({ '_id': id }).exec( function( err, user ){
         if( err ){  
-            console.log( err ); 
             return res.status(500).json({ errors: "Could not retrieve user" });
         }
 
         if( !user ){
-            console.log( "No user found" );
             return res.status(404).json({ errors: "No such user" });
         } 
         
@@ -59,7 +57,7 @@ exports.lookupUserByUsername = function(req, res, next) {
 
     var username = req.params.username;
 
-    User.findOne({ 'local.name': username }).exec( function( err, user ){
+    User.findOne({ 'name': username }).exec( function( err, user ){
         if( err ){  
 
             return res.status(500).json({ errors: "Could not retrieve user" });
