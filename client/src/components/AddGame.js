@@ -30,8 +30,8 @@ export default function AddGame(props) {
   async function loadUsers() {
     fetch('/api/users').then(function(response){
 
-      response.json().then(toReturn =>{
-        setUsers(toReturn)
+      response.json().then(responseUsers =>{
+        setUsers(responseUsers)
         setIsLoading(false)
       })
       
