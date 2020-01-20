@@ -13,7 +13,25 @@ exports.list = function( req, res ){
             return res.status( 500 );
         }
         
-        res.json({ users: users });
+        res.json(users);
+            
+    })
+}
+
+exports.listNames = function( req, res ){
+
+    User.find({ }, {name:1, _id:0}, function( err, users ){
+
+        users = Object.keys(users).map(function(key) {
+            return users[key];
+        });
+
+        if( err ){
+            console.log( "error: " + err );
+            return res.status( 500 );
+        }
+        
+        res.json(users);
             
     })
 }

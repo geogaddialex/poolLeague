@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import {
-  HelpBlock,
   FormGroup,
   FormControl,
   ControlLabel
@@ -78,15 +77,16 @@ export default function Signup(props) {
             value={fields.confirmPassword}
           />
         </FormGroup>  
+
           <LoaderButton
-          block
-          type="submit"
-          bsSize="large"
-          isLoading={isLoading}
-          disabled={!validateForm()}
-        >
-          Signup
-        </LoaderButton>
+            block
+            type="submit"
+            bsSize="large"
+            isLoading={isLoading}
+            disabled={!validateForm()}
+          >
+            Signup
+          </LoaderButton>
       </form>
      </div>
    );

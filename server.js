@@ -36,10 +36,12 @@ app.use( passport.session() );
 var authRoutes = require( './server/routes/authentication.server.routes.js' )( passport )
 var userRoutes = require( './server/routes/user.server.routes.js' );
 var gameRoutes = require( './server/routes/game.server.routes.js' );
+var seasonRoutes = require( './server/routes/season.server.routes.js' );
 
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/games', gameRoutes);
+app.use('/api/seasons', seasonRoutes);
 
 app.get('/', function(req, res) {
 		res.sendFile( '/index.html', {root: './client'} );

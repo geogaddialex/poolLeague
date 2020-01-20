@@ -1,31 +1,20 @@
-var Game = require( '../models/game.server.model' );
+var Season = require( '../models/season.server.model' );
 
 exports.list = function( req, res ){
 
-    Game.find({ }, function( err, games ){
+    Season.find({ }, function( err, seasons ){
 
-        games = Object.keys(games).map(function(key) {
-            return games[key];
+        seasons = Object.keys(seasons).map(function(key) {
+            return seasons[key];
         });
 
         if( err ){
-            console.log( "error: " + err );
             return res.status( 500 );
         }
         
-        res.json({ games: games });
+        res.json({ seasons: season });
             
     })
-}
-
-exports.add = function( req, res ){
-
-    console.log(req.body)
-    var game = new Game(req.body)
-    game.save(function(err, game){
-        if (err) return console.error(err);
-    })
-
 }
 
 // exports.update = function( req, res ){

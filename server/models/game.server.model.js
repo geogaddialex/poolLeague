@@ -6,8 +6,7 @@ var gameSchema = mongoose.Schema({
 
     winner: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     loser: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-    foul: { type: Boolean, default: false },
-    seven: { type: Boolean, default: false }
+    special: { type: String, default: "None" }
 
 },
 {

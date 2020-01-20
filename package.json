@@ -26,6 +26,6 @@
     "socket.io": "^2.0.4"
   },
   "scripts": {
-    "start": "export NODE_ENV=dev&& nodemon server.js"
+    "start": "nodemon --ignore 'client/' server.js"
   }
 }
