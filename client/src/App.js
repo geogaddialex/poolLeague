@@ -21,7 +21,7 @@ function App(props) {
       if(await response.authenticated){
         userHasAuthenticated(true);
       }else{
-        console.log("FAILURE : " + response)
+        console.log("Not authenticated")
       }
 
     }

@@ -13,7 +13,7 @@ exports.list = function( req, res ){
             return res.status( 500 );
         }
         
-        res.json({ games: games });
+        res.json(games);
             
     })
 }

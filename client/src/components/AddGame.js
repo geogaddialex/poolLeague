@@ -40,7 +40,9 @@ export default function AddGame(props) {
 
   function validateForm() {
     return (
-      fields.winner != fields.loser
+      fields.winner !== fields.loser &&
+      fields.winner !== "select" &&
+      fields.loser !== "select"
     );
   }
 
@@ -49,7 +51,7 @@ export default function AddGame(props) {
 
     try {
 
-      const response = await fetch('/api/games', {
+      fetch('/api/games', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(fields),
