@@ -4,6 +4,7 @@ import AddGame from "../components/AddGame";
 import TopFarms from "../components/TopFarms";
 import MostPlayed from "../components/MostPlayed";
 import LeastPlayed from "../components/LeastPlayed";
+import Streaks from "../components/Streaks";
 import "./Home.css";
 
 export default function Home(props) {
@@ -53,6 +54,7 @@ export default function Home(props) {
 				    <TopFarms users={users} games={games}/>
 				    <MostPlayed users={users} games={games}/>
 				    <LeastPlayed users={users} games={games}/>
+				    <Streaks users={users} games={games}/>
 			    </React.Fragment>
 			}
        	</div>
