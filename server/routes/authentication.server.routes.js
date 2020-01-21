@@ -6,11 +6,10 @@ module.exports = function( passport ){
 
   var router = express.Router();
 
-
   router.get( '/user', function( req, res ){
 
     if( !req.user ){
-      return res.status( 200 ).json({ user: "" });
+      return res.status( 404 )
     }
     res.status( 200 ).json({ user: req.user });
 
@@ -62,7 +61,8 @@ module.exports = function( passport ){
               }
 
               const token = jwt.sign(user.toJSON(), 'your_jwt_secret');
-              res.status( 200 ).json({ user, token });
+              console.log(token)
+              res.status( 200 ).json({ user: token });
           });
 
       })( req, res, next );
@@ -89,7 +89,8 @@ module.exports = function( passport ){
               }
 
               const token = jwt.sign(user.toJSON(), 'your_jwt_secret');
-              res.status( 200 ).json({ user, token });
+              console.log(token)
+              res.status( 200 ).json({ user: token });
 
           });  
 
