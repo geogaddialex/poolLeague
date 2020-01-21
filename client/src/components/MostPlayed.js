@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { Table } from "react-bootstrap";
-import "./TopFarms.css";
+import "./MostPlayed.css";
 
-export default function TopFarms(props) {
-  const [topFarms, setTopFarms] = useState([]);
+export default function MostPlayed(props) {
+  const [mostPlayed, setMostPlayed] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {  
 
-    setTopFarms(getTopFarms(props.games))
+    setMostPlayed(getMostPlayed(props.games))
     setIsLoading(false)
 
   }, [props.games]);
 
-  function getTopFarms(games){
+  function getMostPlayed(games){
     const unique = []
 
     games.forEach((game) => {
@@ -32,17 +32,16 @@ export default function TopFarms(props) {
 
   function countOccurences(unique){
     let count = 0
-    let negatives = 0
 
     props.games.forEach(x =>{
       if( x.winner == unique.winner && x.loser == unique.loser ){
         count ++
       }else if( x.winner == unique.loser && x.loser == unique.winner ){
-        negatives ++
+        count ++
       }
     })
 
-    return count - negatives
+    return count
   }
 
   function compareOccurences(a, b) {
@@ -55,25 +54,23 @@ export default function TopFarms(props) {
 
   return (
 
-    <div className="TopFarms">
+    <div className="MostPlayed">
       { !isLoading &&
         <Table striped bordered condensed hover>
 
           <thead>
             <tr>
-              <th>Winner</th>
-              <th>Loser</th>
+              <th>Most Played Matchup</th>
               <th>Count</th>
             </tr>
           </thead>
 
           <tbody>
           {
-            topFarms.filter(x=> x.count > 0).slice(0, 10).map((result, index) => {
+            mostPlayed.filter(x=> x.count > 0).slice(0, 10).map((result, index) => {
               return (
                 <tr key={result.winner + result.loser}>
-                  <td>{getName(result.winner)}</td>
-                  <td>{getName(result.loser)}</td>
+                  <td>{getName(result.winner)} vs {getName(result.loser)}</td>
                   <td>{result.count}</td>
                 </tr>
               )

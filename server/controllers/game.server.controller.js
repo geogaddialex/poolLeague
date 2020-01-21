@@ -20,7 +20,6 @@ exports.list = function( req, res ){
 
 exports.add = function( req, res ){
 
-    console.log(req.body)
     var game = new Game(req.body)
     game.save(function(err, game){
         if (err) return console.error(err);

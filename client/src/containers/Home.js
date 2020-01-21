@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import LeagueTable from "../components/LeagueTable";
 import AddGame from "../components/AddGame";
 import TopFarms from "../components/TopFarms";
+import MostPlayed from "../components/MostPlayed";
+import LeastPlayed from "../components/LeastPlayed";
 import "./Home.css";
 
 export default function Home(props) {
@@ -29,18 +31,18 @@ export default function Home(props) {
 	      })
 	      
 	    })
-	  }
+	}
 
-	  async function loadGames() {
-	    fetch('/api/games').then(function(response){
+	async function loadGames() {
+		fetch('/api/games').then(function(response){
 
-	      response.json().then(responseGames =>{
-	        setGames(responseGames)
-	        return responseGames
-	      })
-	      
-	    })
-	  }
+		  response.json().then(responseGames =>{
+		    setGames(responseGames)
+		    return responseGames
+		  })
+		  
+		})
+	}
 
   	return (
 	    <div className="Home">
@@ -49,6 +51,8 @@ export default function Home(props) {
 					<LeagueTable users={users} games={games}/>
 				    <AddGame users={users} games={games}/>
 				    <TopFarms users={users} games={games}/>
+				    <MostPlayed users={users} games={games}/>
+				    <LeastPlayed users={users} games={games}/>
 			    </React.Fragment>
 			}
        	</div>

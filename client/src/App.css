@@ -44,3 +44,7 @@
 .App .navbar-brand {
   font-weight: bold;
 }
+
+table th{
+  text-align: center;
+}

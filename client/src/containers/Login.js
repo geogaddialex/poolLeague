@@ -29,7 +29,6 @@ export default function Login(props) {
 
       if(await response.ok){
         props.userHasAuthenticated(true)
-        props.history.push("/");
       }else{
         console.log("FAILURE")
         setIsLoading(false);
