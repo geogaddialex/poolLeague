@@ -15,20 +15,12 @@ function App(props) {
   }, []);
 
   async function onLoad() {
-    try {
-      const response = await fetch('/api/auth/status')
+    const response = await fetch('/api/auth/status')
 
-      if(await response.authenticated){
-        userHasAuthenticated(true);
-      }else{
-        console.log("Not authenticated")
-      }
-
-    }
-    catch(e) {
-      if (e !== 'No current user') {
-        alert(e);
-      }
+    if(await response.authenticated){
+      userHasAuthenticated(true);
+    }else{
+      console.log("response = " + JSON.stringify(response))
     }
 
     setIsAuthenticating(false);

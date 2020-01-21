@@ -8,12 +8,12 @@ export default function LeastPlayed(props) {
 
   useEffect(() => {  
 
-    if(props.games.length > 0){
+    if(props.games.length > 0 && props.users.length > 0){
       setLeastPlayed(getLeastPlayed(props.games))
       setIsLoading(false)
     }
 
-  }, [props.games]);
+  }, [props.games, props.users]);
 
   function getLeastPlayed(games){
     const unique = []
@@ -62,7 +62,7 @@ export default function LeastPlayed(props) {
 
           <thead>
             <tr>
-              <th>Least Played Matchup</th>
+              <th>Least Played</th>
               <th>Count</th>
             </tr>
           </thead>

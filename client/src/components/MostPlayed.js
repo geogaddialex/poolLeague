@@ -8,12 +8,12 @@ export default function MostPlayed(props) {
 
   useEffect(() => {  
 
-    if(props.games.length > 0){
+    if(props.games.length > 0 && props.users.length > 0){
       setMostPlayed(getMostPlayed(props.games))
       setIsLoading(false)
     }
 
-  }, [props.games]);
+  }, [props.games, props.users]);
 
   function getMostPlayed(games){
     const unique = []
@@ -62,7 +62,7 @@ export default function MostPlayed(props) {
 
           <thead>
             <tr>
-              <th>Most Played Matchup</th>
+              <th>Most Played</th>
               <th>Count</th>
             </tr>
           </thead>

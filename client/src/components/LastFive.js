@@ -7,11 +7,11 @@ export default function LastFive(props) {
 
   useEffect(() => {  
 
-    if(props.games.length > 0){
+    if(props.games.length > 0 && props.users.length > 0){
         setIsLoading(false)
     }
 
-  }, [props.games]);
+  }, [props.games, props.users]);
 
 
   function getName(userId){

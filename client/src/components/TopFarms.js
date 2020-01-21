@@ -8,12 +8,12 @@ export default function TopFarms(props) {
 
   useEffect(() => {  
 
-    if(props.games.length > 0){
+    if(props.games.length > 0 && props.users.length > 0){
       setTopFarms(getTopFarms(props.games))
       setIsLoading(false)
     }
 
-  }, [props.games]);
+  }, [props.games, props.users]);
 
   function getTopFarms(games){
     const unique = []

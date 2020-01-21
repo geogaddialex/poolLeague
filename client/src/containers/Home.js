@@ -51,7 +51,11 @@ export default function Home(props) {
 	    	{ !isLoading && 
 	    		<React.Fragment>
 					<LeagueTable users={users} games={games}/>
-				    <AddGame users={users} games={games}/>
+
+					{ props.isAuthenticated &&
+				    	<AddGame users={users} games={games}/>
+				    }
+				    
 					<LastFive users={users} games={games}/>
 				    <TopFarms users={users} games={games}/>
 				    <MostPlayed users={users} games={games}/>

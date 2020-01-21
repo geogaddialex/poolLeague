@@ -28,6 +28,7 @@ export default function Login(props) {
       })
 
       if(await response.ok){
+        console.log(response)
         props.userHasAuthenticated(true)
       }else{
         console.log("FAILURE")

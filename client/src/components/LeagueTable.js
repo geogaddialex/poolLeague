@@ -1,11 +1,21 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Table } from "react-bootstrap";
 import "./LeagueTable.css";
 
 export default function LeagueTable(props) {
+  const [games, setGames] = useState([]);
+  const [users, setUsers] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  let games = props.games
-  let users = props.users
+  useEffect(() => {  
+
+    if(props.games.length > 0 && props.users.length > 0){
+      setGames(props.games)
+      setUsers(props.users)
+      setIsLoading(false)
+    }
+
+  }, [props.games, props.users]);
 
   function countWins(user){
     return games.filter(x => x.winner === user._id).length
@@ -45,7 +55,7 @@ export default function LeagueTable(props) {
   }
 
   function calculateWinsToFirst(user){
-    let max = users.filter(x => countPlayed(x) > 0 ).reduce((a, b) => calculateTNSR(a) > calculateTNSR(b) ? a : b)
+    let max = users.sort(compareTNSR)[0]
     let losses = countLosses(user) > 0 ? countLosses(user) : 1
     return max === user ? 0 : Math.ceil((calculateTNSR(max)+0.01) * losses - calculatePoints(user))
   }
@@ -63,6 +73,7 @@ export default function LeagueTable(props) {
   return (
 
     <div className="LeagueTable">
+      { !isLoading && 
         <Table striped bordered condensed hover>
 
           <thead>
@@ -102,6 +113,7 @@ export default function LeagueTable(props) {
           </tbody>
 
         </Table>
+      }
     </div>
 
   );

@@ -1,16 +1,26 @@
-import React from "react";
+import React , {useEffect, useState} from "react";
 import { Form, FormGroup, FormControl, ControlLabel, Button } from "react-bootstrap";
 import { useFormFields } from "../libs/hooksLib";
 import "./AddGame.css";
 
 export default function AddGame(props) {
 
-  let users = props.users
+  const [users, setUsers] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {  
+
+    if(props.users.length > 0){
+      setUsers(props.users)
+      setIsLoading(false)
+    }
+
+  }, [props.users]);
 
   const [fields, handleFieldChange] = useFormFields({
     winner: "select",
     loser: "select",
-    special: "None",
+    special: "None"
   });
 
   function validateForm() {
@@ -39,6 +49,8 @@ export default function AddGame(props) {
 
   return (
     <div className="AddGame">
+
+      {!isLoading &&
 
         <Form inline onSubmit={handleSubmit}>
 
@@ -101,6 +113,7 @@ export default function AddGame(props) {
             Add
           </Button>
         </Form>
-     </div>
+      }
+    </div>
   );
 }
