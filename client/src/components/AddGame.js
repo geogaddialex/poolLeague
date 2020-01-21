@@ -1,42 +1,17 @@
 import React, { useState, useEffect } from "react";
-import {
-  Form,
-  FormGroup,
-  FormControl,
-  ControlLabel,
-  Button
-} from "react-bootstrap";
+import { Form, FormGroup, FormControl, ControlLabel, Button } from "react-bootstrap";
 import { useFormFields } from "../libs/hooksLib";
 import "./AddGame.css";
 
 export default function AddGame(props) {
-  const [users, setUsers] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+
+  let users = props.users
+
   const [fields, handleFieldChange] = useFormFields({
     winner: "select",
     loser: "select",
     special: "none",
   });
-
-  useEffect(() => {
-    async function onLoad() {
-
-      loadUsers()
-    }
-
-    onLoad();
-  }, [props.isAuthenticated]);
-
-  async function loadUsers() {
-    fetch('/api/users').then(function(response){
-
-      response.json().then(responseUsers =>{
-        setUsers(responseUsers)
-        setIsLoading(false)
-      })
-      
-    })
-  }
 
   function validateForm() {
     return (
@@ -65,7 +40,6 @@ export default function AddGame(props) {
   return (
     <div className="AddGame">
 
-      { !isLoading &&
         <Form inline onSubmit={handleSubmit}>
 
           <FormGroup controlId="winner">
@@ -127,7 +101,6 @@ export default function AddGame(props) {
             Add
           </Button>
         </Form>
-      }
      </div>
   );
 }

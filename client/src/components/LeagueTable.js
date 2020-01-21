@@ -2,48 +2,10 @@ import React, { useState, useEffect } from "react";
 import { Table } from "react-bootstrap";
 import "./LeagueTable.css";
 
-export default function LeagueTable({
-  className = "",
-  ...props
-}) {
+export default function LeagueTable(props) {
 
-  const [users, setUsers] = useState([]);
-  const [games, setGames] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    async function onLoad() {
-
-    	Promise.all([loadUsers(), loadGames()]).then(values => {
-    		setIsLoading(false)
-    	})
-
-    }
-
-    onLoad();
-  }, [props.isAuthenticated]);
-
-  async function loadUsers() {
-    fetch('/api/users').then(function(response){
-
-      response.json().then(responseUsers =>{
-        setUsers(responseUsers)
-        return responseUsers
-      })
-      
-    })
-  }
-
-  async function loadGames() {
-    fetch('/api/games').then(function(response){
-
-      response.json().then(responseGames =>{
-        setGames(responseGames)
-        return responseGames
-      })
-      
-    })
-  }
+  let games = props.games
+  let users = props.users
 
   function countWins(user){
     return games.filter(x => x.winner === user._id).length
@@ -98,7 +60,6 @@ export default function LeagueTable({
   return (
 
     <div className="LeagueTable">
-      { !isLoading &&
         <Table striped bordered condensed hover>
 
           <thead>
@@ -138,7 +99,6 @@ export default function LeagueTable({
           </tbody>
 
         </Table>
-      }
     </div>
 
   );
