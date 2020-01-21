@@ -10,7 +10,7 @@ export default function AddGame(props) {
   const [fields, handleFieldChange] = useFormFields({
     winner: "select",
     loser: "select",
-    special: "none",
+    special: "None",
   });
 
   function validateForm() {
@@ -88,9 +88,9 @@ export default function AddGame(props) {
               value={fields.special}
               onChange={handleFieldChange}
             >
-              <option key="0" value="none">None</option>
-              <option key="1" value="foul">Foul Win</option>
-              <option key="2" value="seven">Seven Ball</option>
+              <option key="0" value="None">None</option>
+              <option key="1" value="Foul Win">Foul Win</option>
+              <option key="2" value="Seven Ball">Seven Ball</option>
             </FormControl>
           </FormGroup>
           

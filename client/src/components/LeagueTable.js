@@ -40,17 +40,20 @@ export default function LeagueTable(props) {
   }
 
   function calculateTNSR(user){
-    return calculatePoints(user) / countLosses(user)
+    let losses = countLosses(user) > 0 ? countLosses(user) : 1
+    return calculatePoints(user) / losses
   }
 
   function calculateWinsToFirst(user){
     let max = users.filter(x => countPlayed(x) > 0 ).reduce((a, b) => calculateTNSR(a) > calculateTNSR(b) ? a : b)
-    return max === user ? 0 : Math.ceil((calculateTNSR(max)+0.01) * countLosses(user) - calculatePoints(user))
+    let losses = countLosses(user) > 0 ? countLosses(user) : 1
+    return max === user ? 0 : Math.ceil((calculateTNSR(max)+0.01) * losses - calculatePoints(user))
   }
 
   function calculateWinsToRankUp(user){
     let index = users.sort(compareTNSR).indexOf(user)
-    return index === 0 ? 0 :  Math.ceil((calculateTNSR(users[index-1])+0.01) * countLosses(user) - calculatePoints(user))
+    let losses = countLosses(user) > 0 ? countLosses(user) : 1
+    return index === 0 ? 0 :  Math.ceil((calculateTNSR(users[index-1])+0.01) * losses - calculatePoints(user))
   }
 
   function compareTNSR(a, b) {

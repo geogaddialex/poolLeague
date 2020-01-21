@@ -8,8 +8,10 @@ export default function TopFarms(props) {
 
   useEffect(() => {  
 
-    setTopFarms(getTopFarms(props.games))
-    setIsLoading(false)
+    if(props.games.length > 0){
+      setTopFarms(getTopFarms(props.games))
+      setIsLoading(false)
+    }
 
   }, [props.games]);
 
@@ -22,10 +24,10 @@ export default function TopFarms(props) {
       }
     })
 
-    const count = unique.map( x =>{
+    const count = unique.map( x => {
       x.count = countOccurences(x) 
       return x
-    }).sort(compareOccurences)
+    }).filter(x=> x.count > 0).sort(compareOccurences).slice(0, 10)
     
     return count
   }
@@ -34,10 +36,10 @@ export default function TopFarms(props) {
     let count = 0
     let negatives = 0
 
-    props.games.forEach(x =>{
-      if( x.winner == unique.winner && x.loser == unique.loser ){
+    props.games.forEach(game =>{
+      if( game.winner == unique.winner && game.loser == unique.loser ){
         count ++
-      }else if( x.winner == unique.loser && x.loser == unique.winner ){
+      }else if( game.winner == unique.loser && game.loser == unique.winner ){
         negatives ++
       }
     })
@@ -69,7 +71,7 @@ export default function TopFarms(props) {
 
           <tbody>
           {
-            topFarms.filter(x=> x.count > 0).slice(0, 10).map((result, index) => {
+            topFarms.map((result, index) => {
               return (
                 <tr key={result.winner + result.loser}>
                   <td>{getName(result.winner)}</td>
@@ -81,7 +83,6 @@ export default function TopFarms(props) {
           }
           </tbody>
         
-
         </Table>
       }
     </div>

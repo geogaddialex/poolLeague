@@ -8,32 +8,29 @@ export default function Streaks(props) {
 
   useEffect(() => {  
 
-    setStreaks(getStreaks(props.games, props.users))
-    setIsLoading(false)
+    if(props.games.length > 0 && props.users.length > 0){
+      setStreaks(getStreaks(props.games, props.users))
+      setIsLoading(false)
+    }
 
   }, [props.games, props.users]);
 
   function getStreaks(games, users){
     return users.map(user => {
 
-      var sortedGames = games.sort(sortGamesByDate)
-      console.log(JSON.stringify(sortedGames))
-
+      const sortedGames = games.filter(game => game.winner == user._id || game.loser == user._id).sort(sortGamesByDate).reverse()
       const lastWin = sortedGames.findIndex( game => game.winner == user._id )
       const lastLoss = sortedGames.findIndex( game => game.loser == user._id )
-      console.log("lastWin = " + lastWin + " / lastLoss = " + lastLoss)
-      const won = lastWin > lastLoss
 
-      if(won){
-        var wins = games.slice(lastLoss, lastWin-2)
-        console.log("wins = " + wins)
-        user.streak = wins
+      if( lastWin == -1 ){
+        user.streak = sortedGames.length * -1
+
+      }else if( lastLoss == -1){
+        user.streak = sortedGames.length
       }else{
-        var losses = games.slice(lastWin, lastLoss-2)
-        console.log("losses = " + losses)
-        user.streak = losses * -1
+        user.streak = lastLoss - lastWin
       }
-
+      
       return user
     })
   }
@@ -61,7 +58,7 @@ export default function Streaks(props) {
 
           <tbody>
           {
-            streaks.sort(compareStreaks).map((user, index) => {
+            streaks.filter(x => x.streak != 0).sort(compareStreaks).map((user, index) => {
               return (
                 <tr key={user._id}>
                   <td>{user.name}</td>

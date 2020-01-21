@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import LeagueTable from "../components/LeagueTable";
 import AddGame from "../components/AddGame";
+import LastFive from "../components/LastFive";
 import TopFarms from "../components/TopFarms";
 import MostPlayed from "../components/MostPlayed";
 import LeastPlayed from "../components/LeastPlayed";
@@ -51,6 +52,7 @@ export default function Home(props) {
 	    		<React.Fragment>
 					<LeagueTable users={users} games={games}/>
 				    <AddGame users={users} games={games}/>
+					<LastFive users={users} games={games}/>
 				    <TopFarms users={users} games={games}/>
 				    <MostPlayed users={users} games={games}/>
 				    <LeastPlayed users={users} games={games}/>

@@ -8,8 +8,10 @@ export default function MostPlayed(props) {
 
   useEffect(() => {  
 
-    setMostPlayed(getMostPlayed(props.games))
-    setIsLoading(false)
+    if(props.games.length > 0){
+      setMostPlayed(getMostPlayed(props.games))
+      setIsLoading(false)
+    }
 
   }, [props.games]);
 
@@ -70,7 +72,7 @@ export default function MostPlayed(props) {
             mostPlayed.filter(x=> x.count > 0).slice(0, 10).map((result, index) => {
               return (
                 <tr key={result.winner + result.loser}>
-                  <td>{getName(result.winner)} vs {getName(result.loser)}</td>
+                  <td>{getName(result.winner)} - {getName(result.loser)}</td>
                   <td>{result.count}</td>
                 </tr>
               )
