@@ -4,6 +4,6 @@ var express = require('express');
 var router = express.Router();
 
 router.get('/', seasons.list );
-// router.put('/:id', seasons.update );
+router.post('/', seasons.add );
 
 module.exports = router;

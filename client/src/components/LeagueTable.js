@@ -1,21 +1,25 @@
 import React, { useState, useEffect } from "react";
+import getMinGames from "../Utils";
 import { Table } from "react-bootstrap";
 import "./LeagueTable.css";
 
 export default function LeagueTable(props) {
   const [games, setGames] = useState([]);
   const [users, setUsers] = useState([]);
+  const [season, setSeason] = useState({});
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {  
 
-    if(props.games.length > 0 && props.users.length > 0){
+    if(props.games.length > 0 && props.users.length > 0 && props.season){
       setGames(props.games)
       setUsers(props.users)
+      console.log("props.season = " + props.season)
+      setSeason(props.season)
       setIsLoading(false)
     }
 
-  }, [props.games, props.users]);
+  }, [props.games, props.users, props.season]);
 
   function countWins(user){
     return games.filter(x => x.winner === user._id).length
@@ -51,7 +55,8 @@ export default function LeagueTable(props) {
 
   function calculateTNSR(user){
     let losses = countLosses(user) > 0 ? countLosses(user) : 1
-    return calculatePoints(user) / losses
+    let unplayed = countPlayed(user) < getMinGames(season) ? getMinGames(season) - countPlayed(user) : 0
+    return calculatePoints(user) / (losses + unplayed)
   }
 
   function calculateWinsToFirst(user){
@@ -78,7 +83,8 @@ export default function LeagueTable(props) {
 
           <thead>
             <tr>
-              <th>Season 4</th>
+              <th>Rank</th>
+              <th>Player</th>
               <th>Played</th>
               <th>Wins</th>
               <th>Losses</th>
@@ -96,6 +102,7 @@ export default function LeagueTable(props) {
             users.sort(compareTNSR).filter(x => countPlayed(x) > 0).map((user, index) => {
               return (
                 <tr key={user._id}>
+                  <td>{index+1}</td>
                   <td>{user.name}</td>
                   <td>{countPlayed(user)}</td>
                   <td>{countWins(user)}</td>

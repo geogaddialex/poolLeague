@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Link, withRouter } from "react-router-dom";
 import { Nav, Navbar, NavItem } from "react-bootstrap";
-import "./App.css";
-import Routes from "./Routes";
 import { LinkContainer } from "react-router-bootstrap";
+import Routes from "./Routes";
+import "./App.css";
 
 function App(props) {
 
@@ -11,31 +11,43 @@ function App(props) {
   const [isAuthenticating, setIsAuthenticating] = useState(true);
 
   useEffect(() => {
+    async function onLoad() {
+
+      Promise.all([getStatus()]).then(values => {
+        setIsAuthenticating(false)
+      })
+    }
+
     onLoad();
   }, []);
 
-  async function onLoad() {
-    const response = await fetch('/api/auth/status')
+  async function getStatus() {
+    fetch('/api/auth/status').then(function(response){
 
-    if(await response.authenticated){
-      userHasAuthenticated(true);
-    }else{
-      console.log("response = " + JSON.stringify(response))
-    }
+      response.json().then(responseJson =>{
 
-    setIsAuthenticating(false);
+        if(responseJson.authenticated){
+            userHasAuthenticated(true);
+        }else{
+          console.log("getStatus responseJson = " + JSON.stringify(responseJson))
+        }
+
+      })
+      
+    })
   }
 
-  async function handleLogout() {
-    const response = await fetch('/api/auth/logout')
+  function handleLogout() {
 
-    if(await response.ok){
-      userHasAuthenticated(false);
-      props.history.push("/");
-    }else{
-      console.log("FAILURE : " + response.ok)
-    }
-    
+    fetch('/api/auth/logout').then(function(response){
+      
+      if(response.ok){
+        userHasAuthenticated(false);
+      }else{
+        console.log("FAILURE: Logging out")
+      }
+
+    })
   }
 
   return (
@@ -58,6 +70,9 @@ function App(props) {
                   </LinkContainer>
                   <LinkContainer to="/settings">
                     <NavItem>Settings</NavItem>
+                  </LinkContainer>
+                  <LinkContainer to="/admin">
+                    <NavItem>Admin</NavItem>
                   </LinkContainer>
                   <NavItem onClick={handleLogout}>Logout</NavItem>
               </>

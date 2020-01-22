@@ -29,43 +29,41 @@ module.exports = function( passport ){
   router.get( '/logout', function( req, res ){
 
     req.logout();
-    res.status( 200 ).json({
-      status: 'Bye!'
-    });
+    res.status( 200 ).json({ message: "bye"});
+
   })
 
 
   router.post( '/login', function( req, res, next ){
 
-      passport.authenticate('local-login', {session: false}, function( err, user, info ){
+    passport.authenticate('local-login', {session: false}, function( err, user, info ){
 
-          if( err ){
-            return next( err );
-          }
+      if( err ){
+        return next( err );
+      }
 
-          if( !user ){
-            
-            return res.status(401).json({
-              err: info
-            });
-          }
+      if( !user ){
+        
+        return res.status(401).json({
+          err: info
+        });
+      }
 
-          req.logIn( user, function( err ){
+      req.logIn( user, function( err ){
 
-              if( err ){
+        if( err ){
 
-                return res.status( 500 ).json({
-                  err: 'Could not log in user'
-                });
-
-              }
-
-              const token = jwt.sign(user.toJSON(), 'your_jwt_secret');
-              console.log(token)
-              res.status( 200 ).json({ user: token });
+          return res.status( 500 ).json({
+            err: 'Could not log in user'
           });
 
-      })( req, res, next );
+        }
+
+        const token = jwt.sign(user.toJSON(), 'your_jwt_secret');
+        res.status( 200 ).json({ user: token });
+      });
+
+    })( req, res, next );
   });
 
 

@@ -28,10 +28,13 @@ export default function Login(props) {
       })
 
       if(await response.ok){
-        console.log(response)
+
+        response.json().then(data => {
+          var token = data.user
+        });
         props.userHasAuthenticated(true)
+
       }else{
-        console.log("FAILURE")
         setIsLoading(false);
       }
       

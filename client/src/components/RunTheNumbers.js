@@ -1,9 +1,9 @@
 import React , {useEffect, useState} from "react";
 import { Form, FormGroup, FormControl, ControlLabel, Button } from "react-bootstrap";
 import { useFormFields } from "../libs/hooksLib";
-import "./AddGame.css";
+import "./RunTheNumbers.css";
 
-export default function AddGame(props) {
+export default function RunTheNumbers(props) {
 
   const [users, setUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -31,38 +31,20 @@ export default function AddGame(props) {
     );
   }
 
-  async function handleSubmit(event) {
-    event.preventDefault();
-
-    try {
-
-      fetch('/api/games', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(fields),
-      })
-      
-    } catch (e) {
-      alert(e.message);
-    }
-  }
-
   return (
-    <div className="AddGame">
+    <div className="RunTheNumbers">
 
       {!isLoading &&
 
-        <Form onSubmit={handleSubmit}>
+        <Form inline>
 
           <FormGroup controlId="winner">
-            <ControlLabel>Winner</ControlLabel>
             <FormControl
               componentClass="select"
-              placeholder="Select"
               value={fields.winner}
               onChange={handleFieldChange}
             >
-              <option key="0" value="select" disabled>Select</option>
+              <option key="0" value="select" disabled>Winner</option>
               {
                 users.map((user, index) => {
                   return (
@@ -74,14 +56,12 @@ export default function AddGame(props) {
           </FormGroup>
 
           <FormGroup controlId="loser">
-            <ControlLabel>Loser</ControlLabel>
             <FormControl
               componentClass="select"
-              placeholder="Select"
               value={fields.loser}
               onChange={handleFieldChange}
             >
-              <option key="0" value="select" disabled>Select</option>
+              <option key="0" value="select" disabled>Loser</option>
               {
                 users.map((user, index) => {
                   return (
@@ -93,25 +73,17 @@ export default function AddGame(props) {
           </FormGroup>
 
           <FormGroup controlId="special">
-            <ControlLabel>Special</ControlLabel>
             <FormControl
               componentClass="select"
-              placeholder="None"
               value={fields.special}
               onChange={handleFieldChange}
             >
-              <option key="0" value="None">None</option>
+              <option key="0" value="Special">Special</option>
               <option key="1" value="Foul Win">Foul Win</option>
               <option key="2" value="Seven Ball">Seven Ball</option>
             </FormControl>
           </FormGroup>
-          
-          <Button
-            type="submit"
-            disabled={!validateForm()}
-          >
-            Add
-          </Button>
+        
         </Form>
       }
     </div>

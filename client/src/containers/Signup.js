@@ -37,11 +37,9 @@ export default function Signup(props) {
       })
 
       if(await response.ok){
-        console.log(response)
         props.userHasAuthenticated(true)
         props.history.push("/");
       }else{
-        console.log("FAILURE")
         setIsLoading(false);
       }
       

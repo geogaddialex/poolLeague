@@ -12,22 +12,15 @@ exports.list = function( req, res ){
             return res.status( 500 );
         }
         
-        res.json({ seasons: season });
-            
+        res.json(seasons);   
     })
 }
 
-// exports.update = function( req, res ){
+exports.add = function( req, res ){
 
-//     var id = req.params.id;
-
-//     game.findByIdAndUpdate(id, { $set: { "name": req.body.name } }, {new: true, runValidators: true}, (err, game) => {  
-
-//         if( err ){
-//             console.log( "error: " + err );
-//             return res.status(500).json({ errors: "Could not update game" });
-//         } 
-
-//         res.status( 200 ).json({ message: "game updated!", game });
-//     });
-// };
+    var season = new Season(req.body)
+    season.save(function(err, season){
+        if (err) return console.error(err);
+    })
+    res.status(200).json(season)
+}

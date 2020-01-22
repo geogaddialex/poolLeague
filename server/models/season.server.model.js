@@ -4,7 +4,7 @@ var Game = require('./game.server.model')
 
 var seasonSchema = mongoose.Schema({
 
-    games: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Game' }],
+	name: {type: String },
     start: { type: Date },
     end: { type: Date }
 
