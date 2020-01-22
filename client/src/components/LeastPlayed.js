@@ -5,8 +5,15 @@ import "./LeastPlayed.css";
 export default function LeastPlayed(props) {
   const [leastPlayed, setLeastPlayed] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [users, setUsers] = useState([]);
+  const [games, setGames] = useState([]);
+  const numberOfResults = 5;
 
   useEffect(() => {  
+
+    if(props.users.length > 0){
+      setUsers(props.users)
+    }
 
     if(props.games.length > 0 && props.users.length > 0){
       setLeastPlayed(getLeastPlayed(props.games))
@@ -57,7 +64,6 @@ export default function LeastPlayed(props) {
   return (
 
     <div className="LeastPlayed">
-      { !isLoading &&
         <Table striped bordered condensed hover>
 
           <thead>
@@ -68,8 +74,8 @@ export default function LeastPlayed(props) {
           </thead>
 
           <tbody>
-          {
-            leastPlayed.slice(0, 10).map((result, index) => {
+          { !isLoading &&
+            leastPlayed.slice(0, numberOfResults).map((result, index) => {
               return (
                 <tr key={result.winner + result.loser}>
                   <td>{getName(result.winner)} - {getName(result.loser)}</td>
@@ -78,11 +84,23 @@ export default function LeastPlayed(props) {
               )
             })
           }
+
+          { isLoading &&
+
+            [...Array(numberOfResults)].map((e, i) => {
+              return (
+                  <tr>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                  </tr>
+                )
+            })
+          }
+
           </tbody>
         
 
         </Table>
-      }
     </div>
 
   );
