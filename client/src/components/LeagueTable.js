@@ -11,10 +11,16 @@ export default function LeagueTable(props) {
 
   useEffect(() => {  
 
+    if(props.users.length > 0){
+      setUsers(props.users)
+    }
+
+    if(props.season){
+      setSeason(props.season)
+    }
+
     if(props.games.length > 0 && props.users.length > 0 && props.season){
       setGames(props.games)
-      setUsers(props.users)
-      setSeason(props.season)
       setIsLoading(false)
     }
 
@@ -55,18 +61,42 @@ export default function LeagueTable(props) {
   function calculateTNSR(user){
     let losses = countLosses(user) > 0 ? countLosses(user) : 1
     
-    return calculatePoints(user) / (losses + countUnplayed(user))
+    return calculatePoints(user) / (losses + countPenalty(user) )
+  }
+
+  function countUnderMin(user){
+    return countPlayed(user) < getMinGames(season) ? getMinGames(season) - countPlayed(user) : 0
   }
 
   function countUnplayed(user){
-    return countPlayed(user) < getMinGames(season) ? getMinGames(season) - countPlayed(user) : 0
+    const unique = []
+
+    getGamesForUser(user).forEach((game) => {
+      if(game.winner == user._id && !unique.some(opponent => opponent == game.loser) ){
+        unique.push(game.loser)
+      }else if (game.loser == user._id && !unique.some(opponent => opponent == game.winner) ){
+        unique.push(game.winner)
+      }
+    })
+
+    return users.length - unique.length
+  }
+
+  function countPenalty(user){
+    return countUnderMin(user) + countUnplayed(user)
+  }
+
+  function getGamesForUser(user){
+    return games.filter(game => game.winner == user._id || game.loser == user._id)
   }
 
   function calculateWinsToFirst(user){
     let max = users.sort(compareTNSR)[0]
     let TNSRdiff = calculateTNSR(max) - calculateTNSR(user) + 0.01
     let losses = countLosses(user) > 0 ? countLosses(user) : 1
-    return max === user ? 0 : Math.ceil(TNSRdiff * (losses+countUnplayed(user)))
+    let penalty = countPenalty(user)
+
+    return max === user ? 0 : Math.ceil(TNSRdiff * (losses+countPenalty(user)))
   }
 
   function calculateWinsToRankUp(user){
@@ -78,7 +108,7 @@ export default function LeagueTable(props) {
       let upOne = users[index-1]
       let TNSRdiff = calculateTNSR(upOne) - calculateTNSR(user) + 0.01
       let losses = countLosses(user) > 0 ? countLosses(user) : 1
-      return Math.ceil(TNSRdiff * (losses+countUnplayed(user)))
+      return Math.ceil(TNSRdiff * (losses+countPenalty(user)))
     }
     
   }
@@ -87,10 +117,18 @@ export default function LeagueTable(props) {
     return calculateTNSR(b) - calculateTNSR(a);
   }
 
+  function compareTNSRthenLosses(a, b) {
+
+    if (calculateTNSR(a) > calculateTNSR(b)) return -1;
+    if (calculateTNSR(a) < calculateTNSR(b)) return 1;
+
+    if (countLosses(a) > countLosses(b)) return 1;
+    if (countLosses(a) < countLosses(b)) return -1;
+  }
+
   return (
 
     <div className="LeagueTable">
-      { !isLoading && 
         <Table striped bordered condensed hover>
 
           <thead>
@@ -103,6 +141,7 @@ export default function LeagueTable(props) {
               <th>7 Balls (F/A)</th>
               <th>Fouls (F/A)</th>
               <th>Points</th>
+              <th>Penalty</th>
               <th>TNSR</th>
               <th>Wins to #1</th>
               <th>Wins to +1</th>
@@ -110,8 +149,9 @@ export default function LeagueTable(props) {
           </thead>
 
           <tbody>
-          {
-            users.sort(compareTNSR).filter(x => countPlayed(x) > 0).map((user, index) => {
+
+          { !isLoading && 
+            users.sort(compareTNSRthenLosses).map((user, index) => {
               return (
                 <tr key={user._id}>
                   <td>{index+1}</td>
@@ -122,6 +162,7 @@ export default function LeagueTable(props) {
                   <td>{countSevenBallsFor(user)} / {countSevenBallsAgainst(user)}</td>
                   <td>{countFoulsFor(user)} / {countFoulsAgainst(user)}</td>
                   <td>{calculatePoints(user)}</td>
+                  <td>{countPenalty(user)}</td>
                   <td>{Math.round(calculateTNSR(user) * 100) / 100}</td>
                   <td>{calculateWinsToFirst(user)}</td>
                   <td>{calculateWinsToRankUp(user)}</td>
@@ -129,10 +170,31 @@ export default function LeagueTable(props) {
               )
             })
           }
+
+          { isLoading && users.length > 0 &&
+            users.sort(compareTNSRthenLosses).map((user, index) => {
+              return (
+                <tr key={user._id}>
+                  <td>{index+1}</td>
+                  <td>{user.name}</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0 / 0</td>
+                  <td>0 / 0</td>
+                  <td>0</td>
+                  <td>{users.length-1 + getMinGames(season)}</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                </tr>
+              )
+            })
+
+          }
           </tbody>
 
         </Table>
-      }
     </div>
 
   );

@@ -5,11 +5,18 @@ import "./SeasonInfo.css";
 
 export default function SeasonInfo(props) {
   const [isLoading, setIsLoading] = useState(true);
+  const [games, setGames] = useState([]);
+  const [season, setSeason] = useState({});
 
   useEffect(() => {  
 
+    if(props.season){
+      setSeason(props.season)
+    }
+
     if(props.games.length > 0 && props.season){
-        setIsLoading(false)
+      setGames(props.games)
+      setIsLoading(false)
     }
 
   }, [props.games, props.season]);
@@ -25,13 +32,23 @@ export default function SeasonInfo(props) {
       { !isLoading &&
 
         <>
-          <p>{props.season.name}</p>
-          <p>Start: {formatDate(props.season.start)}</p>
-          <p>End: {formatDate(props.season.end)}</p>
-          <p>Total Games: {props.games.length}</p>
-          <p>Min Games: {getMinGames(props.season)}</p>
+          <p>{season.name}</p>
+          <p>Start: {formatDate(season.start)}</p>
+          <p>End: {formatDate(season.end)}</p>
+          <p>Total Games: {games.length}</p>
+          <p>Min Games: {getMinGames(season)}</p>
         </>
         
+      }
+
+      { isLoading && season &&
+        <>
+          <p>{season.name}</p>
+          <p>Start: {formatDate(season.start)}</p>
+          <p>End: {formatDate(season.end)}</p>
+          <p>Total Games: 0</p>
+          <p>Min Games: {getMinGames(season)}</p>
+        </>
       }
     </div>
 

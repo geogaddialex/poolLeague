@@ -4,24 +4,32 @@ import "./LastFive.css";
 
 export default function LastFive(props) {
   const [isLoading, setIsLoading] = useState(true);
+  const [users, setUsers] = useState([]);
+  const [games, setGames] = useState([]);
+  const numberOfResults = 5;
 
   useEffect(() => {  
 
+    if(props.users.length > 0){
+      setUsers(props.users)
+    }
+
     if(props.games.length > 0 && props.users.length > 0){
-        setIsLoading(false)
+      setGames(props.games)
+      setIsLoading(false)
     }
 
   }, [props.games, props.users]);
 
 
   function getName(userId){
-    return props.users.find(user => user._id == userId).name
+    return users.find(user => user._id == userId).name
   }
 
   return (
 
     <div className="LastFive">
-      { !isLoading &&
+
         <Table striped bordered condensed hover>
 
           <thead>
@@ -33,8 +41,9 @@ export default function LastFive(props) {
           </thead>
 
           <tbody>
-          {
-            props.games.slice(0, 5).map((result, index) => {
+
+          { !isLoading &&
+            props.games.slice(0, numberOfResults).map((result, index) => {
               return (
                 <tr key={result.winner + result.loser + result.createdAt}>
                   <td>{getName(result.winner)}</td>
@@ -44,11 +53,24 @@ export default function LastFive(props) {
               )
             })
           }
+
+          { isLoading &&
+
+            [...Array(numberOfResults)].map((e, i) => {
+              return (
+                  <tr>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                  </tr>
+                )
+            })
+          }
+
           </tbody>
         
 
         </Table>
-      }
     </div>
 
   );

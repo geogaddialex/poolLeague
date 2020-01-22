@@ -4,9 +4,14 @@ import "./Streaks.css";
 
 export default function Streaks(props) {
   const [streaks, setStreaks] = useState([]);
+  const [users, setUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {  
+
+    if(props.users.length > 0){
+      setUsers(props.users)
+    }
 
     if(props.games.length > 0 && props.users.length > 0){
       setStreaks(getStreaks(props.games, props.users))
@@ -24,7 +29,6 @@ export default function Streaks(props) {
 
       if( lastWin == -1 ){
         user.streak = sortedGames.length * -1
-
       }else if( lastLoss == -1){
         user.streak = sortedGames.length
       }else{
@@ -46,7 +50,7 @@ export default function Streaks(props) {
   return (
 
     <div className="Streaks">
-      { !isLoading &&
+      
         <Table striped bordered condensed hover>
 
           <thead>
@@ -57,8 +61,8 @@ export default function Streaks(props) {
           </thead>
 
           <tbody>
-          {
-            streaks.filter(x => x.streak != 0).sort(compareStreaks).map((user, index) => {
+          { !isLoading &&
+            streaks.sort(compareStreaks).map((user, index) => {
               return (
                 <tr key={user._id}>
                   <td>{user.name}</td>
@@ -67,11 +71,21 @@ export default function Streaks(props) {
               )
             })
           }
+
+          {
+            isLoading && users.length > 0 &&
+            users.map(user => {
+              return (
+                <tr>
+                  <td>{user.name}</td>
+                  <td>0</td>
+                </tr>
+              )
+            })
+          }
           </tbody>
-        
 
         </Table>
-      }
     </div>
 
   );
