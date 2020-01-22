@@ -65,17 +65,20 @@ export default function Home(props) {
 	    <div className="Home">
 	    	{ !isLoading && 
 	    		<React.Fragment>
+
 	    			<Row>
 						<Col xs={10}><LeagueTable users={users} games={games} season={seasons[0]}/></Col>
 						<Col xs={2}><SeasonInfo games={games} season={seasons[0]} /></Col>					    
 
 					</Row>
+
 					{ props.isAuthenticated &&
 				    <Row>
-					    <Col xs={6} md={4}><AddGame users={users} games={games} season={seasons[0]}/></Col>
-					    <Col xs={6} md={4}><RunTheNumbers users={users} /></Col>
+					    <Col xs={6}><AddGame users={users} games={games} season={seasons[0]}/></Col>
+					    <Col xs={6}><RunTheNumbers users={users} /></Col>
 				    </Row>
 					}
+
 				    <Row>
 				    	
 						<Col xs={6} md={4}><LastFive users={users} games={games} /></Col>
@@ -84,6 +87,7 @@ export default function Home(props) {
 						<Col xs={6} md={4}><MostPlayed users={users} games={games} /></Col>
 					    <Col xs={6} md={4}><LeastPlayed users={users} games={games} /></Col>
 				    </Row>
+				    
 			    </React.Fragment>
 			}
        	</div>

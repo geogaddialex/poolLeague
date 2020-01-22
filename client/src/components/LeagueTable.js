@@ -14,7 +14,6 @@ export default function LeagueTable(props) {
     if(props.games.length > 0 && props.users.length > 0 && props.season){
       setGames(props.games)
       setUsers(props.users)
-      console.log("props.season = " + props.season)
       setSeason(props.season)
       setIsLoading(false)
     }
@@ -55,20 +54,33 @@ export default function LeagueTable(props) {
 
   function calculateTNSR(user){
     let losses = countLosses(user) > 0 ? countLosses(user) : 1
-    let unplayed = countPlayed(user) < getMinGames(season) ? getMinGames(season) - countPlayed(user) : 0
-    return calculatePoints(user) / (losses + unplayed)
+    
+    return calculatePoints(user) / (losses + countUnplayed(user))
+  }
+
+  function countUnplayed(user){
+    return countPlayed(user) < getMinGames(season) ? getMinGames(season) - countPlayed(user) : 0
   }
 
   function calculateWinsToFirst(user){
     let max = users.sort(compareTNSR)[0]
+    let TNSRdiff = calculateTNSR(max) - calculateTNSR(user) + 0.01
     let losses = countLosses(user) > 0 ? countLosses(user) : 1
-    return max === user ? 0 : Math.ceil((calculateTNSR(max)+0.01) * losses - calculatePoints(user))
+    return max === user ? 0 : Math.ceil(TNSRdiff * (losses+countUnplayed(user)))
   }
 
   function calculateWinsToRankUp(user){
     let index = users.sort(compareTNSR).indexOf(user)
-    let losses = countLosses(user) > 0 ? countLosses(user) : 1
-    return index === 0 ? 0 :  Math.ceil((calculateTNSR(users[index-1])+0.01) * losses - calculatePoints(user))
+
+    if(index === 0 ){
+      return 0
+    }else{
+      let upOne = users[index-1]
+      let TNSRdiff = calculateTNSR(upOne) - calculateTNSR(user) + 0.01
+      let losses = countLosses(user) > 0 ? countLosses(user) : 1
+      return Math.ceil(TNSRdiff * (losses+countUnplayed(user)))
+    }
+    
   }
 
   function compareTNSR(a, b) {
