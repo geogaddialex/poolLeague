@@ -31,6 +31,7 @@ export default function Signup(props) {
     try {
 
       const response = await fetch('/api/auth/signup', {
+        credentials: 'include',
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name: fields.name, password: fields.password }),

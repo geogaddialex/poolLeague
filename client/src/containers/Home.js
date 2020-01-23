@@ -2,42 +2,39 @@ import React, { useState, useEffect } from "react";
 import { Row, Col } from "react-bootstrap";
 import LeagueTable from "../components/LeagueTable";
 import AddGame from "../components/AddGame";
-import LastFive from "../components/LastFive";
+import LatestResults from "../components/LatestResults";
 import TopFarms from "../components/TopFarms";
 import MostPlayed from "../components/MostPlayed";
 import LeastPlayed from "../components/LeastPlayed";
 import Streaks from "../components/Streaks";
 import SeasonInfo from "../components/SeasonInfo";
 import RunTheNumbers from "../components/RunTheNumbers";
+import { isEmpty } from "../Utils";
 import "./Home.css";
 
 export default function Home(props) {
-	const [users, setUsers] = useState([]);
   	const [games, setGames] = useState([]);
   	const [seasons, setSeasons] = useState([]);
+  	const [user, setUser] = useState({});
   	const [isLoading, setIsLoading] = useState(true);
 
 	useEffect(() => {
-	  async function onLoad() {
 
-	    Promise.all([loadUsers(), loadGames(), loadSeasons()]).then(values => {
-    		setIsLoading(false)
-    	})
-	  }
+		async function onLoad() {
 
-	  onLoad();
-	}, [props.isAuthenticated]);
+			if( !isEmpty(props.user) ){
 
-	async function loadUsers() {
-	    fetch('/api/users').then(function(response){
+				console.log("user = " + JSON.stringify(props.user))
+				setUser(props.user)
+			}
 
-	      response.json().then(responseUsers =>{
-	        setUsers(responseUsers)
-	        return responseUsers
-	      })
-	      
-	    })
-	}
+			Promise.all([loadGames(), loadSeasons()]).then(values => {
+				setIsLoading(false)
+			})
+		}
+
+		onLoad();
+	}, [props.isAuthenticated, props.user]);
 
 	async function loadGames() {
 		fetch('/api/games').then(function(response){
@@ -67,25 +64,28 @@ export default function Home(props) {
 	    		<React.Fragment>
 
 	    			<Row>
-						<Col xs={10}><LeagueTable users={users} games={games} season={seasons[0]}/></Col>
-						<Col xs={2}><SeasonInfo games={games} season={seasons[0]} /></Col>					    
-
+						<Col xs={10}><LeagueTable games={games} season={seasons[0]}/></Col>
+						<Col xs={2}>
+							<Row>
+								<SeasonInfo games={games} season={seasons[0]} user={user} />
+							</Row>
+						</Col>					    
 					</Row>
 
 					{ props.isAuthenticated &&
 				    <Row>
-					    <Col xs={6}><AddGame users={users} games={games} season={seasons[0]}/></Col>
-					    <Col xs={6}><RunTheNumbers users={users} /></Col>
+					    <Col xs={6}><AddGame games={games} season={seasons[0]} user={user} /></Col>
+					    <Col xs={6}><RunTheNumbers season={seasons[0]} /></Col>
 				    </Row>
 					}
 
 				    <Row>
 				    	
-						<Col xs={6} md={4}><LastFive users={users} games={games} /></Col>
-					    <Col xs={6} md={4}><TopFarms users={users} games={games} /></Col>
-					    <Col xs={6} md={4}><Streaks users={users} games={games} /></Col>
-						<Col xs={6} md={4}><MostPlayed users={users} games={games} /></Col>
-					    <Col xs={6} md={4}><LeastPlayed users={users} games={games} /></Col>
+						<Col xs={6} md={4}><LatestResults season={seasons[0]} games={games} /></Col>
+					    <Col xs={6} md={4}><TopFarms season={seasons[0]} games={games} /></Col>
+					    <Col xs={6} md={4}><Streaks season={seasons[0]} games={games} /></Col>
+						<Col xs={6} md={4}><MostPlayed season={seasons[0]} games={games} /></Col>
+					    <Col xs={6} md={4}><LeastPlayed season={seasons[0]} games={games} /></Col>
 				    </Row>
 				    
 			    </React.Fragment>

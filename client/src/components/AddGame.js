@@ -5,17 +5,17 @@ import "./AddGame.css";
 
 export default function AddGame(props) {
 
-  const [users, setUsers] = useState([]);
+  const [season, setSeason] = useState({});
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {  
 
-    if(props.users.length > 0){
-      setUsers(props.users)
+    if(props.season !== undefined){
+      setSeason(props.season)
       setIsLoading(false)
     }
 
-  }, [props.users]);
+  }, [props.season]);
 
   const [fields, handleFieldChange] = useFormFields({
     winner: "select",
@@ -64,7 +64,7 @@ export default function AddGame(props) {
             >
               <option key="0" value="select" disabled>Select</option>
               {
-                users.map((user, index) => {
+                season.players.map((user, index) => {
                   return (
                     <option key={index+1} value={user._id}>{user.name}</option>
                   )
@@ -83,7 +83,7 @@ export default function AddGame(props) {
             >
               <option key="0" value="select" disabled>Select</option>
               {
-                users.map((user, index) => {
+                season.players.map((user, index) => {
                   return (
                     <option key={index+1} value={user._id}>{user.name}</option>
                   )

@@ -9,6 +9,7 @@ function App(props) {
 
   const [isAuthenticated, userHasAuthenticated] = useState(false);
   const [isAuthenticating, setIsAuthenticating] = useState(true);
+  const [user, setUser] = useState({})
 
   useEffect(() => {
     async function onLoad() {
@@ -16,13 +17,19 @@ function App(props) {
       Promise.all([getStatus()]).then(values => {
         setIsAuthenticating(false)
       })
+
+      if(isAuthenticated){
+        Promise.all([loadUser()]).then(values => {
+
+        })
+      }
     }
 
     onLoad();
-  }, []);
+  }, [isAuthenticated]);
 
   async function getStatus() {
-    fetch('/api/auth/status').then(function(response){
+    fetch('/api/auth/status', {credentials: 'same-origin'}).then(function(response){
 
       response.json().then(responseJson =>{
 
@@ -37,9 +44,20 @@ function App(props) {
     })
   }
 
-  function handleLogout() {
+  async function loadUser() {
 
-    fetch('/api/auth/logout').then(function(response){
+    fetch('/api/auth/user', {credentials: 'same-origin'}).then(function(response){
+
+      response.json().then(responseUser =>{
+        setUser(responseUser)
+        return responseUser
+      })
+      
+    })
+  }
+
+  function handleLogout() {
+    fetch('/api/auth/logout', {credentials: 'same-origin'}).then(function(response){
       
       if(response.ok){
         userHasAuthenticated(false);
@@ -90,7 +108,7 @@ function App(props) {
         </Navbar.Collapse>
       </Navbar>
 
-      <Routes appProps={{ isAuthenticated, userHasAuthenticated }} />
+      <Routes appProps={{ isAuthenticated, userHasAuthenticated, user }} />
 
     </div>
   );

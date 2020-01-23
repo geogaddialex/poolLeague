@@ -1,34 +1,34 @@
 import React, { useState, useEffect } from "react";
 import { Table } from "react-bootstrap";
-import "./LastFive.css";
+import "./LatestResults.css";
 
-export default function LastFive(props) {
+export default function LatestResults(props) {
   const [isLoading, setIsLoading] = useState(true);
-  const [users, setUsers] = useState([]);
+  const [season, setSeason] = useState([]);
   const [games, setGames] = useState([]);
   const numberOfResults = 5;
 
   useEffect(() => {  
 
-    if(props.users.length > 0){
-      setUsers(props.users)
+    if(props.season !== undefined){
+      setSeason(props.season)
     }
 
-    if(props.games.length > 0 && props.users.length > 0){
+    if(props.games.length > 0 && props.season !== undefined){
       setGames(props.games)
       setIsLoading(false)
     }
 
-  }, [props.games, props.users]);
+  }, [props.games, props.season]);
 
 
   function getName(userId){
-    return users.find(user => user._id == userId).name
+    return season.players.find(user => user._id == userId).name
   }
 
   return (
 
-    <div className="LastFive">
+    <div className="LatestResults">
 
         <Table striped bordered condensed hover>
 
@@ -58,7 +58,7 @@ export default function LastFive(props) {
 
             [...Array(numberOfResults)].map((e, i) => {
               return (
-                  <tr>
+                  <tr key={i}>
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>

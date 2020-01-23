@@ -8,10 +8,13 @@ module.exports = function( passport ){
 
   router.get( '/user', function( req, res ){
 
+    console.log("in user route, req = " + JSON.stringify(req.user))
+
     if( !req.user ){
-      return res.status( 404 )
+      return res.status( 404 ).json({ message: "no user"})
     }
-    res.status( 200 ).json({ user: req.user });
+
+    res.status( 200 ).json(req.user);
 
   });
 
@@ -68,7 +71,6 @@ module.exports = function( passport ){
 
 
   router.post('/signup', function(req, res, next) {
-
 
       passport.authenticate('local-signup', {session: false}, function(err, user, info) {
 

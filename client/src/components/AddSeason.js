@@ -22,6 +22,8 @@ export default function AddSeason(props) {
   async function handleSubmit(event) {
     event.preventDefault();
 
+    fields.players = [];
+
     try {
 
       fetch('/api/seasons', {

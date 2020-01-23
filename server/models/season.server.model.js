@@ -6,7 +6,8 @@ var seasonSchema = mongoose.Schema({
 
 	name: {type: String },
     start: { type: Date },
-    end: { type: Date }
+    end: { type: Date },
+    players: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]
 
 },
 {

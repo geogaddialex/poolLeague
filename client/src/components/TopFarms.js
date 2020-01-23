@@ -5,15 +5,22 @@ import "./TopFarms.css";
 export default function TopFarms(props) {
   const [topFarms, setTopFarms] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [season, setSeason] = useState([]);
+  const [games, setGames] = useState([]);
 
   useEffect(() => {  
 
-    if(props.games.length > 0 && props.users.length > 0){
+    if(props.season !== undefined){
+      setSeason(props.season)
+    }
+
+    if(props.games.length > 0 && props.season !== undefined ){
+      setGames(props.games)
       setTopFarms(getTopFarms(props.games))
       setIsLoading(false)
     }
 
-  }, [props.games, props.users]);
+  }, [props.games, props.season]);
 
   function getTopFarms(games){
     const unique = []
@@ -36,7 +43,7 @@ export default function TopFarms(props) {
     let count = 0
     let negatives = 0
 
-    props.games.forEach(game =>{
+    games.forEach(game =>{
       if( game.winner == unique.winner && game.loser == unique.loser ){
         count ++
       }else if( game.winner == unique.loser && game.loser == unique.winner ){
@@ -52,7 +59,7 @@ export default function TopFarms(props) {
   }
 
   function getName(userId){
-    return props.users.find(x => x._id == userId).name
+    return season.players.find(x => x._id == userId).name
   }
 
   return (

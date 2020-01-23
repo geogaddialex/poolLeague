@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Table } from "react-bootstrap";
-import getMinGames from "../Utils";
+import { getMinGames } from "../Utils";
+import JoinSeason from "../components/JoinSeason";
 import "./SeasonInfo.css";
 
 export default function SeasonInfo(props) {
@@ -24,6 +25,10 @@ export default function SeasonInfo(props) {
   function formatDate(dateString){
     var date = new Date(dateString)
     return date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear()
+  }
+
+  function userInSeason(){
+    // return season.players.some(player => player == user._id)
   }
 
   return (
@@ -50,6 +55,17 @@ export default function SeasonInfo(props) {
           <p>Min Games: {getMinGames(season)}</p>
         </>
       }
+
+      { props.isAuthenticated &&
+        <JoinSeason
+          block
+          type="submit"
+          bsSize="large"
+          isLoading={isLoading}
+          disabled={userInSeason()}
+        />
+      }
+     
     </div>
 
   );

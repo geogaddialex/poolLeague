@@ -4,24 +4,25 @@ import "./Streaks.css";
 
 export default function Streaks(props) {
   const [streaks, setStreaks] = useState([]);
-  const [users, setUsers] = useState([]);
+  const [season, setSeason] = useState({});
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {  
 
-    if(props.users.length > 0){
-      setUsers(props.users)
+    if(props.season !== undefined){
+      setSeason(props.season)
     }
 
-    if(props.games.length > 0 && props.users.length > 0){
-      setStreaks(getStreaks(props.games, props.users))
+    if(props.games.length > 0 && props.season !== undefined){
+
+      setStreaks(getStreaks(props.games, props.season.players))
       setIsLoading(false)
     }
 
-  }, [props.games, props.users]);
+  }, [props.games, props.season]);
 
   function getStreaks(games, users){
-    return users.map(user => {
+    return season.players.map(user => {
 
       const sortedGames = games.filter(game => game.winner == user._id || game.loser == user._id).sort(sortGamesByDate).reverse()
       const lastWin = sortedGames.findIndex( game => game.winner == user._id )
@@ -73,10 +74,10 @@ export default function Streaks(props) {
           }
 
           {
-            isLoading && users.length > 0 &&
-            users.map(user => {
+            isLoading && season.players &&
+            season.players.map((user, index) => {
               return (
-                <tr>
+                <tr key={index}>
                   <td>{user.name}</td>
                   <td>0</td>
                 </tr>

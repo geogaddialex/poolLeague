@@ -22,6 +22,7 @@ export default function Login(props) {
     try {
 
       const response = await fetch('/api/auth/login', {
+        credentials: 'same-origin',
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name: fields.name, password: fields.password }),

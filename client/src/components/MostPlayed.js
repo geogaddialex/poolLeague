@@ -5,15 +5,22 @@ import "./MostPlayed.css";
 export default function MostPlayed(props) {
   const [mostPlayed, setMostPlayed] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [season, setSeason] = useState([]);
+  const [games, setGames] = useState([]);
+  const numberOfResults = 5;
 
   useEffect(() => {  
 
-    if(props.games.length > 0 && props.users.length > 0){
+    if(props.season !== undefined){
+      setSeason(props.season)
+    }
+
+    if( props.games.length > 0 && props.season !== undefined ){
       setMostPlayed(getMostPlayed(props.games))
       setIsLoading(false)
     }
 
-  }, [props.games, props.users]);
+  }, [props.games, props.season]);
 
   function getMostPlayed(games){
     const unique = []
@@ -51,38 +58,49 @@ export default function MostPlayed(props) {
   }
 
   function getName(userId){
-    return props.users.find(x => x._id == userId).name
+    return season.find(x => x._id == userId).name
   }
 
   return (
 
     <div className="MostPlayed">
-      { !isLoading &&
-        <Table striped bordered condensed hover>
+      <Table striped bordered condensed hover>
 
-          <thead>
-            <tr>
-              <th>Most Played</th>
-              <th>Count</th>
-            </tr>
-          </thead>
+        <thead>
+          <tr>
+            <th>Most Played</th>
+            <th>Count</th>
+          </tr>
+        </thead>
 
-          <tbody>
-          {
-            mostPlayed.filter(x=> x.count > 0).slice(0, 10).map((result, index) => {
-              return (
-                <tr key={result.winner + result.loser}>
-                  <td>{getName(result.winner)} - {getName(result.loser)}</td>
-                  <td>{result.count}</td>
+        <tbody>
+        { !isLoading &&
+          mostPlayed.filter(x=> x.count > 0).slice(0, numberOfResults).map((result, index) => {
+            return (
+              <tr key={result.winner + result.loser}>
+                <td>{getName(result.winner)} - {getName(result.loser)}</td>
+                <td>{result.count}</td>
+              </tr>
+            )
+          })
+        }
+
+        { isLoading &&
+
+          [...Array(numberOfResults)].map((e, i) => {
+            return (
+                <tr key={i}>
+                  <td>&nbsp;</td>
+                  <td>&nbsp;</td>
                 </tr>
               )
-            })
-          }
-          </tbody>
-        
+          })
+        }
 
-        </Table>
-      }
+        </tbody>
+      
+
+      </Table>
     </div>
 
   );

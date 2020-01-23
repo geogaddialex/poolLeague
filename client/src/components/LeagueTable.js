@@ -1,30 +1,25 @@
 import React, { useState, useEffect } from "react";
-import getMinGames from "../Utils";
+import { getMinGames } from "../Utils";
 import { Table } from "react-bootstrap";
 import "./LeagueTable.css";
 
 export default function LeagueTable(props) {
   const [games, setGames] = useState([]);
-  const [users, setUsers] = useState([]);
   const [season, setSeason] = useState({});
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {  
 
-    if(props.users.length > 0){
-      setUsers(props.users)
-    }
-
-    if(props.season){
+    if(props.season !== undefined){
       setSeason(props.season)
     }
 
-    if(props.games.length > 0 && props.users.length > 0 && props.season){
+    if(props.games.length > 0 && props.season){
       setGames(props.games)
       setIsLoading(false)
     }
 
-  }, [props.games, props.users, props.season]);
+  }, [props.games, props.season]);
 
   function countWins(user){
     return games.filter(x => x.winner === user._id).length
@@ -79,7 +74,7 @@ export default function LeagueTable(props) {
       }
     })
 
-    return users.length - unique.length
+    return season.players.length - unique.length
   }
 
   function countPenalty(user){
@@ -91,7 +86,7 @@ export default function LeagueTable(props) {
   }
 
   function calculateWinsToFirst(user){
-    let max = users.sort(compareTNSR)[0]
+    let max = season.players.sort(compareTNSR)[0]
     let TNSRdiff = calculateTNSR(max) - calculateTNSR(user) + 0.01
     let losses = countLosses(user) > 0 ? countLosses(user) : 1
     let penalty = countPenalty(user)
@@ -100,12 +95,12 @@ export default function LeagueTable(props) {
   }
 
   function calculateWinsToRankUp(user){
-    let index = users.sort(compareTNSR).indexOf(user)
+    let index = season.players.sort(compareTNSR).indexOf(user)
 
     if(index === 0 ){
       return 0
     }else{
-      let upOne = users[index-1]
+      let upOne = season.players[index-1]
       let TNSRdiff = calculateTNSR(upOne) - calculateTNSR(user) + 0.01
       let losses = countLosses(user) > 0 ? countLosses(user) : 1
       return Math.ceil(TNSRdiff * (losses+countPenalty(user)))
@@ -151,7 +146,7 @@ export default function LeagueTable(props) {
           <tbody>
 
           { !isLoading && 
-            users.sort(compareTNSRthenLosses).map((user, index) => {
+            season.players.sort(compareTNSRthenLosses).map((user, index) => {
               return (
                 <tr key={user._id}>
                   <td>{index+1}</td>
@@ -171,8 +166,8 @@ export default function LeagueTable(props) {
             })
           }
 
-          { isLoading && users.length > 0 &&
-            users.sort(compareTNSRthenLosses).map((user, index) => {
+          { isLoading && season.players > 0 &&
+            season.players.sort(compareTNSRthenLosses).map((user, index) => {
               return (
                 <tr key={user._id}>
                   <td>{index+1}</td>
@@ -183,7 +178,7 @@ export default function LeagueTable(props) {
                   <td>0 / 0</td>
                   <td>0 / 0</td>
                   <td>0</td>
-                  <td>{users.length-1 + getMinGames(season)}</td>
+                  <td>{season.players.length-1 + getMinGames(season)}</td>
                   <td>0</td>
                   <td>0</td>
                   <td>0</td>
