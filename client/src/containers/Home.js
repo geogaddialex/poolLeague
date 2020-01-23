@@ -16,80 +16,57 @@ export default function Home(props) {
   	const [games, setGames] = useState([]);
   	const [seasons, setSeasons] = useState([]);
   	const [user, setUser] = useState({});
-  	const [isLoading, setIsLoading] = useState(true);
 
 	useEffect(() => {
 
 		async function onLoad() {
 
-			if( !isEmpty(props.user) ){
+			setUser(props.user)
+			setGames(props.games)
+			setSeasons(props.seasons)
 
-				console.log("user = " + JSON.stringify(props.user))
-				setUser(props.user)
-			}
-
-			Promise.all([loadGames(), loadSeasons()]).then(values => {
-				setIsLoading(false)
-			})
 		}
 
 		onLoad();
-	}, [props.isAuthenticated, props.user]);
-
-	async function loadGames() {
-		fetch('/api/games').then(function(response){
-
-		  response.json().then(responseGames =>{
-		    setGames(responseGames)
-		    return responseGames
-		  })
-		  
-		})
-	}
-
-	async function loadSeasons() {
-		fetch('/api/seasons').then(function(response){
-
-		  response.json().then(responseSeasons =>{
-		    setSeasons(responseSeasons)
-		    return responseSeasons
-		  })
-		  
-		})
-	}
+	}, [props.user, props.games, props.seasons]);
 
   	return (
 	    <div className="Home">
-	    	{ !isLoading && 
-	    		<React.Fragment>
 
-	    			<Row>
-						<Col xs={10}><LeagueTable games={games} season={seasons[0]}/></Col>
-						<Col xs={2}>
-							<Row>
-								<SeasonInfo games={games} season={seasons[0]} user={user} />
-							</Row>
-						</Col>					    
+		    { !seasons.length < 1 && !isEmpty(seasons[0].players) &&
+	    		<>
+	    			<Row> 
+						<Col xs={10}> <LeagueTable games={props.games} season={props.seasons[0]} /> </Col>
+						<Col xs={2}> <SeasonInfo games={props.games} season={props.seasons[0]} user={props.user} /> </Col>		
 					</Row>
-
-					{ props.isAuthenticated &&
+				{  props.isAuthenticated && 
 				    <Row>
-					    <Col xs={6}><AddGame games={games} season={seasons[0]} user={user} /></Col>
-					    <Col xs={6}><RunTheNumbers season={seasons[0]} /></Col>
+					    <Col xs={6}><AddGame games={props.games} season={props.seasons[0]} user={props.user} /></Col>
+					    <Col xs={6}><RunTheNumbers season={props.seasons[0]} /></Col>
 				    </Row>
-					}
-
+				}
 				    <Row>
-				    	
-						<Col xs={6} md={4}><LatestResults season={seasons[0]} games={games} /></Col>
-					    <Col xs={6} md={4}><TopFarms season={seasons[0]} games={games} /></Col>
-					    <Col xs={6} md={4}><Streaks season={seasons[0]} games={games} /></Col>
-						<Col xs={6} md={4}><MostPlayed season={seasons[0]} games={games} /></Col>
-					    <Col xs={6} md={4}><LeastPlayed season={seasons[0]} games={games} /></Col>
+						<Col xs={6} md={4}><LatestResults season={props.seasons[0]} games={props.games} /></Col>
+					    <Col xs={6} md={4}><TopFarms season={props.seasons[0]} games={props.games} /></Col>
+					    <Col xs={6} md={4}><Streaks season={props.seasons[0]} games={props.games} /></Col>
+						<Col xs={6} md={4}><MostPlayed season={props.seasons[0]} games={props.games} /></Col>
+					    <Col xs={6} md={4}><LeastPlayed season={props.seasons[0]} games={props.games} /></Col>
 				    </Row>
-				    
-			    </React.Fragment>
-			}
+			    </>
+		    }
+
+		    { !seasons.length < 1 && isEmpty(seasons[0].players) &&
+		    	<>
+			    	<h2>No players have entered the season, be the first!</h2>
+			    	<SeasonInfo games={props.games} season={props.seasons[0]} user={props.user} />
+		    	</>
+		    }
+
+		    { seasons.length < 1 &&
+		    	<>
+			    	<h2>No seasons exist!</h2>
+		    	</>
+		    }
        	</div>
 	);
 }

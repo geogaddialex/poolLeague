@@ -7,5 +7,8 @@
   }
 
   export function isEmpty(obj){
-  	return JSON.stringify(obj) == "{}"
+    var objString = JSON.stringify(obj)
+    var empty = objString == "{}" || objString == undefined || objString == "[]"
+    // console.log("Empty? " + empty +" : " + objString)
+  	return empty
   }

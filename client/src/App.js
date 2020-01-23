@@ -10,6 +10,8 @@ function App(props) {
   const [isAuthenticated, userHasAuthenticated] = useState(false);
   const [isAuthenticating, setIsAuthenticating] = useState(true);
   const [user, setUser] = useState({})
+  const [games, setGames] = useState([]);
+  const [seasons, setSeasons] = useState([]);
 
   useEffect(() => {
     async function onLoad() {
@@ -19,10 +21,12 @@ function App(props) {
       })
 
       if(isAuthenticated){
-        Promise.all([loadUser()]).then(values => {
-
-        })
+        loadUser()
       }
+
+      loadGames()
+      loadSeasons()
+
     }
 
     onLoad();
@@ -32,25 +36,44 @@ function App(props) {
     fetch('/api/auth/status', {credentials: 'same-origin'}).then(function(response){
 
       response.json().then(responseJson =>{
-
         if(responseJson.authenticated){
             userHasAuthenticated(true);
         }else{
           console.log("getStatus responseJson = " + JSON.stringify(responseJson))
         }
-
       })
       
     })
   }
 
   async function loadUser() {
-
     fetch('/api/auth/user', {credentials: 'same-origin'}).then(function(response){
 
       response.json().then(responseUser =>{
         setUser(responseUser)
         return responseUser
+      })
+      
+    })
+  }
+
+  async function loadGames() {
+    fetch('/api/games').then(function(response){
+
+      response.json().then(responseGames =>{
+        setGames(responseGames)
+        return responseGames
+      })
+      
+    })
+  }
+
+  async function loadSeasons() {
+    fetch('/api/seasons').then(function(response){
+
+      response.json().then(responseSeasons =>{
+        setSeasons(responseSeasons)
+        return responseSeasons
       })
       
     })
@@ -84,7 +107,7 @@ function App(props) {
             {isAuthenticated
               ? <>
                   <LinkContainer to="/user">
-                    <NavItem>Me</NavItem>
+                    <NavItem>{user.name}</NavItem>
                   </LinkContainer>
                   <LinkContainer to="/settings">
                     <NavItem>Settings</NavItem>
@@ -108,7 +131,7 @@ function App(props) {
         </Navbar.Collapse>
       </Navbar>
 
-      <Routes appProps={{ isAuthenticated, userHasAuthenticated, user }} />
+      <Routes appProps={{ isAuthenticated, userHasAuthenticated, user, games, seasons }} />
 
     </div>
   );

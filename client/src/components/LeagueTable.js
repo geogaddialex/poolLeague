@@ -1,23 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { getMinGames } from "../Utils";
+import { getMinGames, isEmpty } from "../Utils";
 import { Table } from "react-bootstrap";
 import "./LeagueTable.css";
 
 export default function LeagueTable(props) {
   const [games, setGames] = useState([]);
   const [season, setSeason] = useState({});
-  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {  
 
-    if(props.season !== undefined){
-      setSeason(props.season)
-    }
-
-    if(props.games.length > 0 && props.season){
-      setGames(props.games)
-      setIsLoading(false)
-    }
+    setSeason(props.season)
+    setGames(props.games)
 
   }, [props.games, props.season]);
 
@@ -55,7 +48,6 @@ export default function LeagueTable(props) {
 
   function calculateTNSR(user){
     let losses = countLosses(user) > 0 ? countLosses(user) : 1
-    
     return calculatePoints(user) / (losses + countPenalty(user) )
   }
 
@@ -124,6 +116,8 @@ export default function LeagueTable(props) {
   return (
 
     <div className="LeagueTable">
+
+    { !isEmpty(season.players) &&
         <Table striped bordered condensed hover>
 
           <thead>
@@ -145,10 +139,10 @@ export default function LeagueTable(props) {
 
           <tbody>
 
-          { !isLoading && 
+          { games.length > 0 &&
             season.players.sort(compareTNSRthenLosses).map((user, index) => {
               return (
-                <tr key={user._id}>
+                <tr key={index}>
                   <td>{index+1}</td>
                   <td>{user.name}</td>
                   <td>{countPlayed(user)}</td>
@@ -166,10 +160,10 @@ export default function LeagueTable(props) {
             })
           }
 
-          { isLoading && season.players > 0 &&
+          { games.length == 0 &&
             season.players.sort(compareTNSRthenLosses).map((user, index) => {
               return (
-                <tr key={user._id}>
+                <tr key={index}>
                   <td>{index+1}</td>
                   <td>{user.name}</td>
                   <td>0</td>
@@ -185,11 +179,16 @@ export default function LeagueTable(props) {
                 </tr>
               )
             })
-
           }
-          </tbody>
 
+          </tbody>
         </Table>
+      }
+
+      {
+        isEmpty(season.players) &&
+          <p>No players have entered the season</p>
+      }
     </div>
 
   );

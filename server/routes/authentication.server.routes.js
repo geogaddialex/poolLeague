@@ -8,8 +8,6 @@ module.exports = function( passport ){
 
   router.get( '/user', function( req, res ){
 
-    console.log("in user route, req = " + JSON.stringify(req.user))
-
     if( !req.user ){
       return res.status( 404 ).json({ message: "no user"})
     }

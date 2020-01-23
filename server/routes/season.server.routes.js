@@ -5,5 +5,6 @@ var router = express.Router();
 
 router.get('/', seasons.list );
 router.post('/', seasons.add );
+router.post('/join', seasons.join );
 
 module.exports = router;
