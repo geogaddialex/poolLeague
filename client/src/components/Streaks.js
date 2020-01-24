@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Table } from "react-bootstrap";
+import { isEmpty } from "../Utils"
 import "./Streaks.css";
 
 export default function Streaks(props) {
@@ -9,11 +10,11 @@ export default function Streaks(props) {
 
   useEffect(() => {  
 
-    if(props.season !== undefined){
+    if(!isEmpty(props.season)){
       setSeason(props.season)
     }
 
-    if(props.games.length > 0 && props.season !== undefined){
+    if(props.games.length > 0 && !isEmpty(props.season)){
 
       setStreaks(getStreaks(props.games, props.season.players))
       setIsLoading(false)
@@ -24,9 +25,9 @@ export default function Streaks(props) {
   function getStreaks(games, users){
     return season.players.map(user => {
 
-      const sortedGames = games.filter(game => game.winner == user._id || game.loser == user._id).sort(sortGamesByDate).reverse()
-      const lastWin = sortedGames.findIndex( game => game.winner == user._id )
-      const lastLoss = sortedGames.findIndex( game => game.loser == user._id )
+      const sortedGames = games.filter(game => game.winner == user || game.loser == user).sort(sortGamesByDate).reverse()
+      const lastWin = sortedGames.findIndex( game => game.winner == user )
+      const lastLoss = sortedGames.findIndex( game => game.loser == user )
 
       if( lastWin == -1 ){
         user.streak = sortedGames.length * -1

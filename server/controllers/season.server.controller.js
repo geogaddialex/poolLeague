@@ -44,10 +44,19 @@ exports.join = function( req, res ){
         if(!season.players.some(player => player == user._id)){
             console.log(user._id + " not found, adding...")
 
-            season.players.push(user)
+            console.log("season = " + season)
+
+            console.log("season.players before push = " + season.players)
+
+            season.players = season.players.concat([user])
+
+            console.log("season.players post push = " + season.players)
+
             season.save(function(err) {
                         
                 if (err){
+
+                    console.log("error: " + err)
                     return res.status(500).json({ errors: "Could not add player to season" });
                 }
                     

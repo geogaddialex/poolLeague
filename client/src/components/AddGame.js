@@ -52,17 +52,15 @@ export default function AddGame(props) {
 
       {!isLoading &&
 
-        <Form onSubmit={handleSubmit}>
+        <Form inline onSubmit={handleSubmit}>
 
           <FormGroup controlId="winner">
-            <ControlLabel>Winner</ControlLabel>
             <FormControl
               componentClass="select"
-              placeholder="Select"
               value={fields.winner}
               onChange={handleFieldChange}
             >
-              <option key="0" value="select" disabled>Select</option>
+              <option key="0" value="select" disabled>Winner</option>
               {
                 season.players.map((user, index) => {
                   return (
@@ -74,14 +72,12 @@ export default function AddGame(props) {
           </FormGroup>
 
           <FormGroup controlId="loser">
-            <ControlLabel>Loser</ControlLabel>
             <FormControl
               componentClass="select"
-              placeholder="Select"
               value={fields.loser}
               onChange={handleFieldChange}
             >
-              <option key="0" value="select" disabled>Select</option>
+              <option key="0" value="select" disabled>Loser</option>
               {
                 season.players.map((user, index) => {
                   return (
@@ -93,14 +89,12 @@ export default function AddGame(props) {
           </FormGroup>
 
           <FormGroup controlId="special">
-            <ControlLabel>Special</ControlLabel>
             <FormControl
               componentClass="select"
-              placeholder="None"
               value={fields.special}
               onChange={handleFieldChange}
             >
-              <option key="0" value="None">None</option>
+              <option key="0" value="None">Special</option>
               <option key="1" value="Foul Win">Foul Win</option>
               <option key="2" value="Seven Ball">Seven Ball</option>
             </FormControl>

@@ -13,7 +13,7 @@ export default function Admin(props) {
 	}, [props.isAuthenticated]);
 
   	return (
-	    <div className="Settings">
+	    <div className="Admin">
 	    	{ !isLoading && 
 	    		<AddSeason />
 			}

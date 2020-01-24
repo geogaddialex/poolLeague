@@ -9,6 +9,7 @@ import LeastPlayed from "../components/LeastPlayed";
 import Streaks from "../components/Streaks";
 import SeasonInfo from "../components/SeasonInfo";
 import RunTheNumbers from "../components/RunTheNumbers";
+import AddSeason from "../components/AddSeason";
 import { isEmpty } from "../Utils";
 import "./Home.css";
 
@@ -24,7 +25,6 @@ export default function Home(props) {
 			setUser(props.user)
 			setGames(props.games)
 			setSeasons(props.seasons)
-
 		}
 
 		onLoad();
@@ -65,6 +65,7 @@ export default function Home(props) {
 		    { seasons.length < 1 &&
 		    	<>
 			    	<h2>No seasons exist!</h2>
+			    	<AddSeason />
 		    	</>
 		    }
        	</div>

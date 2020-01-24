@@ -1,3 +1,7 @@
 .MostPlayed {
-  padding: 5px;
+  background-color: #f8f8f8;
+  border: 1px solid #e7e7e7;
+  border-radius: 5px;
+  padding:5px;
+  margin:5px;
 }
