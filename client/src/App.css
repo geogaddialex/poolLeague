@@ -1,5 +1,15 @@
 .App {
   text-align: center;
+  color:#555;
+}
+
+.table{
+  background-color:white;
+  margin-bottom: 0;
+}
+
+table th{
+  text-align: center;
 }
 
 .App-logo {
@@ -43,8 +53,4 @@
 
 .App .navbar-brand {
   font-weight: bold;
-}
-
-table th{
-  text-align: center;
 }

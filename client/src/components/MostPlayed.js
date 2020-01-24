@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Table } from "react-bootstrap";
+import { isEmpty } from "../Utils"
 import "./MostPlayed.css";
 
 export default function MostPlayed(props) {
@@ -11,11 +12,11 @@ export default function MostPlayed(props) {
 
   useEffect(() => {  
 
-    if(props.season !== undefined){
+    if(!isEmpty( props.season) ){
       setSeason(props.season)
     }
 
-    if( props.games.length > 0 && props.season !== undefined ){
+    if( props.games.length > 0 && !isEmpty( props.season) ){
       setMostPlayed(getMostPlayed(props.games))
       setIsLoading(false)
     }
@@ -58,7 +59,7 @@ export default function MostPlayed(props) {
   }
 
   function getName(userId){
-    return season.find(x => x._id == userId).name
+    return season.players.find(x => x._id == userId).name
   }
 
   return (

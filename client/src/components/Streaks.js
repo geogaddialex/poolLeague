@@ -23,7 +23,7 @@ export default function Streaks(props) {
   }, [props.games, props.season]);
 
   function getStreaks(games, users){
-    return season.players.map(user => {
+    return props.season.players.map(user => {
 
       const sortedGames = games.filter(game => game.winner == user || game.loser == user).sort(sortGamesByDate).reverse()
       const lastWin = sortedGames.findIndex( game => game.winner == user )

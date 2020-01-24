@@ -84,6 +84,7 @@ function App(props) {
       
       if(response.ok){
         userHasAuthenticated(false);
+        setUser({})
       }else{
         console.log("FAILURE: Logging out")
       }

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Table } from "react-bootstrap";
+import { isEmpty } from "../Utils"
 import "./TopFarms.css";
 
 export default function TopFarms(props) {
@@ -10,11 +11,11 @@ export default function TopFarms(props) {
 
   useEffect(() => {  
 
-    if(props.season !== undefined){
+    if(!isEmpty(props.season) ){
       setSeason(props.season)
     }
 
-    if(props.games.length > 0 && props.season !== undefined ){
+    if(props.games.length > 0 && !isEmpty(props.season) ){
       setGames(props.games)
       setTopFarms(getTopFarms(props.games))
       setIsLoading(false)

@@ -30,21 +30,30 @@ export default function Home(props) {
 		onLoad();
 	}, [props.user, props.games, props.seasons]);
 
+
+	function userInSeason(){
+		return props.seasons[0].players.some(player => player._id == user._id)
+	}
+
   	return (
 	    <div className="Home">
 
-		    { !seasons.length < 1 && !isEmpty(seasons[0].players) &&
+		    { seasons.length > 0 && !isEmpty(seasons[0].players) &&
 	    		<>
 	    			<Row> 
 						<Col xs={10}> <LeagueTable games={props.games} season={props.seasons[0]} /> </Col>
 						<Col xs={2}> <SeasonInfo games={props.games} season={props.seasons[0]} user={props.user} /> </Col>		
 					</Row>
-				{  props.isAuthenticated && 
-				    <Row>
+
+				{  !isEmpty(user) && userInSeason(user) &&
+
+					<Row>      
 					    <Col xs={6}><AddGame games={props.games} season={props.seasons[0]} user={props.user} /></Col>
 					    <Col xs={6}><RunTheNumbers season={props.seasons[0]} /></Col>
 				    </Row>
 				}
+
+				{ games.length > 0 ?
 				    <Row>
 						<Col xs={6} md={4}><LatestResults season={props.seasons[0]} games={props.games} /></Col>
 					    <Col xs={6} md={4}><TopFarms season={props.seasons[0]} games={props.games} /></Col>
@@ -52,6 +61,9 @@ export default function Home(props) {
 						<Col xs={6} md={4}><MostPlayed season={props.seasons[0]} games={props.games} /></Col>
 					    <Col xs={6} md={4}><LeastPlayed season={props.seasons[0]} games={props.games} /></Col>
 				    </Row>
+				:
+				    <h2> No games played </h2>
+				}
 			    </>
 		    }
 
