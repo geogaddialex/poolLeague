@@ -27,19 +27,19 @@ export default function LeagueTable(props) {
   }
 
   function countSevenBallsFor(user){
-    return games.filter(x => x.winner === user._id && x.special === "seven").length
+    return games.filter(game => game.winner === user._id && game.special === "Seven Ball").length
   }
 
   function countSevenBallsAgainst(user){
-    return games.filter(x => x.loser === user._id && x.special === "seven").length
+    return games.filter(x => x.loser === user._id && x.special === "Seven Ball").length
   }
 
   function countFoulsFor(user){
-    return games.filter(x => x.winner === user._id && x.special === "foul").length
+    return games.filter(x => x.winner === user._id && x.special === "Foul Win").length
   }
 
   function countFoulsAgainst(user){
-    return games.filter(x => x.loser === user._id && x.special === "foul").length
+    return games.filter(x => x.loser === user._id && x.special === "Foul Win").length
   }
 
   function calculatePoints(user){
@@ -66,7 +66,7 @@ export default function LeagueTable(props) {
       }
     })
 
-    return season.players.length - unique.length
+    return season.players.length - unique.length - 1
   }
 
   function countPenalty(user){

@@ -21,7 +21,6 @@ export default function Home(props) {
 	useEffect(() => {
 
 		async function onLoad() {
-
 			setUser(props.user)
 			setGames(props.games)
 			setSeasons(props.seasons)
@@ -55,11 +54,11 @@ export default function Home(props) {
 
 				{ games.length > 0 ?
 				    <Row>
-						<Col xs={6} md={4}><LatestResults season={props.seasons[0]} games={props.games} /></Col>
-					    <Col xs={6} md={4}><TopFarms season={props.seasons[0]} games={props.games} /></Col>
-					    <Col xs={6} md={4}><Streaks season={props.seasons[0]} games={props.games} /></Col>
-						<Col xs={6} md={4}><MostPlayed season={props.seasons[0]} games={props.games} /></Col>
-					    <Col xs={6} md={4}><LeastPlayed season={props.seasons[0]} games={props.games} /></Col>
+						<Col xs={6} md={3}><LatestResults season={props.seasons[0]} games={props.games} /></Col>
+					    <Col xs={6} md={3}><TopFarms season={props.seasons[0]} games={props.games} /></Col>
+						<Col xs={6} md={3}><MostPlayed season={props.seasons[0]} games={props.games} /></Col>
+					    <Col xs={6} md={3}><LeastPlayed season={props.seasons[0]} games={props.games} /></Col>
+					    <Col xs={6} md={2}><Streaks season={props.seasons[0]} games={props.games} /></Col>
 				    </Row>
 				:
 				    <h2> No games played </h2>

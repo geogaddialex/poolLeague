@@ -32,10 +32,12 @@ export default function TopFarms(props) {
       }
     })
 
-    const count = unique.map( x => {
-      x.count = countOccurences(x) 
-      return x
-    }).filter(x=> x.count > 0).sort(compareOccurences).slice(0, 10)
+    const count = unique.map( result => {
+      result.count = countOccurences(result) 
+      return result
+    }).filter( result => result.count > 0)
+    .sort(compareOccurences)
+    .slice(0, 10)
     
     return count
   }
@@ -44,7 +46,7 @@ export default function TopFarms(props) {
     let count = 0
     let negatives = 0
 
-    games.forEach(game =>{
+    props.games.forEach(game =>{
       if( game.winner == unique.winner && game.loser == unique.loser ){
         count ++
       }else if( game.winner == unique.loser && game.loser == unique.winner ){

@@ -113,9 +113,13 @@ function App(props) {
                   <LinkContainer to="/settings">
                     <NavItem>Settings</NavItem>
                   </LinkContainer>
-                  <LinkContainer to="/admin">
-                    <NavItem>Admin</NavItem>
-                  </LinkContainer>
+
+                  { user.isAdmin && 
+                    <LinkContainer to="/admin">
+                      <NavItem>Admin</NavItem>
+                    </LinkContainer>
+                  }
+                  
                   <NavItem onClick={handleLogout}>Logout</NavItem>
               </>
               : <>
