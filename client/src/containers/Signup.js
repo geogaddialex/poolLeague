@@ -1,9 +1,5 @@
 import React, { useState } from "react";
-import {
-  FormGroup,
-  FormControl,
-  ControlLabel
-} from "react-bootstrap";
+import { FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 import LoaderButton from "../components/LoaderButton";
 import { useFormFields } from "../libs/hooksLib";
 import "./Signup.css";
@@ -38,8 +34,9 @@ export default function Signup(props) {
       })
 
       if(await response.ok){
-        props.userHasAuthenticated(true)
-        props.history.push("/");
+          
+        response.json().then(json => props.setUser(json))
+
       }else{
         setIsLoading(false);
       }

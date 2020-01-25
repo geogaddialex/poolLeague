@@ -5,17 +5,6 @@ import JoinSeason from "../components/JoinSeason";
 import "./SeasonInfo.css";
 
 export default function SeasonInfo(props) {
-  const [games, setGames] = useState([]);
-  const [season, setSeason] = useState({});
-  const [user, setUser] = useState({});
-
-  useEffect(() => {  
-
-      setSeason(props.season)
-      setUser(props.user)
-      setGames(props.games)
-
-  }, [props.games, props.season, props.user]);
 
   function formatDate(dateString){
     var date = new Date(dateString)
@@ -23,37 +12,35 @@ export default function SeasonInfo(props) {
   }
 
   function userInSeason(){
-    return season.players.some(player => player._id == user._id)
+    return props.season.players.some(player => player._id == props.user._id)
   }
 
   return (
 
     <div className="SeasonInfo">
-      { !isEmpty(season) &&
 
         <>
-          <p>{season.name}</p>
-          <p>Start: {formatDate(season.start)}</p>
-          <p>End: {formatDate(season.end)}</p>
+          <p>{props.season.name}</p>
+          <p>Start: {formatDate(props.season.start)}</p>
+          <p>End: {formatDate(props.season.end)}</p>
 
-          { !isEmpty(season.players) &&
+          { !isEmpty(props.season.players) &&
             <>
-              <p>Total Games: { games.length }</p>
-              <p>Min Games: {getMinGames(season)}</p>
+              <p>Total Games: { props.games.length }</p>
+              <p>Min Games: {getMinGames(props.season)}</p>
             </>
           }
           
         </>
         
-      }
 
-      { !isEmpty(user) && !userInSeason(user) &&
+      { !isEmpty(props.user) && !userInSeason(props.user) &&
         <JoinSeason
           block
           type="submit"
           bsSize="large"
-          user={user}
-          season={season}
+          user={props.user}
+          season={props.season}
         >Join</JoinSeason>
       }
      

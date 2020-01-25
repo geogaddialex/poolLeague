@@ -3,77 +3,96 @@ import { Link, withRouter } from "react-router-dom";
 import { Nav, Navbar, NavItem } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import Routes from "./Routes";
+import { isEmpty } from "./Utils"
+import io from "socket.io-client";
 import "./App.css";
 
 function App(props) {
 
-  const [isAuthenticated, userHasAuthenticated] = useState(false);
-  const [isAuthenticating, setIsAuthenticating] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
+
   const [user, setUser] = useState({})
+  const [loadedUser, setLoadedUser] = useState(false)
+  const [loadingUser, setLoadingUser] = useState(false)
+
   const [games, setGames] = useState([]);
+  const [loadedGames, setLoadedGames] = useState(false)
+  const [loadingGames, setLoadingGames] = useState(false)
+
   const [seasons, setSeasons] = useState([]);
+  const [loadedSeasons, setLoadedSeasons] = useState(false)
+  const [loadingSeasons, setLoadingSeasons] = useState(false)
+
+  const socket = io("ws://localhost:9000", {transports: ['websocket']})
 
   useEffect(() => {
-    async function onLoad() {
 
-      Promise.all([getStatus()]).then(values => {
-        setIsAuthenticating(false)
-      })
-
-      if(isAuthenticated){
+      if(!loadedUser && !loadingUser){
         loadUser()
       }
 
-      loadGames()
-      loadSeasons()
+      if(!loadedSeasons && !loadingSeasons){
+        loadSeasons()
+      }
 
+      if(!loadedGames && !loadingGames){
+        loadGames()
+      }
+
+      if(loadedUser && loadedGames && loadedSeasons){
+        setIsLoading(false)
+      }
+      
+  }, [user, games, seasons]);
+
+  useEffect(() => {
+
+    const handler = (game) =>{
+      setGames([...games, game])
     }
 
-    onLoad();
-  }, [isAuthenticated]);
+    socket.on("NewGame", handler)
 
-  async function getStatus() {
-    fetch('/api/auth/status', {credentials: 'same-origin'}).then(function(response){
+    return () => {
+      socket.off("NewGame", handler)
+    }
 
-      response.json().then(responseJson =>{
-        if(responseJson.authenticated){
-            userHasAuthenticated(true);
-        }else{
-          console.log("getStatus responseJson = " + JSON.stringify(responseJson))
-        }
-      })
-      
-    })
-  }
+  }, [games])
 
   async function loadUser() {
+    setLoadingUser(true)
     fetch('/api/auth/user', {credentials: 'same-origin'}).then(function(response){
 
       response.json().then(responseUser =>{
+        setLoadedUser(true)
         setUser(responseUser)
-        return responseUser
-      })
-      
+        setLoadingUser(false)
+      })      
     })
   }
 
   async function loadGames() {
+    setLoadingGames(true)
+
     fetch('/api/games').then(function(response){
 
       response.json().then(responseGames =>{
+        setLoadedGames(true)
         setGames(responseGames)
-        return responseGames
+        setLoadingGames(false)
       })
       
     })
   }
 
   async function loadSeasons() {
+    setLoadingSeasons(true)
     fetch('/api/seasons').then(function(response){
 
       response.json().then(responseSeasons =>{
+        setLoadedSeasons(true)
         setSeasons(responseSeasons)
-        return responseSeasons
+        setLoadingSeasons(false)
       })
       
     })
@@ -83,7 +102,6 @@ function App(props) {
     fetch('/api/auth/logout', {credentials: 'same-origin'}).then(function(response){
       
       if(response.ok){
-        userHasAuthenticated(false);
         setUser({})
       }else{
         console.log("FAILURE: Logging out")
@@ -93,7 +111,7 @@ function App(props) {
   }
 
   return (
-    !isAuthenticating &&
+    !isLoading &&
     <div className="App container">
       <Navbar fluid collapseOnSelect>
         <Navbar.Header>
@@ -105,7 +123,7 @@ function App(props) {
         <Navbar.Collapse>
           <Nav pullRight>
 
-            {isAuthenticated
+            { !isEmpty(user)
               ? <>
                   <LinkContainer to="/user">
                     <NavItem>{user.name}</NavItem>
@@ -119,7 +137,7 @@ function App(props) {
                       <NavItem>Admin</NavItem>
                     </LinkContainer>
                   }
-                  
+
                   <NavItem onClick={handleLogout}>Logout</NavItem>
               </>
               : <>
@@ -136,7 +154,7 @@ function App(props) {
         </Navbar.Collapse>
       </Navbar>
 
-      <Routes appProps={{ isAuthenticated, userHasAuthenticated, user, games, seasons }} />
+      <Routes appProps={{ user, games, seasons, setUser }} />
 
     </div>
   );

@@ -20,14 +20,11 @@ export default function Home(props) {
 
 	useEffect(() => {
 
-		async function onLoad() {
-			setUser(props.user)
-			setGames(props.games)
-			setSeasons(props.seasons)
-		}
+		setUser(props.user)
+		setGames(props.games)
+		setSeasons(props.seasons)
 
-		onLoad();
-	}, [props.user, props.games, props.seasons]);
+	});
 
 
 	function userInSeason(){

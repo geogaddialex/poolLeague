@@ -4,29 +4,20 @@ import { isEmpty } from "../Utils"
 import "./TopFarms.css";
 
 export default function TopFarms(props) {
+
+  const numberOfResults = 5;
   const [topFarms, setTopFarms] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [season, setSeason] = useState([]);
-  const [games, setGames] = useState([]);
 
   useEffect(() => {  
 
-    if(!isEmpty(props.season) ){
-      setSeason(props.season)
-    }
+      getTopFarms(props.games)
 
-    if(props.games.length > 0 && !isEmpty(props.season) ){
-      setGames(props.games)
-      setTopFarms(getTopFarms(props.games))
-      setIsLoading(false)
-    }
-
-  }, [props.games, props.season]);
+  }, [props.games]);
 
   function getTopFarms(games){
     const unique = []
 
-    games.forEach((game) => {
+    props.games.forEach((game) => {
       if (!unique.some(result => result.winner+result.loser == game.winner+game.loser)){
         unique.push(game)
       }
@@ -37,9 +28,9 @@ export default function TopFarms(props) {
       return result
     }).filter( result => result.count > 0)
     .sort(compareOccurences)
-    .slice(0, 10)
+    .slice(0, numberOfResults)
     
-    return count
+    setTopFarms(count)
   }
 
   function countOccurences(unique){
@@ -62,13 +53,12 @@ export default function TopFarms(props) {
   }
 
   function getName(userId){
-    return season.players.find(x => x._id == userId).name
+    return props.season.players.find(x => x._id == userId).name
   }
 
   return (
 
     <div className="TopFarms">
-      { !isLoading &&
         <Table striped bordered condensed hover>
 
           <thead>
@@ -94,7 +84,7 @@ export default function TopFarms(props) {
           </tbody>
         
         </Table>
-      }
+      
     </div>
 
   );

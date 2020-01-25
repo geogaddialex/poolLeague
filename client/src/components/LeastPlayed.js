@@ -1,31 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { Table } from "react-bootstrap";
+import { isEmpty } from "../Utils"
 import "./LeastPlayed.css";
 
 export default function LeastPlayed(props) {
-  const [leastPlayed, setLeastPlayed] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [season, setSeason] = useState([]);
-  const [games, setGames] = useState([]);
+  
   const numberOfResults = 5;
+  const [leastPlayed, setLeastPlayed] = useState({});
 
   useEffect(() => {  
 
-    if(props.season !== undefined){
-      setSeason(props.season)
-    }
+      getLeastPlayed(props.games)
 
-    if(props.games.length > 0 && props.season !== undefined){
-      setLeastPlayed(getLeastPlayed(props.games))
-      setIsLoading(false)
-    }
-
-  }, [props.games, props.season]);
+  }, [props.games]);
 
   function getLeastPlayed(games){
     const unique = []
 
-    games.forEach((game) => {
+    props.games.forEach((game) => {
       if (!unique.some(result => result.winner+result.loser == game.winner+game.loser)){
         unique.push(game)
       }
@@ -36,7 +28,7 @@ export default function LeastPlayed(props) {
       return x
     }).sort(compareOccurences)
     
-    return count
+    setLeastPlayed(count)
   }
 
   function countOccurences(unique){
@@ -58,7 +50,7 @@ export default function LeastPlayed(props) {
   }
 
   function getName(userId){
-    return season.players.find(x => x._id == userId).name
+    return props.season.players.find(x => x._id == userId).name
   }
 
   return (
@@ -74,7 +66,7 @@ export default function LeastPlayed(props) {
           </thead>
 
           <tbody>
-          { !isLoading &&
+          { leastPlayed.length > 0 &&
             leastPlayed.slice(0, numberOfResults).map((result, index) => {
               return (
                 <tr key={result.winner + result.loser}>
@@ -84,19 +76,6 @@ export default function LeastPlayed(props) {
               )
             })
           }
-
-          { isLoading &&
-
-            [...Array(numberOfResults)].map((e, i) => {
-              return (
-                  <tr key={i}>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                  </tr>
-                )
-            })
-          }
-
           </tbody>
         
 

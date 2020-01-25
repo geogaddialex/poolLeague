@@ -23,5 +23,8 @@ exports.add = function( req, res ){
     game.save(function(err, game){
         if (err) return console.error(err);
     })
+
+    var socketio = req.app.get('socketio');
+    socketio.sockets.emit("NewGame", game);
     res.status(200).json(game)
 }

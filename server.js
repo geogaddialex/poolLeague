@@ -9,7 +9,6 @@ var bodyParser        = require( 'body-parser' )
 var session           = require( 'cookie-session' )
 var passport 	        = require( 'passport' )
 var mongoose          = require( 'mongoose' )
-var cors              = require("cors");
                         require( 'datejs' )
                         require( './server/config/passport' )( passport )
                         require( './server/config/database' )( mongoose )
@@ -21,8 +20,6 @@ app.use( logger('dev') );
 app.use( cookieParser() ); 
 app.use( bodyParser.json() ); 
 app.use( bodyParser.urlencoded({ extended: false }) );
-app.use( cors() );
-// app.use(favicon(path.join('client','images','favicon.ico')));
 
 app.use( session({
     secret: 'badsecret',
@@ -44,7 +41,7 @@ app.use('/api/games', gameRoutes);
 app.use('/api/seasons', seasonRoutes);
 
 app.get('/', function(req, res) {
-		res.sendFile( '/index.html', {root: './client'} );
+		res.sendFile( '/index.js', {root: './client/src'} );
 })
 
 app.use(function(req, res, next) {
@@ -55,9 +52,8 @@ app.use(function(req, res, next) {
 
 var port = 9000
 var server = app.listen( port )
-var io = socketio.listen( server, { cookie: false });
-console.log( 'API live at port: ' + port )
-
+var io = socketio.listen( server, { origins: '*:*' });
 app.set( 'socketio', io );
 
+console.log( 'API live at port: ' + port )
 module.exports = app;

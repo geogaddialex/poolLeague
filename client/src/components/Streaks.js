@@ -5,25 +5,15 @@ import "./Streaks.css";
 
 export default function Streaks(props) {
   const [streaks, setStreaks] = useState([]);
-  const [season, setSeason] = useState({});
-  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {  
 
-    if(!isEmpty(props.season)){
-      setSeason(props.season)
-    }
-
-    if(props.games.length > 0 && !isEmpty(props.season)){
-
-      setStreaks(getStreaks(props.games, props.season.players))
-      setIsLoading(false)
-    }
+      getStreaks(props.games, props.season.players)
 
   }, [props.games, props.season]);
 
   function getStreaks(games, users){
-    return props.season.players.map(user => {
+    setStreaks(props.season.players.map(user => {
 
       const sortedGames = props.games.filter(game => game.winner == user._id || game.loser == user._id).sort(sortGamesByDate).reverse()
       const lastWin = sortedGames.findIndex( game => game.winner == user._id )
@@ -38,7 +28,7 @@ export default function Streaks(props) {
       }
       
       return user
-    })
+    }))
   }
 
   function compareStreaks(a, b) {
@@ -63,7 +53,7 @@ export default function Streaks(props) {
           </thead>
 
           <tbody>
-          { !isLoading &&
+          { 
             streaks.sort(compareStreaks).map((user, index) => {
               return (
                 <tr key={user._id}>
@@ -74,17 +64,6 @@ export default function Streaks(props) {
             })
           }
 
-          {
-            isLoading && season.players &&
-            season.players.map((user, index) => {
-              return (
-                <tr key={index}>
-                  <td>{user.name}</td>
-                  <td>0</td>
-                </tr>
-              )
-            })
-          }
           </tbody>
 
         </Table>

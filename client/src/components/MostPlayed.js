@@ -4,29 +4,20 @@ import { isEmpty } from "../Utils"
 import "./MostPlayed.css";
 
 export default function MostPlayed(props) {
-  const [mostPlayed, setMostPlayed] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [season, setSeason] = useState([]);
-  const [games, setGames] = useState([]);
+
   const numberOfResults = 5;
+  const [mostPlayed, setMostPlayed] = useState([]);
 
   useEffect(() => {  
 
-    if(!isEmpty( props.season) ){
-      setSeason(props.season)
-    }
+      getMostPlayed(props.games)
 
-    if( props.games.length > 0 && !isEmpty( props.season) ){
-      setMostPlayed(getMostPlayed(props.games))
-      setIsLoading(false)
-    }
-
-  }, [props.games, props.season]);
+  }, [props.games]);
 
   function getMostPlayed(games){
     const unique = []
 
-    games.forEach((game) => {
+    props.games.forEach((game) => {
       if (!unique.some(result => result.winner+result.loser == game.winner+game.loser)){
         unique.push(game)
       }
@@ -37,7 +28,7 @@ export default function MostPlayed(props) {
       return x
     }).sort(compareOccurences)
     
-    return count
+    setMostPlayed(count)
   }
 
   function countOccurences(unique){
@@ -59,7 +50,7 @@ export default function MostPlayed(props) {
   }
 
   function getName(userId){
-    return season.players.find(x => x._id == userId).name
+    return props.season.players.find(x => x._id == userId).name
   }
 
   return (
@@ -75,29 +66,16 @@ export default function MostPlayed(props) {
         </thead>
 
         <tbody>
-        { !isLoading &&
-          mostPlayed.filter(x=> x.count > 0).slice(0, numberOfResults).map((result, index) => {
-            return (
-              <tr key={result.winner + result.loser}>
-                <td>{getName(result.winner)} - {getName(result.loser)}</td>
-                <td>{result.count}</td>
-              </tr>
-            )
-          })
-        }
-
-        { isLoading &&
-
-          [...Array(numberOfResults)].map((e, i) => {
-            return (
-                <tr key={i}>
-                  <td>&nbsp;</td>
-                  <td>&nbsp;</td>
+         {
+            mostPlayed.filter(x=> x.count > 0).slice(0, numberOfResults).map((result, index) => {
+              return (
+                <tr key={result.winner + result.loser}>
+                  <td>{getName(result.winner)} - {getName(result.loser)}</td>
+                  <td>{result.count}</td>
                 </tr>
               )
-          })
-        }
-
+            })
+          }
         </tbody>
       
 

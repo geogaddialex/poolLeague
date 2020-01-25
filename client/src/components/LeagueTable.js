@@ -4,42 +4,33 @@ import { Table } from "react-bootstrap";
 import "./LeagueTable.css";
 
 export default function LeagueTable(props) {
-  const [games, setGames] = useState([]);
-  const [season, setSeason] = useState({});
-
-  useEffect(() => {  
-
-    setSeason(props.season)
-    setGames(props.games)
-
-  }, [props.games, props.season]);
 
   function countWins(user){
-    return games.filter(x => x.winner === user._id).length
+    return props.games.filter(x => x.winner === user._id).length
   }
 
   function countLosses(user){
-    return games.filter(x => x.loser === user._id).length
+    return props.games.filter(x => x.loser === user._id).length
   }
 
   function countPlayed(user){
-    return games.filter(x => x.winner === user._id || x.loser === user._id).length
+    return props.games.filter(x => x.winner === user._id || x.loser === user._id).length
   }
 
   function countSevenBallsFor(user){
-    return games.filter(game => game.winner === user._id && game.special === "Seven Ball").length
+    return props.games.filter(game => game.winner === user._id && game.special === "7 Ball").length
   }
 
   function countSevenBallsAgainst(user){
-    return games.filter(x => x.loser === user._id && x.special === "Seven Ball").length
+    return props.games.filter(x => x.loser === user._id && x.special === "7 Ball").length
   }
 
   function countFoulsFor(user){
-    return games.filter(x => x.winner === user._id && x.special === "Foul Win").length
+    return props.games.filter(x => x.winner === user._id && x.special === "Foul Win").length
   }
 
   function countFoulsAgainst(user){
-    return games.filter(x => x.loser === user._id && x.special === "Foul Win").length
+    return props.games.filter(x => x.loser === user._id && x.special === "Foul Win").length
   }
 
   function calculatePoints(user){
@@ -52,7 +43,7 @@ export default function LeagueTable(props) {
   }
 
   function countUnderMin(user){
-    return countPlayed(user) < getMinGames(season) ? getMinGames(season) - countPlayed(user) : 0
+    return countPlayed(user) < getMinGames(props.season) ? getMinGames(props.season) - countPlayed(user) : 0
   }
 
   function countUnplayed(user){
@@ -66,7 +57,7 @@ export default function LeagueTable(props) {
       }
     })
 
-    return season.players.length - unique.length - 1
+    return props.season.players.length - unique.length - 1
   }
 
   function countPenalty(user){
@@ -74,11 +65,11 @@ export default function LeagueTable(props) {
   }
 
   function getGamesForUser(user){
-    return games.filter(game => game.winner == user._id || game.loser == user._id)
+    return props.games.filter(game => game.winner == user._id || game.loser == user._id)
   }
 
   function calculateWinsToFirst(user){
-    let max = season.players.sort(compareTNSR)[0]
+    let max = props.season.players.sort(compareTNSR)[0]
     let TNSRdiff = calculateTNSR(max) - calculateTNSR(user) + 0.01
     let losses = countLosses(user) > 0 ? countLosses(user) : 1
     let penalty = countPenalty(user)
@@ -87,12 +78,12 @@ export default function LeagueTable(props) {
   }
 
   function calculateWinsToRankUp(user){
-    let index = season.players.sort(compareTNSR).indexOf(user)
+    let index = props.season.players.sort(compareTNSR).indexOf(user)
 
     if(index === 0 ){
       return 0
     }else{
-      let upOne = season.players[index-1]
+      let upOne = props.season.players[index-1]
       let TNSRdiff = calculateTNSR(upOne) - calculateTNSR(user) + 0.01
       let losses = countLosses(user) > 0 ? countLosses(user) : 1
       return Math.ceil(TNSRdiff * (losses+countPenalty(user)))
@@ -117,7 +108,7 @@ export default function LeagueTable(props) {
 
     <div className="LeagueTable">
 
-    { !isEmpty(season.players) &&
+    { !isEmpty(props.season.players) &&
         <Table striped bordered condensed hover>
 
           <thead>
@@ -139,8 +130,8 @@ export default function LeagueTable(props) {
 
           <tbody>
 
-          { games.length > 0 &&
-            season.players.sort(compareTNSRthenLosses).map((user, index) => {
+          { props.games.length > 0 &&
+            props.season.players.sort(compareTNSRthenLosses).map((user, index) => {
               return (
                 <tr key={index}>
                   <td>{index+1}</td>
@@ -160,8 +151,8 @@ export default function LeagueTable(props) {
             })
           }
 
-          { games.length == 0 &&
-            season.players.sort(compareTNSRthenLosses).map((user, index) => {
+          { props.games.length == 0 &&
+            props.season.players.sort(compareTNSRthenLosses).map((user, index) => {
               return (
                 <tr key={index}>
                   <td>{index+1}</td>
@@ -172,7 +163,7 @@ export default function LeagueTable(props) {
                   <td>0 / 0</td>
                   <td>0 / 0</td>
                   <td>0</td>
-                  <td>{season.players.length-1 + getMinGames(season)}</td>
+                  <td>{props.season.players.length-1 + getMinGames(props.season)}</td>
                   <td>0</td>
                   <td>0</td>
                   <td>0</td>
@@ -186,7 +177,7 @@ export default function LeagueTable(props) {
       }
 
       {
-        isEmpty(season.players) &&
+        isEmpty(props.season.players) &&
           <p>No players have entered the season</p>
       }
     </div>

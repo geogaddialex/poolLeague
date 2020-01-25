@@ -9,7 +9,7 @@ module.exports = function( passport ){
   router.get( '/user', function( req, res ){
 
     if( !req.user ){
-      return res.status( 404 ).json({ message: "no user"})
+      return res.status( 404 ).json({})
     }
 
     res.status( 200 ).json(req.user);
@@ -44,7 +44,6 @@ module.exports = function( passport ){
       }
 
       if( !user ){
-        
         return res.status(401).json({
           err: info
         });
@@ -53,15 +52,12 @@ module.exports = function( passport ){
       req.logIn( user, function( err ){
 
         if( err ){
-
           return res.status( 500 ).json({
             err: 'Could not log in user'
           });
-
         }
 
-        const token = jwt.sign(user.toJSON(), 'your_jwt_secret');
-        res.status( 200 ).json({ user: token });
+        res.status( 200 ).json(user);
       });
 
     })( req, res, next );
@@ -72,11 +68,7 @@ module.exports = function( passport ){
 
       passport.authenticate('local-signup', {session: false}, function(err, user, info) {
 
-          if ( err ){
-            return res.status(500).json({ errors: "Could not create user" });
-          }
-
-          if ( !user ){
+          if ( err || !user ){
             return res.status(500).json({ errors: "Could not create user" });
           }
 
@@ -86,9 +78,7 @@ module.exports = function( passport ){
                 return next( loginErr );
               }
 
-              const token = jwt.sign(user.toJSON(), 'your_jwt_secret');
-              console.log(token)
-              res.status( 200 ).json({ user: token });
+              res.status( 200 ).json(user);
 
           });  
 

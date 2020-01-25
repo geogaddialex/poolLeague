@@ -1,21 +1,10 @@
 import React , {useEffect, useState} from "react";
 import { Form, FormGroup, FormControl, ControlLabel, Button } from "react-bootstrap";
 import { useFormFields } from "../libs/hooksLib";
+import { isEmpty } from "../Utils"
 import "./RunTheNumbers.css";
 
 export default function RunTheNumbers(props) {
-
-  const [season, setSeason] = useState({});
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {  
-
-    if(props.season !== undefined){
-      setSeason(props.season)
-      setIsLoading(false)
-    }
-
-  }, [props.season]);
 
   const [fields, handleFieldChange] = useFormFields({
     winner: "select",
@@ -34,8 +23,6 @@ export default function RunTheNumbers(props) {
   return (
     <div className="RunTheNumbers">
 
-      {!isLoading &&
-
         <Form inline>
 
           <FormGroup controlId="winner">
@@ -46,7 +33,7 @@ export default function RunTheNumbers(props) {
             >
               <option key="0" value="select" disabled>Winner</option>
               {
-                season.players.map((user, index) => {
+                props.season.players.map((user, index) => {
                   return (
                     <option key={index+1} value={user._id}>{user.name}</option>
                   )
@@ -63,7 +50,7 @@ export default function RunTheNumbers(props) {
             >
               <option key="0" value="select" disabled>Loser</option>
               {
-                season.players.map((user, index) => {
+                props.season.players.map((user, index) => {
                   return (
                     <option key={index+1} value={user._id}>{user.name}</option>
                   )
@@ -85,7 +72,6 @@ export default function RunTheNumbers(props) {
           </FormGroup>
         
         </Form>
-      }
     </div>
   );
 }

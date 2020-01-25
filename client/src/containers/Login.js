@@ -30,10 +30,7 @@ export default function Login(props) {
 
       if(await response.ok){
 
-        response.json().then(data => {
-          var token = data.user
-        });
-        props.userHasAuthenticated(true)
+        response.json().then(json => props.setUser(json))
 
       }else{
         setIsLoading(false);

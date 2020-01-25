@@ -1,5 +1,6 @@
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
+import { isEmpty } from "../Utils"
 
 function querystring(name, url = window.location.href) {
   name = name.replace(/[[]]/g, "\\$&");
@@ -23,7 +24,7 @@ export default function UnauthenticatedRoute({ component: C, appProps, ...rest }
     <Route
       {...rest}
       render={props =>
-        !appProps.isAuthenticated
+        isEmpty(appProps.user)
           ? <C {...props} {...appProps} />
           : <Redirect
               to={redirect === "" || redirect === null ? "/" : redirect}

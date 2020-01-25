@@ -1,21 +1,10 @@
 import React , {useEffect, useState} from "react";
 import { Form, FormGroup, FormControl, ControlLabel, Button } from "react-bootstrap";
 import { useFormFields } from "../libs/hooksLib";
+import { isEmpty } from "../Utils"
 import "./AddGame.css";
 
 export default function AddGame(props) {
-
-  const [season, setSeason] = useState({});
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {  
-
-    if(props.season !== undefined){
-      setSeason(props.season)
-      setIsLoading(false)
-    }
-
-  }, [props.season]);
 
   const [fields, handleFieldChange] = useFormFields({
     winner: "select",
@@ -50,7 +39,7 @@ export default function AddGame(props) {
   return (
     <div className="AddGame">
 
-      {!isLoading &&
+      {!isEmpty(props.season) &&
 
         <Form inline onSubmit={handleSubmit}>
 
@@ -62,7 +51,7 @@ export default function AddGame(props) {
             >
               <option key="0" value="select" disabled>Winner</option>
               {
-                season.players.map((user, index) => {
+                props.season.players.map((user, index) => {
                   return (
                     <option key={index+1} value={user._id}>{user.name}</option>
                   )
@@ -79,7 +68,7 @@ export default function AddGame(props) {
             >
               <option key="0" value="select" disabled>Loser</option>
               {
-                season.players.map((user, index) => {
+                props.season.players.map((user, index) => {
                   return (
                     <option key={index+1} value={user._id}>{user.name}</option>
                   )
@@ -96,16 +85,11 @@ export default function AddGame(props) {
             >
               <option key="0" value="None">Special</option>
               <option key="1" value="Foul Win">Foul Win</option>
-              <option key="2" value="Seven Ball">Seven Ball</option>
+              <option key="2" value="7 Ball">7 Ball</option>
             </FormControl>
           </FormGroup>
           
-          <Button
-            type="submit"
-            disabled={!validateForm()}
-          >
-            Add
-          </Button>
+          <Button type="submit" disabled={!validateForm()}>Add</Button>
         </Form>
       }
     </div>

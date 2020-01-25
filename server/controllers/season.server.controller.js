@@ -42,16 +42,8 @@ exports.join = function( req, res ){
         } 
 
         if(!season.players.some(player => player == user._id)){
-            console.log(user._id + " not found, adding...")
-
-            console.log("season = " + season)
-
-            console.log("season.players before push = " + season.players)
-
+        
             season.players = season.players.concat([user])
-
-            console.log("season.players post push = " + season.players)
-
             season.save(function(err) {
                         
                 if (err){
@@ -64,7 +56,6 @@ exports.join = function( req, res ){
             });
 
         }else{
-            console.log(user._id + " already joined, not adding: " + JSON.stringify(season.players) )
             return res.status(400).json({ errors: "Player already joined" });
         }
         
