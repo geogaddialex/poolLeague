@@ -12,66 +12,65 @@ export default function RunTheNumbers(props) {
     special: "None"
   });
 
-  function validateForm() {
-    return (
-      fields.winner !== fields.loser &&
-      fields.winner !== "select" &&
-      fields.loser !== "select"
-    );
-  }
+  const elements = ['one', 'two', 'three', 'four', 'five'];
 
   return (
     <div className="RunTheNumbers">
 
-        <Form inline>
+        { elements.map((value, index) => {
+          return (
+            <Form inline>
 
-          <FormGroup controlId="winner">
-            <FormControl
-              componentClass="select"
-              value={fields.winner}
-              onChange={handleFieldChange}
-            >
-              <option key="0" value="select" disabled>Winner</option>
-              {
-                props.season.players.map((user, index) => {
-                  return (
-                    <option key={index+1} value={user._id}>{user.name}</option>
-                  )
-                })
-              }
-            </FormControl>
-          </FormGroup>
+              <FormGroup controlId="winner">
+                <FormControl
+                  componentClass="select"
+                  value={fields.winner}
+                  onChange={handleFieldChange}
+                >
+                  <option key="0" value="select" disabled>Winner</option>
+                  {
+                    props.season.players.map((user, index) => {
+                      return (
+                        <option key={index+1} value={user._id}>{user.name}</option>
+                      )
+                    })
+                  }
+                </FormControl>
+              </FormGroup>
 
-          <FormGroup controlId="loser">
-            <FormControl
-              componentClass="select"
-              value={fields.loser}
-              onChange={handleFieldChange}
-            >
-              <option key="0" value="select" disabled>Loser</option>
-              {
-                props.season.players.map((user, index) => {
-                  return (
-                    <option key={index+1} value={user._id}>{user.name}</option>
-                  )
-                })
-              }
-            </FormControl>
-          </FormGroup>
+              <FormGroup controlId="loser">
+                <FormControl
+                  componentClass="select"
+                  value={fields.loser}
+                  onChange={handleFieldChange}
+                >
+                  <option key="0" value="select" disabled>Loser</option>
+                  {
+                    props.season.players.map((user, index) => {
+                      return (
+                        <option key={index+1} value={user._id}>{user.name}</option>
+                      )
+                    })
+                  }
+                </FormControl>
+              </FormGroup>
 
-          <FormGroup controlId="special">
-            <FormControl
-              componentClass="select"
-              value={fields.special}
-              onChange={handleFieldChange}
-            >
-              <option key="0" value="Special">Special</option>
-              <option key="1" value="Foul Win">Foul Win</option>
-              <option key="2" value="Seven Ball">Seven Ball</option>
-            </FormControl>
-          </FormGroup>
+              <FormGroup controlId="special">
+                <FormControl
+                  componentClass="select"
+                  value={fields.special}
+                  onChange={handleFieldChange}
+                >
+                  <option key="0" value="Special">Special</option>
+                  <option key="1" value="Foul Win">Foul Win</option>
+                  <option key="2" value="Seven Ball">Seven Ball</option>
+                </FormControl>
+              </FormGroup>
+
+            </Form>
+          )
+        })}
         
-        </Form>
     </div>
   );
 }

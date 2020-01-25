@@ -41,7 +41,7 @@ export default function AddGame(props) {
 
       {!isEmpty(props.season) &&
 
-        <Form inline onSubmit={handleSubmit}>
+        <Form onSubmit={handleSubmit}>
 
           <FormGroup controlId="winner">
             <FormControl
