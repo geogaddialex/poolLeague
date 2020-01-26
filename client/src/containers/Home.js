@@ -35,33 +35,36 @@ export default function Home(props) {
 	    <div className="Home">
 
 		    { seasons.length > 0 && !isEmpty(seasons[0].players) &&
+
 	    		<>
 	    			<Row> 
-						<Col xs={10}> <LeagueTable games={props.games} season={props.seasons[0]} /> </Col>
-						<Col xs={2}> <SeasonInfo games={props.games} season={props.seasons[0]} user={props.user} /> </Col>		
+						<Col xs={9} md={10}> 
+							<Row><Col xs={12}><LeagueTable games={props.games} season={props.seasons[0]} /></Col></Row>
+							{  !isEmpty(user) && userInSeason(user) &&
+								<Row>      
+								    <Col xs={12} md={6}><AddGame games={props.games} season={props.seasons[0]} user={props.user} /></Col>
+								    <Col xs={12} md={6}><RunTheNumbers season={props.seasons[0]} /></Col>
+							    </Row>
+							}
+							{ games.length > 0 ?
+								<Row>
+									<Col xs={6} md={3}><LatestResults season={props.seasons[0]} games={props.games} /></Col>
+								    <Col xs={6} md={3}><TopFarms season={props.seasons[0]} games={props.games} /></Col>
+									<Col xs={6} md={3}><MostPlayed season={props.seasons[0]} games={props.games} /></Col>
+								    <Col xs={6} md={3}><LeastPlayed season={props.seasons[0]} games={props.games} /></Col>
+							    </Row>
+							:
+							    <h2> No games played </h2>
+							}
+						</Col>
+						<Col xs={3} md={2}>
+							<Row><Col xs={12}><SeasonInfo games={props.games} season={props.seasons[0]} user={props.user} /></Col></Row>
+							{ games.length > 0 && <Row><Col xs={12}><Streaks season={props.seasons[0]} games={props.games} /></Col></Row> }
+						</Col>		
 					</Row>
-
-				{  !isEmpty(user) && userInSeason(user) &&
-
-					<Row>      
-					    <Col xs={6}><AddGame games={props.games} season={props.seasons[0]} user={props.user} /></Col>
-					    <Col xs={6}><RunTheNumbers season={props.seasons[0]} /></Col>
-				    </Row>
-				}
-
-				{ games.length > 0 ?
-				    <Row>
-						<Col xs={6} md={3}><LatestResults season={props.seasons[0]} games={props.games} /></Col>
-					    <Col xs={6} md={3}><TopFarms season={props.seasons[0]} games={props.games} /></Col>
-						<Col xs={6} md={3}><MostPlayed season={props.seasons[0]} games={props.games} /></Col>
-					    <Col xs={6} md={3}><LeastPlayed season={props.seasons[0]} games={props.games} /></Col>
-					    <Col xs={6} md={2}><Streaks season={props.seasons[0]} games={props.games} /></Col>
-				    </Row>
-				:
-				    <h2> No games played </h2>
-				}
-			    </>
+				</>
 		    }
+
 
 		    { !seasons.length < 1 && isEmpty(seasons[0].players) &&
 		    	<>

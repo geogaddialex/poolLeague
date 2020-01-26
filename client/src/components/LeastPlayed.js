@@ -18,7 +18,7 @@ export default function LeastPlayed(props) {
     const unique = []
 
     props.games.forEach((game) => {
-      if (!unique.some(result => result.winner+result.loser == game.winner+game.loser)){
+      if (!unique.some(result => result.winner+result.loser == game.winner+game.loser || result.loser+result.winner == game.winner+game.loser)){
         unique.push(game)
       }
     })

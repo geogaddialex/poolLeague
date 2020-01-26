@@ -28,7 +28,7 @@ export default function Streaks(props) {
       }
       
       return user
-    }))
+    }).filter(player => player.streak != 0))
   }
 
   function compareStreaks(a, b) {

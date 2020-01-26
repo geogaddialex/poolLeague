@@ -12,7 +12,7 @@ export default function TopFarms(props) {
 
       getTopFarms(props.games)
 
-  }, [props.games]);
+  }, [props.games, props.season]);
 
   function getTopFarms(games){
     const unique = []
@@ -59,6 +59,7 @@ export default function TopFarms(props) {
   return (
 
     <div className="TopFarms">
+
         <Table striped bordered condensed hover>
 
           <thead>
@@ -70,7 +71,7 @@ export default function TopFarms(props) {
           </thead>
 
           <tbody>
-          {
+          { !isEmpty(props.season.players) &&
             topFarms.map((result, index) => {
               return (
                 <tr key={result.winner + result.loser}>

@@ -19,7 +19,7 @@ export default function RunTheNumbers(props) {
 
         { elements.map((value, index) => {
           return (
-            <Form inline>
+            <Form inline key={index}>
 
               <FormGroup controlId="winner">
                 <FormControl

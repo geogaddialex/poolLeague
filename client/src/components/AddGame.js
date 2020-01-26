@@ -32,7 +32,7 @@ export default function AddGame(props) {
       })
       
     } catch (e) {
-      alert(e.message);
+
     }
   }
 

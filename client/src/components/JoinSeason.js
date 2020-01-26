@@ -19,7 +19,9 @@ export default function JoinSeason({
     }).then(function(response){
 
         response.json().then(responseJson =>{
-          alert("Joined")
+         
+          //green bootstrap alert
+
         })
     })
   }

@@ -109,7 +109,7 @@ export default function LeagueTable(props) {
     <div className="LeagueTable">
 
     { !isEmpty(props.season.players) &&
-        <Table striped bordered condensed hover>
+        <Table striped bordered condensed hover responsive>
 
           <thead>
             <tr>

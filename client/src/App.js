@@ -47,17 +47,36 @@ function App(props) {
 
   useEffect(() => {
 
-    const handler = (game) =>{
+    const newGameHandler = (game) =>{
       setGames([...games, game])
     }
 
-    socket.on("NewGame", handler)
+    socket.on("NewGame", newGameHandler)
 
     return () => {
-      socket.off("NewGame", handler)
+      socket.off("NewGame", newGameHandler)
     }
 
   }, [games])
+
+  useEffect(() => {
+
+    const newPlayerHandler = (updatedSeason) =>{
+      var index = seasons.findIndex(season => season._id == updatedSeason._id)
+      seasons[index] = updatedSeason
+      var newSeasons = seasons.map(season => {
+        return season._id == updatedSeason._id ? updatedSeason : season
+      })
+      setSeasons(newSeasons)
+    }
+
+    socket.on("NewPlayer", newPlayerHandler)
+
+    return () => {
+      socket.off("NewPlayer", newPlayerHandler)
+    }
+
+  }, [seasons])
 
   async function loadUser() {
     setLoadingUser(true)
