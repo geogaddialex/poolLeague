@@ -6,31 +6,46 @@ import "./LeagueTable.css";
 export default function LeagueTable(props) {
 
   function countWins(user){
-    return props.games.filter(x => x.winner === user._id).length
+    const realWins = props.games.filter(x => x.winner === user._id).length
+    const rtnWins = props.runTheNumbers.filter(x => x.winner === user._id).length
+    return realWins + rtnWins
   }
 
   function countLosses(user){
-    return props.games.filter(x => x.loser === user._id).length
+    const realLosses = props.games.filter(x => x.loser === user._id).length
+    const rtnLosses = props.runTheNumbers.filter(x => x.loser === user._id).length
+    return realLosses + rtnLosses
   }
 
   function countPlayed(user){
-    return props.games.filter(x => x.winner === user._id || x.loser === user._id).length
+    const realPlayed = props.games.filter(x => x.winner === user._id || x.loser === user._id).length
+    const rtnPlayed = props.runTheNumbers.filter(x => x.winner === user._id || x.loser === user._id).length
+    return realPlayed + rtnPlayed
   }
 
   function countSevenBallsFor(user){
-    return props.games.filter(game => game.winner === user._id && game.special === "7 Ball").length
+    const realSevenBallsFor = props.games.filter(game => game.winner === user._id && game.special === "7 Ball").length
+    const rtnSevenBallsFor = props.runTheNumbers.filter(game => game.winner === user._id && game.special === "7 Ball").length
+    return realSevenBallsFor + rtnSevenBallsFor
   }
 
   function countSevenBallsAgainst(user){
-    return props.games.filter(x => x.loser === user._id && x.special === "7 Ball").length
+    const realSevenBallsAgainst = props.games.filter(game => game.loser === user._id && game.special === "7 Ball").length
+    const rtnSevenBallsAgainst = props.runTheNumbers.filter(game => game.loser === user._id && game.special === "7 Ball").length
+    return realSevenBallsAgainst + rtnSevenBallsAgainst
   }
 
   function countFoulsFor(user){
-    return props.games.filter(x => x.winner === user._id && x.special === "Foul Win").length
+    const realFoulsFor = props.games.filter(x => x.winner === user._id && x.special === "Foul Win").length
+    const rtnFoulsFor = props.runTheNumbers.filter(x => x.winner === user._id && x.special === "Foul Win").length
+    return realFoulsFor + rtnFoulsFor
   }
 
   function countFoulsAgainst(user){
-    return props.games.filter(x => x.loser === user._id && x.special === "Foul Win").length
+    const realFoulsAgainst = props.games.filter(x => x.loser === user._id && x.special === "Foul Win").length
+    const rtnFoulsAgainst = props.runTheNumbers.filter(x => x.loser === user._id && x.special === "Foul Win").length
+
+    return realFoulsAgainst + rtnFoulsAgainst
   }
 
   function calculatePoints(user){

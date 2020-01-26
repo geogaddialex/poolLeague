@@ -6,11 +6,31 @@ import "./RunTheNumbers.css";
 
 export default function RunTheNumbers(props) {
 
-  const [fields, handleFieldChange] = useFormFields({
+  const [fields, handleFieldChange] = useFormFields([{
     winner: "select",
     loser: "select",
     special: "None"
-  });
+  },
+  {
+    winner: "select",
+    loser: "select",
+    special: "None"
+  },
+  {
+    winner: "select",
+    loser: "select",
+    special: "None"
+  },
+  {
+    winner: "select",
+    loser: "select",
+    special: "None"
+  },
+  {
+    winner: "select",
+    loser: "select",
+    special: "None"
+  }]);
 
   const elements = ['one', 'two', 'three', 'four', 'five'];
 
@@ -24,7 +44,7 @@ export default function RunTheNumbers(props) {
               <FormGroup controlId="winner">
                 <FormControl
                   componentClass="select"
-                  value={fields.winner}
+                  value={fields[index].winner}
                   onChange={handleFieldChange}
                 >
                   <option key="0" value="select" disabled>Winner</option>
@@ -41,7 +61,7 @@ export default function RunTheNumbers(props) {
               <FormGroup controlId="loser">
                 <FormControl
                   componentClass="select"
-                  value={fields.loser}
+                  value={fields[index].loser}
                   onChange={handleFieldChange}
                 >
                   <option key="0" value="select" disabled>Loser</option>
@@ -58,7 +78,7 @@ export default function RunTheNumbers(props) {
               <FormGroup controlId="special">
                 <FormControl
                   componentClass="select"
-                  value={fields.special}
+                  value={fields[index].special}
                   onChange={handleFieldChange}
                 >
                   <option key="0" value="Special">Special</option>

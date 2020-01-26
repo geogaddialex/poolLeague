@@ -28,7 +28,7 @@ export default function Home(props) {
 
 
 	function userInSeason(){
-		return props.seasons[0].players.some(player => player._id == user._id)
+		return props.seasons[0].players.some(player => player._id == props.user._id)
 	}
 
   	return (
@@ -39,14 +39,14 @@ export default function Home(props) {
 	    		<>
 	    			<Row> 
 						<Col xs={9} md={10}> 
-							<Row><Col xs={12}><LeagueTable games={props.games} season={props.seasons[0]} /></Col></Row>
-							{  !isEmpty(user) && userInSeason(user) &&
+							<Row><Col xs={12}><LeagueTable games={props.games} season={props.seasons[0]} runTheNumbers={props.runTheNumbers} /></Col></Row>
+							{  !isEmpty(props.user) && userInSeason(props.user) &&
 								<Row>      
 								    <Col xs={12} md={6}><AddGame games={props.games} season={props.seasons[0]} user={props.user} /></Col>
-								    <Col xs={12} md={6}><RunTheNumbers season={props.seasons[0]} /></Col>
+								    <Col xs={12} md={6}><RunTheNumbers season={props.seasons[0]} runTheNumbers={props.runTheNumbers} setRunTheNumbers={props.setRunTheNumbers} /></Col>
 							    </Row>
 							}
-							{ games.length > 0 ?
+							{ props.games.length > 0 ?
 								<Row>
 									<Col xs={6} md={3}><LatestResults season={props.seasons[0]} games={props.games} /></Col>
 								    <Col xs={6} md={3}><TopFarms season={props.seasons[0]} games={props.games} /></Col>
@@ -59,7 +59,7 @@ export default function Home(props) {
 						</Col>
 						<Col xs={3} md={2}>
 							<Row><Col xs={12}><SeasonInfo games={props.games} season={props.seasons[0]} user={props.user} /></Col></Row>
-							{ games.length > 0 && <Row><Col xs={12}><Streaks season={props.seasons[0]} games={props.games} /></Col></Row> }
+							{ props.games.length > 0 && <Row><Col xs={12}><Streaks season={props.seasons[0]} games={props.games} /></Col></Row> }
 						</Col>		
 					</Row>
 				</>
