@@ -26,7 +26,6 @@ export default function Home(props) {
 
 	});
 
-
 	function userInSeason(){
 		return props.seasons[0].players.some(player => player._id == props.user._id)
 	}

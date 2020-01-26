@@ -110,13 +110,13 @@ export default function LeagueTable(props) {
     return calculateTNSR(b) - calculateTNSR(a);
   }
 
-  function compareTNSRthenLosses(a, b) {
+  function compareTNSRthenWinsToFirst(a, b) {
 
     if (calculateTNSR(a) > calculateTNSR(b)) return -1;
     if (calculateTNSR(a) < calculateTNSR(b)) return 1;
 
-    if (countLosses(a) > countLosses(b)) return 1;
-    if (countLosses(a) < countLosses(b)) return -1;
+    if (calculateWinsToFirst(a) > calculateWinsToFirst(b)) return 1;
+    if (calculateWinsToFirst(a) < calculateWinsToFirst(b)) return -1;
   }
 
   return (
@@ -146,7 +146,7 @@ export default function LeagueTable(props) {
           <tbody>
 
           { props.games.length > 0 &&
-            props.season.players.sort(compareTNSRthenLosses).map((user, index) => {
+            props.season.players.sort(compareTNSRthenWinsToFirst).map((user, index) => {
               return (
                 <tr key={index}>
                   <td>{index+1}</td>
@@ -167,7 +167,7 @@ export default function LeagueTable(props) {
           }
 
           { props.games.length == 0 &&
-            props.season.players.sort(compareTNSRthenLosses).map((user, index) => {
+            props.season.players.map((user, index) => {
               return (
                 <tr key={index}>
                   <td>{index+1}</td>

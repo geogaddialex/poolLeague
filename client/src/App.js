@@ -50,7 +50,7 @@ function App(props) {
   useEffect(() => {
 
     const newGameHandler = (game) =>{
-      setGames([...games, game])
+      setGames([...games, game].sort(compareCreatedAt))
     }
 
     socket.on("NewGame", newGameHandler)
@@ -129,6 +129,10 @@ function App(props) {
       }
 
     })
+  }
+
+  function compareCreatedAt(a,b){
+    return b.createdAt > a.createdAt;
   }
 
   return (

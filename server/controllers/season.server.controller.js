@@ -32,7 +32,10 @@ exports.join = function( req, res ){
     let user = req.body.user
     let season = req.body.season
 
-    Season.findOne({ '_id': season._id }).exec( function( err, season ){
+    Season.findOne({ '_id': season._id }).populate({ 
+        path: 'players'
+    }).exec( function( err, season ){
+
         if( err ){  
             return res.status(500).json({ errors: "Could not retrieve season" });
         }
@@ -44,6 +47,7 @@ exports.join = function( req, res ){
         if(!season.players.some(player => player == user._id)){
         
             season.players = season.players.concat([user])
+
             season.save(function(err) {
                         
                 if (err){
@@ -51,7 +55,11 @@ exports.join = function( req, res ){
                     console.log("error: " + err)
                     return res.status(500).json({ errors: "Could not add player to season" });
                 }
-                    
+
+                var socketio = req.app.get('socketio');
+
+                console.log("season = " + JSON.stringify(season))
+                socketio.sockets.emit("NewPlayer", season);
                 return res.status(200).json(season);
             });
 
