@@ -1,15 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Table } from "react-bootstrap";
-import { getMinGames, isEmpty } from "../Utils";
+import { getMinGames, isEmpty, formatDate } from "../Utils";
 import JoinSeason from "../components/JoinSeason";
 import "./SeasonInfo.css";
 
 export default function SeasonInfo(props) {
-
-  function formatDate(dateString){
-    var date = new Date(dateString)
-    return date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear()
-  }
 
   function userInSeason(){
     return props.season.players.some(player => player._id == props.user._id)

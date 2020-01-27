@@ -58,7 +58,7 @@ exports.join = function( req, res ){
 
                 var socketio = req.app.get('socketio');
 
-                console.log("season = " + JSON.stringify(season))
+                // console.log("season = " + season)
                 socketio.sockets.emit("NewPlayer", season);
                 return res.status(200).json(season);
             });

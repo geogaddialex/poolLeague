@@ -14,17 +14,8 @@ import { isEmpty } from "../Utils";
 import "./Home.css";
 
 export default function Home(props) {
-  	const [games, setGames] = useState([]);
-  	const [seasons, setSeasons] = useState([]);
-  	const [user, setUser] = useState({});
 
-	useEffect(() => {
-
-		setUser(props.user)
-		setGames(props.games)
-		setSeasons(props.seasons)
-
-	});
+	const numberOfResults = 10;
 
 	function userInSeason(){
 		return props.seasons[0].players.some(player => player._id == props.user._id)
@@ -33,11 +24,11 @@ export default function Home(props) {
   	return (
 	    <div className="Home">
 
-		    { seasons.length > 0 && !isEmpty(seasons[0].players) &&
+		    { props.seasons.length > 0 && !isEmpty(props.seasons[0].players) &&
 
 	    		<>
 	    			<Row> 
-						<Col xs={9} md={10}> 
+						<Col xs={12} sm={9}> 
 							<Row><Col xs={12}><LeagueTable games={props.games} season={props.seasons[0]} runTheNumbers={props.runTheNumbers} /></Col></Row>
 							{  !isEmpty(props.user) && userInSeason(props.user) &&
 								<Row>      
@@ -47,32 +38,36 @@ export default function Home(props) {
 							}
 							{ props.games.length > 0 ?
 								<Row>
-									<Col xs={6} md={3}><LatestResults season={props.seasons[0]} games={props.games} /></Col>
-								    <Col xs={6} md={3}><TopFarms season={props.seasons[0]} games={props.games} /></Col>
-									<Col xs={6} md={3}><MostPlayed season={props.seasons[0]} games={props.games} /></Col>
-								    <Col xs={6} md={3}><LeastPlayed season={props.seasons[0]} games={props.games} /></Col>
+									<Col xs={12}><LatestResults limit={50} season={props.seasons[0]} games={props.games} /></Col>
+								   
 							    </Row>
 							:
 							    <h2> No games played </h2>
 							}
 						</Col>
-						<Col xs={3} md={2}>
+						<Col xs={12} sm={3}>
 							<Row><Col xs={12}><SeasonInfo games={props.games} season={props.seasons[0]} user={props.user} /></Col></Row>
-							{ props.games.length > 0 && <Row><Col xs={12}><Streaks season={props.seasons[0]} games={props.games} /></Col></Row> }
+							{ props.games.length > 0 && 
+								<Row>
+									<Col xs={12}><Streaks season={props.seasons[0]} games={props.games} /></Col>
+									<Col xs={12}><TopFarms limit={numberOfResults} season={props.seasons[0]} games={props.games} /></Col>
+									<Col xs={12}><MostPlayed limit={numberOfResults} season={props.seasons[0]} games={props.games} /></Col>
+								    <Col xs={12}><LeastPlayed limit={numberOfResults} season={props.seasons[0]} games={props.games} /></Col>
+								</Row> 
+							}
 						</Col>		
 					</Row>
 				</>
 		    }
 
-
-		    { !seasons.length < 1 && isEmpty(seasons[0].players) &&
+		    { !props.seasons.length < 1 && isEmpty(props.seasons[0].players) &&
 		    	<>
 			    	<h2>No players have entered the season, be the first!</h2>
 			    	<SeasonInfo games={props.games} season={props.seasons[0]} user={props.user} />
 		    	</>
 		    }
 
-		    { seasons.length < 1 &&
+		    { props.seasons.length < 1 &&
 		    	<>
 			    	<h2>No seasons exist!</h2>
 			    	<AddSeason />

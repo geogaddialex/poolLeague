@@ -5,52 +5,42 @@ import "./LeastPlayed.css";
 
 export default function LeastPlayed(props) {
   
-  const numberOfResults = 5;
-  const [leastPlayed, setLeastPlayed] = useState({});
-
-  useEffect(() => {  
-
-      getLeastPlayed(props.games)
-
-  }, [props.games]);
-
-  function getLeastPlayed(games){
+  function getLeastPlayed(){
     const unique = []
 
-    props.games.forEach((game) => {
-      if (!unique.some(result => result.winner+result.loser == game.winner+game.loser || result.loser+result.winner == game.winner+game.loser)){
-        unique.push(game)
-      }
+    props.season.players.forEach(playerOne =>{
+      props.season.players.forEach(playerTwo =>{
+        if ( playerOne._id !== playerTwo._id && !unique.some(combo => playerOne._id+playerTwo._id == combo.playerOne._id+combo.playerTwo._id || playerTwo._id+playerOne._id == combo.playerOne._id+combo.playerTwo._id)){
+            
+          var newCombo = {playerOne: playerOne, playerTwo: playerTwo}
+          unique.push(newCombo)
+        }
+      })
     })
 
     const count = unique.map( x =>{
       x.count = countOccurences(x) 
       return x
-    }).sort(compareOccurences)
+    })
     
-    setLeastPlayed(count)
+    return count
   }
 
   function countOccurences(unique){
     let count = 0
 
     props.games.forEach(x =>{
-      if( x.winner == unique.winner && x.loser == unique.loser ){
+      if( x.winner._id == unique.playerOne._id && x.loser._id == unique.playerTwo._id ){
         count ++
-      }else if( x.winner == unique.loser && x.loser == unique.winner ){
+      }else if( x.winner._id == unique.playerTwo._id && x.loser._id == unique.playerOne._id ){
         count ++
       }
     })
-
     return count
   }
 
   function compareOccurences(a, b) {
     return a.count - b.count
-  }
-
-  function getName(userId){
-    return props.season.players.find(x => x._id == userId).name
   }
 
   return (
@@ -66,12 +56,14 @@ export default function LeastPlayed(props) {
           </thead>
 
           <tbody>
-          { leastPlayed.length > 0 &&
-            leastPlayed.slice(0, numberOfResults).map((result, index) => {
+          { getLeastPlayed()
+            .sort(compareOccurences)
+            .slice(0, props.limit)
+            .map((combo, index) => {
               return (
-                <tr key={result.winner + result.loser}>
-                  <td>{getName(result.winner)} - {getName(result.loser)}</td>
-                  <td>{result.count}</td>
+                <tr key={combo.playerOne._id + combo.playerTwo._id}>
+                  <td>{combo.playerOne.name} - {combo.playerTwo.name}</td>
+                  <td>{combo.count}</td>
                 </tr>
               )
             })

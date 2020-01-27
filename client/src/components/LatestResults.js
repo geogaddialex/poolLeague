@@ -1,52 +1,49 @@
 import React, { useState, useEffect } from "react";
 import { Table } from "react-bootstrap";
-import { isEmpty } from "../Utils"
+import { isEmpty, formatDateAndTime } from "../Utils"
 import "./LatestResults.css";
 
 export default function LatestResults(props) {
 
-  const numberOfResults = 5;
-
-  function getName(userId){
-    return props.season.players.find(user => user._id == userId).name
-  }
-
   function compareCreatedAt(a,b){
-    return b.createdAt > a.createdAt;
+    return new Date(b.createdAt) - new Date(a.createdAt);
   }
 
   return (
 
     <div className="LatestResults">
+      <Table striped bordered condensed hover>
 
-      {!isEmpty(props.season.players) && 
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Winner</th>
+            <th>Loser</th>
+            <th>Special</th>
+            <th>Excuses</th>
+          </tr>
+        </thead>
 
-        <Table striped bordered condensed hover>
-
-          <thead>
-            <tr>
-              <th>Winner</th>
-              <th>Loser</th>
-              <th>Special</th>
-            </tr>
-          </thead>
-
-          <tbody>
-          {
-            props.games.sort(compareCreatedAt).slice(0, numberOfResults).map((result, index) => {
-              return (
-                <tr key={result.winner + result.loser + result.createdAt}>
-                  <td>{getName(result.winner)}</td>
-                  <td>{getName(result.loser)}</td>
-                  <td>{result.special}</td>
-                </tr>
-              )
-            })
-          }
-          </tbody>
-        
-        </Table>
-      }
+        <tbody>
+        {
+          props.games
+          .sort(compareCreatedAt)
+          .slice(0, props.limit)
+          .map((result, index) => {
+            return (
+              <tr key={result.winner._id + result.loser._id + result.createdAt}>
+                <td>{formatDateAndTime(result.createdAt)}</td>
+                <td>{result.winner.name}</td>
+                <td>{result.loser.name}</td>
+                <td>{result.special}</td>
+                <td>{result.excuses}</td>
+              </tr>
+            )
+          })
+        }
+        </tbody>
+      
+      </Table>
     </div>
 
   );

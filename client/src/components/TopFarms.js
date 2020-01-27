@@ -5,20 +5,19 @@ import "./TopFarms.css";
 
 export default function TopFarms(props) {
 
-  const numberOfResults = 5;
   const [topFarms, setTopFarms] = useState([]);
 
   useEffect(() => {  
 
       getTopFarms(props.games)
 
-  }, [props.games, props.season]);
+  }, [props.games]);
 
   function getTopFarms(games){
     const unique = []
 
     props.games.forEach((game) => {
-      if (!unique.some(result => result.winner+result.loser == game.winner+game.loser)){
+      if (!unique.some(result => result.winner._id+result.loser._id == game.winner._id+game.loser._id)){
         unique.push(game)
       }
     })
@@ -27,8 +26,6 @@ export default function TopFarms(props) {
       result.count = countOccurences(result) 
       return result
     }).filter( result => result.count > 0)
-    .sort(compareOccurences)
-    .slice(0, numberOfResults)
     
     setTopFarms(count)
   }
@@ -38,9 +35,9 @@ export default function TopFarms(props) {
     let negatives = 0
 
     props.games.forEach(game =>{
-      if( game.winner == unique.winner && game.loser == unique.loser ){
+      if( game.winner._id == unique.winner._id && game.loser._id == unique.loser._id ){
         count ++
-      }else if( game.winner == unique.loser && game.loser == unique.winner ){
+      }else if( game.winner._id == unique.loser._id && game.loser._id == unique.winner._id ){
         negatives ++
       }
     })
@@ -50,10 +47,6 @@ export default function TopFarms(props) {
 
   function compareOccurences(a, b) {
     return b.count - a.count
-  }
-
-  function getName(userId){
-    return props.season.players.find(x => x._id == userId).name
   }
 
   return (
@@ -72,15 +65,18 @@ export default function TopFarms(props) {
 
           <tbody>
           { !isEmpty(props.season.players) &&
-            topFarms.map((result, index) => {
-              return (
-                <tr key={result.winner + result.loser}>
-                  <td>{getName(result.winner)}</td>
-                  <td>{getName(result.loser)}</td>
-                  <td>{result.count}</td>
-                </tr>
-              )
-            })
+            topFarms
+              .sort(compareOccurences)
+              .slice(0, props.limit)
+              .map((result, index) => {
+                return (
+                  <tr key={result.winner._id + result.loser._id}>
+                    <td>{result.winner.name}</td>
+                    <td>{result.loser.name}</td>
+                    <td>{result.count}</td>
+                  </tr>
+                )
+              })
           }
           </tbody>
         

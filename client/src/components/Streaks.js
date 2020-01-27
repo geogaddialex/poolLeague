@@ -15,9 +15,9 @@ export default function Streaks(props) {
   function getStreaks(games, users){
     setStreaks(props.season.players.map(user => {
 
-      const sortedGames = props.games.filter(game => game.winner == user._id || game.loser == user._id).sort(sortGamesByDate).reverse()
-      const lastWin = sortedGames.findIndex( game => game.winner == user._id )
-      const lastLoss = sortedGames.findIndex( game => game.loser == user._id )
+      const sortedGames = props.games.filter(game => game.winner._id == user._id || game.loser._id == user._id).sort(sortGamesByDate).reverse()
+      const lastWin = sortedGames.findIndex( game => game.winner._id == user._id )
+      const lastLoss = sortedGames.findIndex( game => game.loser._id == user._id )
 
       if( lastWin == -1 ){
         user.streak = sortedGames.length * -1
