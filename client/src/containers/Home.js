@@ -29,29 +29,27 @@ export default function Home(props) {
 	    		<>
 	    			<Row> 
 						<Col xs={12} sm={9}> 
-							<Row><Col xs={12}><LeagueTable games={props.games} season={props.seasons[0]} runTheNumbers={props.runTheNumbers} /></Col></Row>
+							<Row><Col xs={12}><LeagueTable user={props.user} games={props.games} season={props.seasons[0]} runTheNumbers={props.runTheNumbers} /></Col></Row>
 							{  !isEmpty(props.user) && userInSeason(props.user) &&
 								<Row>      
-								    <Col xs={12} md={6}><AddGame games={props.games} season={props.seasons[0]} user={props.user} /></Col>
-								    <Col xs={12} md={6}><RunTheNumbers season={props.seasons[0]} runTheNumbers={props.runTheNumbers} setRunTheNumbers={props.setRunTheNumbers} /></Col>
+								    <Col xs={12} md={6} class="equal"><AddGame games={props.games} season={props.seasons[0]} user={props.user} /></Col>
+								    <Col xs={12} md={6} class="equal"><RunTheNumbers season={props.seasons[0]} runTheNumbers={props.runTheNumbers} setRunTheNumbers={props.setRunTheNumbers} /></Col>
 							    </Row>
 							}
-							{ props.games.length > 0 ?
+							{ props.games.length > 0 &&
 								<Row>
-									<Col xs={12}><LatestResults limit={50} season={props.seasons[0]} games={props.games} /></Col>
+									<Col xs={12}><LatestResults user={props.user} limit={50} season={props.seasons[0]} games={props.games} /></Col>
 								   
 							    </Row>
-							:
-							    <h2> No games played </h2>
 							}
 						</Col>
 						<Col xs={12} sm={3}>
 							<Row><Col xs={12}><SeasonInfo games={props.games} season={props.seasons[0]} user={props.user} /></Col></Row>
 							{ props.games.length > 0 && 
 								<Row>
-									<Col xs={12}><Streaks season={props.seasons[0]} games={props.games} /></Col>
-									<Col xs={12}><TopFarms limit={numberOfResults} season={props.seasons[0]} games={props.games} /></Col>
-									<Col xs={12}><MostPlayed limit={numberOfResults} season={props.seasons[0]} games={props.games} /></Col>
+									<Col xs={12}><Streaks user={props.user} season={props.seasons[0]} games={props.games} /></Col>
+									<Col xs={12}><TopFarms user={props.user} limit={numberOfResults} season={props.seasons[0]} games={props.games} /></Col>
+									<Col xs={12}><MostPlayed user={props.user} limit={numberOfResults} season={props.seasons[0]} games={props.games} /></Col>
 								    <Col xs={12}><LeastPlayed limit={numberOfResults} season={props.seasons[0]} games={props.games} /></Col>
 								</Row> 
 							}

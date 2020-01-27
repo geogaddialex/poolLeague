@@ -15,7 +15,7 @@ export default function SeasonInfo(props) {
     <div className="SeasonInfo">
 
         <>
-          <p>{props.season.name}</p>
+          <p><b>{props.season.name}</b></p>
           <p>Start: {formatDate(props.season.start)}</p>
           <p>End: {formatDate(props.season.end)}</p>
 

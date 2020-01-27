@@ -53,10 +53,22 @@ function App(props) {
       setGames([...games, game].sort(compareCreatedAt))
     }
 
+    const newExcuseHandler = (updatedGame) =>{
+
+      var index = games.findIndex(game => game._id == updatedGame._id)
+      games[index] = updatedGame
+      var newGames = games.map(game => {
+        return game._id == updatedGame._id ? updatedGame : game
+      })
+      setGames(newGames)
+    }
+
     socket.on("NewGame", newGameHandler)
+    socket.on("NewExcuse", newExcuseHandler)
 
     return () => {
       socket.off("NewGame", newGameHandler)
+      socket.off("NewExcuse", newExcuseHandler)
     }
 
   }, [games])
@@ -141,7 +153,7 @@ function App(props) {
       <Navbar fluid collapseOnSelect>
         <Navbar.Header>
           <Navbar.Brand>
-            <Link to="/">Netsol Pool League</Link>
+            <Link to="/">Notsol Pool League</Link>
           </Navbar.Brand>
           <Navbar.Toggle />
         </Navbar.Header>
@@ -150,7 +162,7 @@ function App(props) {
 
             { !isEmpty(user)
               ? <>
-                  <LinkContainer to="/user">
+                  <LinkContainer to={'/user/'+user._id}>
                     <NavItem>{user.name}</NavItem>
                   </LinkContainer>
                   <LinkContainer to="/settings">

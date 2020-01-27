@@ -21,3 +21,7 @@ export function formatDateAndTime(dateString){
   var date = new Date(dateString)
   return date.getDate() + "/" + (date.getMonth() + 1) + " " + date.getHours() + ":" + date.getMinutes()
 }
+
+export function userPlayed(game, user){
+  return user._id == game.winner._id || user._id == game.loser._id
+}

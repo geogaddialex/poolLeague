@@ -6,7 +6,11 @@ var gameSchema = mongoose.Schema({
 
     winner: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     loser: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-    special: { type: String, default: "None" }
+    special: { type: String, default: "None" },
+    excuses: [{
+    	author: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    	comment: { type: String }
+    }]
 
 },
 {

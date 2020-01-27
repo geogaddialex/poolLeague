@@ -6,6 +6,9 @@ AddedBy on Game so can remove any made by malicious account
 If only one player has >1 unplayed, don't punish the others for that one game
 Bold any line concerning the user
 Colours for TNSR, wins to #1, etc
-Excuse column
 Finish run the numbers
-Click any user to see their stats
+Comment autofocus and enter to submit
+Season tabs for home and user
+Disable joining and adding games to seasons that aren't currently open
+All time stats/records pages for league and user
+All time league table

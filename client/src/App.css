@@ -1,11 +1,17 @@
 .App {
   text-align: center;
-  color:#555;
+  color:#555; 
+  margin-top: 15px;
+  font-family: "Open Sans", sans-serif !important;
 }
 
 .table{
   background-color:white;
   margin-bottom: 0;
+}
+
+td{
+  vertical-align: middle !important;
 }
 
 table th{
@@ -18,12 +24,16 @@ select{
   height: auto !important;
 }
 
-.App {
-  margin-top: 15px;
+.form-control{
+  padding: 5px !important;
 }
 
 .App .navbar-brand {
   font-weight: bold;
+}
+
+h1, h2, h3, h4, h5, h6{
+  font-family: "Open Sans", sans-serif;
 }
 
 @media (max-width: 1200px) {

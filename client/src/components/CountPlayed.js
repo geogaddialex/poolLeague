@@ -5,9 +5,14 @@ import "./CountPlayed.css";
 
 export default function CountPlayed(props) {
 
+  const myRow = {
+    backgroundColor: "#ebebf8",
+    fontWeight: "bold"
+  };
+
   function getPlayed(){
 
-    const count = props.season.players.filter(player => player._id !== props.user._id).map( player =>{
+    const count = props.season.players.filter(player => player._id !== props.player).map( player =>{
 
       let wins = 0
       let losses = 0
@@ -57,7 +62,7 @@ export default function CountPlayed(props) {
             .slice(0, props.limit)
             .map((player, index) => {
               return (
-                <tr key={player._id}>
+                <tr key={player._id} style={ player._id == props.user._id ? myRow : null} >
                   <td>{player.name}</td>
                   <td>{player.wins + player.losses}</td>
                   <td>{player.wins}</td>

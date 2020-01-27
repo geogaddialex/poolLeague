@@ -1,9 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { Table } from "react-bootstrap";
-import { isEmpty, formatDateAndTime } from "../Utils"
+import { Table, Button, Glyphicon } from "react-bootstrap";
+import { isEmpty, formatDateAndTime, userPlayed } from "../Utils"
+import Excuses from "./Excuses"
 import "./LatestResults.css";
 
 export default function LatestResults(props) {
+
+  const myRow = {
+    backgroundColor: "#ebebf8",
+    fontWeight: "bold"
+  };
 
   function compareCreatedAt(a,b){
     return new Date(b.createdAt) - new Date(a.createdAt);
@@ -29,14 +35,14 @@ export default function LatestResults(props) {
           props.games
           .sort(compareCreatedAt)
           .slice(0, props.limit)
-          .map((result, index) => {
+          .map((game, index) => {
             return (
-              <tr key={result.winner._id + result.loser._id + result.createdAt}>
-                <td>{formatDateAndTime(result.createdAt)}</td>
-                <td>{result.winner.name}</td>
-                <td>{result.loser.name}</td>
-                <td>{result.special}</td>
-                <td>{result.excuses}</td>
+              <tr key={game.winner._id + game.loser._id + game.createdAt} style={ userPlayed(game, props.user) ? myRow : null}>
+                <td>{formatDateAndTime(game.createdAt)}</td>
+                <td>{game.winner.name}</td>
+                <td>{game.loser.name}</td>
+                <td>{game.special}</td>
+                <td><Excuses game={game} user={props.user}/></td>
               </tr>
             )
           })

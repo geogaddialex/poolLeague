@@ -61,7 +61,7 @@ export default function LeastPlayed(props) {
             .slice(0, props.limit)
             .map((combo, index) => {
               return (
-                <tr key={combo.playerOne._id + combo.playerTwo._id}>
+                <tr key={combo.playerOne._id + combo.playerTwo._id} >
                   <td>{combo.playerOne.name} - {combo.playerTwo.name}</td>
                   <td>{combo.count}</td>
                 </tr>

@@ -6,6 +6,11 @@ import "./Streaks.css";
 export default function Streaks(props) {
   const [streaks, setStreaks] = useState([]);
 
+  const myRow = {
+    backgroundColor: "#ebebf8",
+    fontWeight: "bold"
+  };
+
   useEffect(() => {  
 
       getStreaks(props.games, props.season.players)
@@ -56,7 +61,7 @@ export default function Streaks(props) {
           { 
             streaks.sort(compareStreaks).map((user, index) => {
               return (
-                <tr key={user._id}>
+                <tr key={user._id} style={ user._id == props.user._id ? myRow : null}>
                   <td>{user.name}</td>
                   <td>{user.streak}</td>
                 </tr>

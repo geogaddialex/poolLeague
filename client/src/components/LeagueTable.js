@@ -119,6 +119,11 @@ export default function LeagueTable(props) {
     if (calculateWinsToFirst(a) < calculateWinsToFirst(b)) return -1;
   }
 
+  const myRow = {
+    backgroundColor: "#ebebf8",
+    fontWeight: "bold"
+  };
+
   return (
 
     <div className="LeagueTable">
@@ -148,9 +153,9 @@ export default function LeagueTable(props) {
           { props.games.length > 0 &&
             props.season.players.sort(compareTNSRthenWinsToFirst).map((user, index) => {
               return (
-                <tr key={index}>
+                <tr key={index} style={ user._id == props.user._id ? myRow : null} >
                   <td>{index+1}</td>
-                  <td>{user.name}</td>
+                  <td><b><a href={`/user/${user._id}`}>{user.name}</a></b></td>
                   <td>{countPlayed(user)}</td>
                   <td>{countWins(user)}</td>
                   <td>{countLosses(user)}</td>
@@ -169,9 +174,9 @@ export default function LeagueTable(props) {
           { props.games.length == 0 &&
             props.season.players.map((user, index) => {
               return (
-                <tr key={index}>
+                <tr key={index} style={ user._id == props.user._id ? myRow : null}>
                   <td>{index+1}</td>
-                  <td>{user.name}</td>
+                  <td><b>{user.name}</b></td>
                   <td>0</td>
                   <td>0</td>
                   <td>0</td>

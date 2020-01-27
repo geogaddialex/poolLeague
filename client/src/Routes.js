@@ -19,7 +19,7 @@ export default function Routes({ appProps }) {
       <UnauthenticatedRoute path="/signup" exact component={Signup} appProps={appProps} />
       <AuthenticatedRoute path="/settings" exact component={Settings} appProps={appProps} />
       <AuthenticatedRoute path="/admin" exact component={Admin} appProps={appProps} />
-      <AuthenticatedRoute path="/user" exact component={User} appProps={appProps} />
+      <AppliedRoute path="/user/:userId" exact component={User} appProps={appProps} />
 
       <Route component={NotFound} />
     </Switch>

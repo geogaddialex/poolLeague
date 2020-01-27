@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Table } from "react-bootstrap";
-import { isEmpty } from "../Utils"
+import { isEmpty, userPlayed } from "../Utils"
 import "./TopFarms.css";
 
 export default function TopFarms(props) {
+
+  const myRow = {
+    backgroundColor: "#ebebf8",
+    fontWeight: "bold"
+  };
 
   const [topFarms, setTopFarms] = useState([]);
 
@@ -70,7 +75,7 @@ export default function TopFarms(props) {
               .slice(0, props.limit)
               .map((result, index) => {
                 return (
-                  <tr key={result.winner._id + result.loser._id}>
+                  <tr key={result.winner._id + result.loser._id} style={ userPlayed(result, props.user) ? myRow : null}>
                     <td>{result.winner.name}</td>
                     <td>{result.loser.name}</td>
                     <td>{result.count}</td>
