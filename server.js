@@ -47,7 +47,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 var port = 5000
-var server = app.listen( port )
+var server = app.listen( process.env.PORT || port )
 var io = socketio.listen( server, { origins: '*:*' });
 app.set( 'socketio', io );
 
