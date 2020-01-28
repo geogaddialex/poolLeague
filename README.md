@@ -6,6 +6,8 @@ Finish run the numbers
 Sort domain
 Timestamp minutes should always be 2 digits
 Validation (e.g. comments shouldn't " ")
+Multiple seasons (tabs)
+Add old seasons
 
 Other:
 
