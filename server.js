@@ -29,8 +29,6 @@ app.use( session({
 app.use( passport.initialize() );
 app.use( passport.session() );
 
-app.use(express.static(path.join(__dirname, 'client/build')));
-
 var authRoutes = require( './server/routes/authentication.server.routes.js' )( passport )
 var userRoutes = require( './server/routes/user.server.routes.js' );
 var gameRoutes = require( './server/routes/game.server.routes.js' );
@@ -41,15 +39,12 @@ app.use('/api/users', userRoutes);
 app.use('/api/games', gameRoutes);
 app.use('/api/seasons', seasonRoutes);
 
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname+'/client/build/index.html'));
-});
-
-app.use(function(req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
-  next(err);
-});
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, 'client/build')));
+  app.get('*', function(req, res) {
+    res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+  });
+}
 
 var port = 5000
 var server = app.listen( port )
