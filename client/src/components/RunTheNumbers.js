@@ -36,6 +36,7 @@ export default function RunTheNumbers(props) {
 
   return (
     <div className="RunTheNumbers">
+        <p><b>Run the Numbers</b></p>
 
         { elements.map((value, index) => {
           return (

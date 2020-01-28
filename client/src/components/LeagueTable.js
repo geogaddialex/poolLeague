@@ -133,7 +133,7 @@ export default function LeagueTable(props) {
 
           <thead>
             <tr>
-              <th>Rank</th>
+              <th>#</th>
               <th>Player</th>
               <th>Played</th>
               <th>Wins</th>

@@ -4,3 +4,35 @@
   border-radius: 5px;
   padding:5px;
 }
+
+@media (max-width: 950px) {
+    .LeagueTable .table thead tr th:nth-child(3),
+	.LeagueTable .table tbody tr td:nth-child(3),
+	.LeagueTable .table thead tr th:nth-child(6),
+	.LeagueTable .table tbody tr td:nth-child(6),
+	.LeagueTable .table thead tr th:nth-child(7),
+	.LeagueTable .table tbody tr td:nth-child(7),
+	.LeagueTable .table thead tr th:nth-child(9),
+	.LeagueTable .table tbody tr td:nth-child(9)
+	{
+	  display: none;
+	} 
+}
+
+@media (max-width: 550px) {
+    .LeagueTable .table thead tr th:nth-child(3),
+	.LeagueTable .table tbody tr td:nth-child(3),
+	.LeagueTable .table thead tr th:nth-child(6),
+	.LeagueTable .table tbody tr td:nth-child(6),
+	.LeagueTable .table thead tr th:nth-child(7),
+	.LeagueTable .table tbody tr td:nth-child(7),
+	.LeagueTable .table thead tr th:nth-child(9),
+	.LeagueTable .table tbody tr td:nth-child(9),
+	.LeagueTable .table thead tr th:nth-child(11),
+	.LeagueTable .table tbody tr td:nth-child(11),
+	.LeagueTable .table thead tr th:nth-child(12),
+	.LeagueTable .table tbody tr td:nth-child(12)
+	{
+	  display: none;
+	} 
+}

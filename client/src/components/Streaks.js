@@ -47,6 +47,8 @@ export default function Streaks(props) {
   return (
 
     <div className="Streaks">
+        <p><b>Streaks</b></p>
+
       
         <Table striped bordered condensed hover>
 

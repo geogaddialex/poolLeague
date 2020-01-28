@@ -41,43 +41,44 @@ export default function AddSeason(props) {
 
   return (
     <div className="AddSeason">
+      <p><b>Create a Season</b></p>
 
-        <Form onSubmit={handleSubmit}>
+      <Form onSubmit={handleSubmit}>
 
-          <FormGroup controlId="name">
-            <ControlLabel>Name</ControlLabel>
-            <FormControl
-              placeholder="Name"
-              value={fields.name}
-              onChange={handleFieldChange}
-            />
-          </FormGroup>
+        <FormGroup controlId="name">
+          <ControlLabel>Name</ControlLabel>
+          <FormControl
+            placeholder="Name"
+            value={fields.name}
+            onChange={handleFieldChange}
+          />
+        </FormGroup>
 
-          <FormGroup controlId="start">
-            <ControlLabel>Start</ControlLabel>
-            <FormControl
-              type="date"
-              value={fields.start}
-              onChange={handleFieldChange}
-            />
-          </FormGroup>
+        <FormGroup controlId="start">
+          <ControlLabel>Start</ControlLabel>
+          <FormControl
+            type="date"
+            value={fields.start}
+            onChange={handleFieldChange}
+          />
+        </FormGroup>
 
-          <FormGroup controlId="end">
-            <ControlLabel>End</ControlLabel>
-            <FormControl
-              type="date"
-              value={fields.end}
-              onChange={handleFieldChange}
-            />
-          </FormGroup>
-          
-          <Button
-            type="submit"
-            disabled={!validateForm()}
-          >
-            Add
-          </Button>
-        </Form>
+        <FormGroup controlId="end">
+          <ControlLabel>End</ControlLabel>
+          <FormControl
+            type="date"
+            value={fields.end}
+            onChange={handleFieldChange}
+          />
+        </FormGroup>
+        
+        <Button
+          type="submit"
+          disabled={!validateForm()}
+        >
+          Add
+        </Button>
+      </Form>
       
     </div>
   );

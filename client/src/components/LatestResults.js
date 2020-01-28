@@ -18,6 +18,7 @@ export default function LatestResults(props) {
   return (
 
     <div className="LatestResults">
+      <p><b>Latest Results</b></p>
       <Table striped bordered condensed hover>
 
         <thead>

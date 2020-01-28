@@ -16,13 +16,6 @@ export default function JoinSeason({
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ season: props.season, user: props.user })
 
-    }).then(function(response){
-
-        response.json().then(responseJson =>{
-         
-          //green bootstrap alert
-
-        })
     })
   }
   

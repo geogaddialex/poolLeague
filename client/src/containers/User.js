@@ -1,19 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Row, Col } from "react-bootstrap";
-import LeagueTable from "../components/LeagueTable";
-import AddGame from "../components/AddGame";
 import LatestResults from "../components/LatestResults";
-import TopFarms from "../components/TopFarms";
 import CountPlayed from "../components/CountPlayed";
-import Streaks from "../components/Streaks";
-import SeasonInfo from "../components/SeasonInfo";
-import RunTheNumbers from "../components/RunTheNumbers";
-import AddSeason from "../components/AddSeason";
-import { isEmpty } from "../Utils";
+import AddSeason from "../components/CountPlayed";
+import { isEmpty, userInSeason } from "../Utils";
 import "./Home.css";
 
 export default function user(props) {
-
 
 	const { match: { params } } = props;
 
@@ -30,11 +23,10 @@ export default function user(props) {
   	return (
 	    <div className="User">
 
-	    <h1>{getName(params.userId)}</h1>
-
-		    { props.seasons.length > 0 && !isEmpty(props.seasons[0].players) &&
+		    { props.seasons.length > 0 && !isEmpty(props.seasons[0].players) && userInSeason(props.seasons[0], params.userId) ?
 
 	    		<>
+	    			<h1>{getName(params.userId)}</h1>
 					{ props.games.filter(x => userPlayedIn(x)).length > 0 ?
 						<Row>
 							<Col xs={12} sm={8}><LatestResults user={props.user} limit={numberOfResults} season={props.seasons[0]} games={props.games.filter(x=> userPlayedIn(x))} /></Col>
@@ -44,6 +36,11 @@ export default function user(props) {
 					    <h3> No games played </h3>
 					}
 				</>
+
+				:
+
+				<h3>This user hasn't joined the season!</h3>
+
 		    }
 
 		    { props.seasons.length < 1 &&

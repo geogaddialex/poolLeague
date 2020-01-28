@@ -38,60 +38,58 @@ export default function AddGame(props) {
 
   return (
     <div className="AddGame">
+      <p><b>Add a Game</b></p>
 
-      {!isEmpty(props.season) &&
+      <Form onSubmit={handleSubmit}>
 
-        <Form onSubmit={handleSubmit}>
+        <FormGroup controlId="winner">
+          <FormControl
+            componentClass="select"
+            value={fields.winner}
+            onChange={handleFieldChange}
+          >
+            <option key="0" value="select" disabled>Winner</option>
+            {
+              props.season.players.map((user, index) => {
+                return (
+                  <option key={index+1} value={user._id}>{user.name}</option>
+                )
+              })
+            }
+          </FormControl>
+        </FormGroup>
 
-          <FormGroup controlId="winner">
-            <FormControl
-              componentClass="select"
-              value={fields.winner}
-              onChange={handleFieldChange}
-            >
-              <option key="0" value="select" disabled>Winner</option>
-              {
-                props.season.players.map((user, index) => {
-                  return (
-                    <option key={index+1} value={user._id}>{user.name}</option>
-                  )
-                })
-              }
-            </FormControl>
-          </FormGroup>
+        <FormGroup controlId="loser">
+          <FormControl
+            componentClass="select"
+            value={fields.loser}
+            onChange={handleFieldChange}
+          >
+            <option key="0" value="select" disabled>Loser</option>
+            {
+              props.season.players.map((user, index) => {
+                return (
+                  <option key={index+1} value={user._id}>{user.name}</option>
+                )
+              })
+            }
+          </FormControl>
+        </FormGroup>
 
-          <FormGroup controlId="loser">
-            <FormControl
-              componentClass="select"
-              value={fields.loser}
-              onChange={handleFieldChange}
-            >
-              <option key="0" value="select" disabled>Loser</option>
-              {
-                props.season.players.map((user, index) => {
-                  return (
-                    <option key={index+1} value={user._id}>{user.name}</option>
-                  )
-                })
-              }
-            </FormControl>
-          </FormGroup>
-
-          <FormGroup controlId="special">
-            <FormControl
-              componentClass="select"
-              value={fields.special}
-              onChange={handleFieldChange}
-            >
-              <option key="0" value="None">Special</option>
-              <option key="1" value="Foul Win">Foul Win</option>
-              <option key="2" value="7 Ball">7 Ball</option>
-            </FormControl>
-          </FormGroup>
-          
-          <Button type="submit" disabled={!validateForm()}>Add</Button>
-        </Form>
-      }
+        <FormGroup controlId="special">
+          <FormControl
+            componentClass="select"
+            value={fields.special}
+            onChange={handleFieldChange}
+          >
+            <option key="0" value="None">Special</option>
+            <option key="1" value="Foul Win">Foul Win</option>
+            <option key="2" value="7 Ball">7 Ball</option>
+          </FormControl>
+        </FormGroup>
+        
+        <Button type="submit" disabled={!validateForm()}>Add</Button>
+      </Form>
     </div>
   );
 }

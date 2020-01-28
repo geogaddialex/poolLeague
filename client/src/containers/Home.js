@@ -60,15 +60,17 @@ export default function Home(props) {
 
 		    { !props.seasons.length < 1 && isEmpty(props.seasons[0].players) &&
 		    	<>
-			    	<h2>No players have entered the season, be the first!</h2>
+			    	<h3>No players have entered the season, be the first!</h3>
 			    	<SeasonInfo games={props.games} season={props.seasons[0]} user={props.user} />
 		    	</>
 		    }
 
 		    { props.seasons.length < 1 &&
 		    	<>
-			    	<h2>No seasons exist!</h2>
-			    	<AddSeason />
+			    	<h3>No seasons exist!</h3>
+			    	{ !isEmpty(props.user) &&
+			    		<AddSeason />
+			    	}
 		    	</>
 		    }
        	</div>

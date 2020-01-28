@@ -57,6 +57,7 @@ export default function TopFarms(props) {
   return (
 
     <div className="TopFarms">
+      <p><b>Top Farms</b></p>
 
         <Table striped bordered condensed hover>
 

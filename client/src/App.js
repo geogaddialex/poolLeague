@@ -75,6 +75,10 @@ function App(props) {
 
   useEffect(() => {
 
+    const newSeasonHandler = (season) =>{
+      setSeasons([...seasons, season].sort(compareCreatedAt))
+    }
+
     const newPlayerHandler = (updatedSeason) =>{
       var index = seasons.findIndex(season => season._id == updatedSeason._id)
       seasons[index] = updatedSeason
@@ -84,9 +88,11 @@ function App(props) {
       setSeasons(newSeasons)
     }
 
+    socket.on("NewSeason", newSeasonHandler)
     socket.on("NewPlayer", newPlayerHandler)
 
     return () => {
+      socket.off("NewSeason", newSeasonHandler)
       socket.off("NewPlayer", newPlayerHandler)
     }
 

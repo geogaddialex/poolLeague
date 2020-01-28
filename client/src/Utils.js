@@ -25,3 +25,7 @@ export function formatDateAndTime(dateString){
 export function userPlayed(game, user){
   return user._id == game.winner._id || user._id == game.loser._id
 }
+
+export function userInSeason(season, userId){
+  return season.players.findIndex(player => player._id == userId) >= 0
+}

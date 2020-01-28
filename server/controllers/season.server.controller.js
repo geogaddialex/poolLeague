@@ -22,15 +22,24 @@ exports.add = function( req, res ){
 
     var season = new Season(req.body)
     season.save(function(err, season){
-        if (err) return console.error(err);
+        if (err) return res.status(500).json({ errors: "Could not create season" });
     })
-    res.status(200).json(season)
+
+    var populatedSeason = season.populate('players').execPopulate()
+    populatedSeason.then(season => {
+        var socketio = req.app.get('socketio');
+        socketio.sockets.emit("NewSeason", season);
+        res.status(200).json(season)
+    }) 
 }
 
 exports.join = function( req, res ){
 
     let user = req.body.user
     let season = req.body.season
+
+    console.log("user = " + user)
+    console.log("season = " + season)
 
     Season.findOne({ '_id': season._id }).populate({ 
         path: 'players'
@@ -44,21 +53,17 @@ exports.join = function( req, res ){
             return res.status(404).json({ errors: "No such season" });
         } 
 
-        if(!season.players.some(player => player == user._id)){
+        if(!season.players.some(player => player._id == user._id)){
         
             season.players = season.players.concat([user])
 
             season.save(function(err) {
                         
                 if (err){
-
-                    console.log("error: " + err)
                     return res.status(500).json({ errors: "Could not add player to season" });
                 }
 
                 var socketio = req.app.get('socketio');
-
-                // console.log("season = " + season)
                 socketio.sockets.emit("NewPlayer", season);
                 return res.status(200).json(season);
             });

@@ -43,6 +43,7 @@ export default function CountPlayed(props) {
   return (
 
     <div className="CountPlayed">
+      <p><b>Opponents</b></p>
       <Table striped bordered condensed hover>
 
         <thead>
