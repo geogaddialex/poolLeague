@@ -115,8 +115,8 @@ export default function LeagueTable(props) {
     if (calculateTNSR(a) > calculateTNSR(b)) return -1;
     if (calculateTNSR(a) < calculateTNSR(b)) return 1;
 
-    if (calculateWinsToFirst(a) > calculateWinsToFirst(b)) return 1;
-    if (calculateWinsToFirst(a) < calculateWinsToFirst(b)) return -1;
+    if (countLosses(a) > countLosses(b)) return 1;
+    if (countLosses(a) < countLosses(b)) return -1;
   }
 
   const myRow = {

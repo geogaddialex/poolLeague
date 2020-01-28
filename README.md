@@ -21,3 +21,4 @@ Disable joining and adding games to seasons that aren't currently open
 All time stats/records pages for league and user
 All time league table
 Edit my comments
+
