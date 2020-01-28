@@ -51,7 +51,7 @@ app.use(function(req, res, next) {
   next(err);
 });
 
-var port = 9000
+var port = 5000
 var server = app.listen( port )
 var io = socketio.listen( server, { origins: '*:*' });
 app.set( 'socketio', io );
