@@ -15,7 +15,6 @@ var mongoose          = require( 'mongoose' )
 
 var app               = express( );
 
-app.use( express.static( 'client' ) );
 app.use( logger('dev') );
 app.use( cookieParser() ); 
 app.use( bodyParser.json() ); 
@@ -30,6 +29,8 @@ app.use( session({
 app.use( passport.initialize() );
 app.use( passport.session() );
 
+app.use(express.static(path.join(__dirname, 'client/build')));
+
 var authRoutes = require( './server/routes/authentication.server.routes.js' )( passport )
 var userRoutes = require( './server/routes/user.server.routes.js' );
 var gameRoutes = require( './server/routes/game.server.routes.js' );
@@ -40,9 +41,9 @@ app.use('/api/users', userRoutes);
 app.use('/api/games', gameRoutes);
 app.use('/api/seasons', seasonRoutes);
 
-app.get('/', function(req, res) {
-		res.sendFile( '/index.js', {root: './client/src'} );
-})
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname+'/client/build/index.html'));
+});
 
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
