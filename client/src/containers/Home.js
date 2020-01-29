@@ -15,6 +15,7 @@ import "./Home.css";
 
 export default function Home(props) {
 
+	const [runTheNumbers, setRunTheNumbers] = useState([])
 	const numberOfResults = 10;
 
 	function userInSeason(){
@@ -29,11 +30,11 @@ export default function Home(props) {
 	    		<>
 	    			<Row> 
 						<Col xs={12} sm={9}> 
-							<Row><Col xs={12}><LeagueTable user={props.user} games={props.games} season={props.seasons[0]} runTheNumbers={props.runTheNumbers} /></Col></Row>
+							<Row><Col xs={12}><LeagueTable user={props.user} games={props.games} season={props.seasons[0]} runTheNumbers={runTheNumbers} /></Col></Row>
 							{  !isEmpty(props.user) && userInSeason(props.user) &&
 								<Row>      
 								    <Col xs={12} md={6}><AddGame games={props.games} season={props.seasons[0]} user={props.user} /></Col>
-								    <Col xs={12} md={6}><RunTheNumbers season={props.seasons[0]} runTheNumbers={props.runTheNumbers} setRunTheNumbers={props.setRunTheNumbers} /></Col>
+								    <Col xs={12} md={6}><RunTheNumbers season={props.seasons[0]} runTheNumbers={runTheNumbers} setRunTheNumbers={setRunTheNumbers} /></Col>
 							    </Row>
 							}
 							{ props.games.length > 0 &&

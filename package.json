@@ -1,6 +1,6 @@
 {
   "name": "pool",
-  "description": "Netsol Pool League",
+  "description": "Pool League",
   "main": "server.js",
   "engines": {
     "node": "~8.9.1",

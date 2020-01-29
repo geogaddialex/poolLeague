@@ -23,8 +23,6 @@ function App(props) {
   const [loadedSeasons, setLoadedSeasons] = useState(false)
   const [loadingSeasons, setLoadingSeasons] = useState(false)
 
-  const [runTheNumbers, setRunTheNumbers] = useState([])
-
   const socket = io("ws://localhost:9000", {transports: ['websocket']})
 
   useEffect(() => {
@@ -159,7 +157,7 @@ function App(props) {
       <Navbar fluid collapseOnSelect>
         <Navbar.Header>
           <Navbar.Brand>
-            <Link to="/">Notsol Pool League</Link>
+            <Link to="/">Pool League</Link>
           </Navbar.Brand>
           <Navbar.Toggle />
         </Navbar.Header>
@@ -197,7 +195,7 @@ function App(props) {
         </Navbar.Collapse>
       </Navbar>
 
-      <Routes appProps={{ user, games, seasons, setUser, runTheNumbers, setRunTheNumbers }} />
+      <Routes appProps={{ user, games, seasons, setUser }} />
 
     </div>
   );
