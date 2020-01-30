@@ -13,7 +13,7 @@ export default function Excuses(props) {
 
   function validateForm() {
     return (
-      fields.comment.length > 0
+      fields.comment.length > 0 && fields.comment.length < 40 && fields.comment.match(/(.|\s)*\S(.|\s)*/g)
     );
   }
 

@@ -15,7 +15,32 @@ import "./Home.css";
 
 export default function Home(props) {
 
-	const [runTheNumbers, setRunTheNumbers] = useState([])
+	const [runTheNumbers, setRunTheNumbers] = useState([{
+	      winner: "select",
+	      loser: "select",
+	      special: "None"
+	    },
+	    {
+	      winner: "select",
+	      loser: "select",
+	      special: "None"
+	    },
+	    {
+	      winner: "select",
+	      loser: "select",
+	      special: "None"
+	    },
+	    {
+	      winner: "select",
+	      loser: "select",
+	      special: "None"
+	    },
+	    {
+	      winner: "select",
+	      loser: "select",
+	      special: "None"
+	    }
+    ])
 	const numberOfResults = 10;
 
 	function userInSeason(){

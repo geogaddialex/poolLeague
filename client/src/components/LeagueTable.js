@@ -7,43 +7,43 @@ export default function LeagueTable(props) {
 
   function countWins(user){
     const realWins = props.games.filter(x => x.winner._id === user._id).length
-    const rtnWins = props.runTheNumbers.filter(x => x.winner._id === user._id).length
+    const rtnWins = props.runTheNumbers.filter(x => x.winner === user._id).length
     return realWins + rtnWins
   }
 
   function countLosses(user){
     const realLosses = props.games.filter(x => x.loser._id === user._id).length
-    const rtnLosses = props.runTheNumbers.filter(x => x.loser._id === user._id).length
+    const rtnLosses = props.runTheNumbers.filter(x => x.loser === user._id).length
     return realLosses + rtnLosses
   }
 
   function countPlayed(user){
     const realPlayed = props.games.filter(x => x.winner._id === user._id || x.loser._id === user._id).length
-    const rtnPlayed = props.runTheNumbers.filter(x => x.winner._id === user._id || x.loser._id === user._id).length
+    const rtnPlayed = props.runTheNumbers.filter(x => x.winner === user._id || x.loser === user._id).length
     return realPlayed + rtnPlayed
   }
 
   function countSevenBallsFor(user){
     const realSevenBallsFor = props.games.filter(game => game.winner._id === user._id && game.special === "7 Ball").length
-    const rtnSevenBallsFor = props.runTheNumbers.filter(game => game.winner._id === user._id && game.special === "7 Ball").length
+    const rtnSevenBallsFor = props.runTheNumbers.filter(game => game.winner === user._id && game.special === "7 Ball").length
     return realSevenBallsFor + rtnSevenBallsFor
   }
 
   function countSevenBallsAgainst(user){
     const realSevenBallsAgainst = props.games.filter(game => game.loser._id === user._id && game.special === "7 Ball").length
-    const rtnSevenBallsAgainst = props.runTheNumbers.filter(game => game.loser._id === user._id && game.special === "7 Ball").length
+    const rtnSevenBallsAgainst = props.runTheNumbers.filter(game => game.loser === user._id && game.special === "7 Ball").length
     return realSevenBallsAgainst + rtnSevenBallsAgainst
   }
 
   function countFoulsFor(user){
     const realFoulsFor = props.games.filter(x => x.winner._id === user._id && x.special === "Foul Win").length
-    const rtnFoulsFor = props.runTheNumbers.filter(x => x.winner._id === user._id && x.special === "Foul Win").length
+    const rtnFoulsFor = props.runTheNumbers.filter(x => x.winner === user._id && x.special === "Foul Win").length
     return realFoulsFor + rtnFoulsFor
   }
 
   function countFoulsAgainst(user){
     const realFoulsAgainst = props.games.filter(x => x.loser._id === user._id && x.special === "Foul Win").length
-    const rtnFoulsAgainst = props.runTheNumbers.filter(x => x.loser._id === user._id && x.special === "Foul Win").length
+    const rtnFoulsAgainst = props.runTheNumbers.filter(x => x.loser === user._id && x.special === "Foul Win").length
 
     return realFoulsAgainst + rtnFoulsAgainst
   }
@@ -72,6 +72,17 @@ export default function LeagueTable(props) {
       }
     })
 
+    getRTNForUser(user).forEach(game=>{
+
+      if(game.winner !== "select" && game.loser !== "select"){
+        if(game.winner == user._id && !unique.some(opponent => (opponent._id == game.loser || opponent == game.loser) )){
+          unique.push(game.loser)
+        }else if(game.loser == user._id && !unique.some(opponent => (opponent._id == game.winner || opponent._id == game.loser) ) ){
+          unique.push(game.winner)
+        }
+      }
+    })
+
     return props.season.players.length - unique.length - 1
   }
 
@@ -81,6 +92,10 @@ export default function LeagueTable(props) {
 
   function getGamesForUser(user){
     return props.games.filter(game => game.winner._id == user._id || game.loser._id == user._id)
+  }
+
+  function getRTNForUser(user){
+    return props.runTheNumbers.filter(game => game.winner == user._id || game.loser == user._id)
   }
 
   function calculateWinsToFirst(user){

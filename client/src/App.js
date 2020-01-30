@@ -23,7 +23,7 @@ function App(props) {
   const [loadedSeasons, setLoadedSeasons] = useState(false)
   const [loadingSeasons, setLoadingSeasons] = useState(false)
 
-  const socket = io("ws://localhost:9000", {transports: ['websocket']})
+  const socket = io("ws://localhost:5000", {transports: ['websocket']})
 
   useEffect(() => {
 
@@ -95,6 +95,26 @@ function App(props) {
     }
 
   }, [seasons])
+
+
+  // useEffect(() => {
+
+  //   const updatedUserHandler = (updatedUser) =>{
+  //     var index = props.users.findIndex(user => user._id == updatedUser._id)
+  //     user[index] = updatedUser
+  //     var newUsers = props.users.map(user => {
+  //       return user._id == updatedUser._id ? updatedUser : user
+  //     })
+  //     props.setUsers(newUsers)
+  //   }
+
+  //   socket.on("UpdatedUser", updatedUserHandler)
+
+  //   return () => {
+  //     socket.off("UpdatedUser", updatedUserHandler)
+  //   }
+
+  // }, [props.users])
 
   async function loadUser() {
     setLoadingUser(true)

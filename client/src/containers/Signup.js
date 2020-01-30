@@ -15,6 +15,7 @@ export default function Signup(props) {
   function validateForm() {
     return (
       fields.name.length > 0 &&
+      fields.name.match(/(.|\s)*\S(.|\s)*/g) &&
       fields.password.length > 0 &&
       fields.password === fields.confirmPassword
     );

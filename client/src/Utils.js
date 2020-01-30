@@ -19,7 +19,7 @@ export function formatDate(dateString){
 
 export function formatDateAndTime(dateString){
   var date = new Date(dateString)
-  return date.getDate() + "/" + (date.getMonth() + 1) + " " + date.getHours() + ":" + date.getMinutes()
+  return date.getDate() + "/" + (date.getMonth() + 1) + " " + ('0'+date.getHours()).slice(-2) + ":" + ('0'+date.getMinutes()).slice(-2);
 }
 
 export function userPlayed(game, user){

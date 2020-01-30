@@ -7,56 +7,70 @@ import "./RunTheNumbers.css";
 export default function RunTheNumbers(props) {
 
 
-  function updateRTN(index, newValue){
-    const updatedArray = [...props.RunTheNumbers];
-    updatedArray[index] = newValue;
-    props.setRunTheNumbers(updatedArray)
+  function updateRTN(index, e){
+
+    const newValue = e.target.value
+    const field = e.target.id
+
+    const newArray = props.runTheNumbers.map((game, rtnIndex)=>{
+      if(index == rtnIndex){
+
+        switch(field) {
+          case "winner":
+            game.winner = newValue
+            break;
+          case "loser":
+            game.loser = newValue
+            break;
+          case "special":
+            game.special = newValue
+            break;
+        }
+      }
+      return game
+    })
+    props.setRunTheNumbers(newArray)
   }
 
-{/*
-There are at least a couple of ways to send the index into your function. Here’s one
-  {this.props.inputs.map((input, index) => <input type = "text" key={input}  placeholder='Enter something here' onChange={e => this.props.onChange(index, e.target.value)}/>)}
-https://www.freecodecamp.org/forum/t/reactjs-updating-an-array-with-multiple-dynamic-form-fields/191309/5
-*/}
-
-  const [fields, handleFieldChange] = useFormFields([
-  {
-    winner: "select",
-    loser: "select",
-    special: "None"
-  },
-  {
-    winner: "select",
-    loser: "select",
-    special: "None"
-  },
-  {
-    winner: "select",
-    loser: "select",
-    special: "None"
-  },
-  {
-    winner: "select",
-    loser: "select",
-    special: "None"
-  },
-  {
-    winner: "select",
-    loser: "select",
-    special: "None"
+  function reset(){
+    props.setRunTheNumbers([{
+        winner: "select",
+        loser: "select",
+        special: "None"
+      },
+      {
+        winner: "select",
+        loser: "select",
+        special: "None"
+      },
+      {
+        winner: "select",
+        loser: "select",
+        special: "None"
+      },
+      {
+        winner: "select",
+        loser: "select",
+        special: "None"
+      },
+      {
+        winner: "select",
+        loser: "select",
+        special: "None"
+      }
+    ])
   }
-  ]);
 
   return (
     <div className="RunTheNumbers">
         <p><b>Run the Numbers</b></p>
 
-        { [1, 2, 3, 4, 5].map((number, index) => { return (
+        { props.runTheNumbers.map((game, index) => { return (
 
             <Form inline key={index}>
 
               <FormGroup controlId="winner">
-                <FormControl componentClass="select" value={fields[index].winner} onChange={updateRTN}>
+                <FormControl componentClass="select" value={game.winner} onChange={(e) => updateRTN(index,e)}>
                   <option key="0" value="select" disabled>Winner</option>
                   {
                     props.season.players.map((user, index) => {
@@ -69,7 +83,7 @@ https://www.freecodecamp.org/forum/t/reactjs-updating-an-array-with-multiple-dyn
               </FormGroup>
 
               <FormGroup controlId="loser">
-                <FormControl componentClass="select" value={fields[index].loser} onChange={updateRTN}>
+                <FormControl componentClass="select" value={game.loser} onChange={(e) => updateRTN(index,e)}>
                   <option key="0" value="select" disabled>Loser</option>
                   {
                     props.season.players.map((user, index) => {
@@ -82,16 +96,18 @@ https://www.freecodecamp.org/forum/t/reactjs-updating-an-array-with-multiple-dyn
               </FormGroup>
 
               <FormGroup controlId="special">
-                <FormControl componentClass="select" value={fields[index].special} onChange={updateRTN}>
+                <FormControl componentClass="select" value={game.special} onChange={(e) => updateRTN(index,e)}>
                   <option key="0" value="Special">Special</option>
                   <option key="1" value="Foul Win">Foul Win</option>
-                  <option key="2" value="Seven Ball">Seven Ball</option>
+                  <option key="2" value="7 Ball">7 Ball</option>
                 </FormControl>
               </FormGroup>
 
+
             </Form>
         )})}
-        
+
+        <Button onClick={reset}>Reset</Button>
     </div>
   );
 }
