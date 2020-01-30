@@ -51,5 +51,5 @@ var server = app.listen( process.env.PORT || port )
 var io = socketio.listen( server, { origins: '*:*' });
 app.set( 'socketio', io );
 
-console.log( 'API live at port: ' + port )
+console.log( 'API live at port: ' + ( process.env.PORT || port ) )
 module.exports = app;
