@@ -1,14 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Table } from "react-bootstrap";
-import { isEmpty, userPlayed } from "../Utils"
+import { isEmpty, userPlayed, myRow } from "../Utils"
 import "./MostPlayed.css";
 
 export default function MostPlayed(props) {
-
-  const myRow = {
-    backgroundColor: "#ebebf8",
-    fontWeight: "bold"
-  };
 
   function getMostPlayed(){
     const unique = []

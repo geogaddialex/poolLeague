@@ -76,7 +76,7 @@ export default function Home(props) {
 									<Col xs={12}><Streaks user={props.user} season={props.seasons[0]} games={props.games} /></Col>
 									<Col xs={12}><TopFarms user={props.user} limit={numberOfResults} season={props.seasons[0]} games={props.games} /></Col>
 									<Col xs={12}><MostPlayed user={props.user} limit={numberOfResults} season={props.seasons[0]} games={props.games} /></Col>
-								    <Col xs={12}><LeastPlayed limit={numberOfResults} season={props.seasons[0]} games={props.games} /></Col>
+								    <Col xs={12}><LeastPlayed user={props.user} limit={numberOfResults} season={props.seasons[0]} games={props.games} /></Col>
 								</Row> 
 							}
 						</Col>		

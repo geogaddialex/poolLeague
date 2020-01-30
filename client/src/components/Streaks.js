@@ -1,15 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Table } from "react-bootstrap";
-import { isEmpty } from "../Utils"
+import { isEmpty, myRow } from "../Utils"
 import "./Streaks.css";
 
 export default function Streaks(props) {
   const [streaks, setStreaks] = useState([]);
-
-  const myRow = {
-    backgroundColor: "#ebebf8",
-    fontWeight: "bold"
-  };
 
   useEffect(() => {  
 

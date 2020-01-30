@@ -1,11 +1,13 @@
 import React, { useState } from "react";
-import { FormGroup, FormControl, ControlLabel } from "react-bootstrap";
+import { FormGroup, FormControl, ControlLabel, Alert } from "react-bootstrap";
 import LoaderButton from "../components/LoaderButton";
 import { useFormFields } from "../libs/hooksLib";
 import "./Settings.css";
 
 export default function Signup(props) {
   const [isLoading, setIsLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [failure, setFailure] = useState(false);
   const [fields, handleFieldChange] = useFormFields({
     name: props.user.name
   });
@@ -13,13 +15,16 @@ export default function Signup(props) {
   function validateForm() {
     return (
       fields.name.length > 0 &&
-      fields.name.match(/(.|\s)*\S(.|\s)*/g)
+      fields.name.match(/(.|\s)*\S(.|\s)*/g) &&
+      fields.name !== props.user.name
     );
   }
 
   async function handleSubmit(event) {
     event.preventDefault();
     setIsLoading(true);
+    setSuccess(false)
+    setFailure(false)
 
     try {
       fetch('/api/users/update', {
@@ -30,18 +35,22 @@ export default function Signup(props) {
 
       }).then(response =>{
       	setIsLoading(false)
+        setSuccess(true)
       })
-
       
     } catch (e) {
-      alert(e.message);
+      setFailure(true)
       setIsLoading(false)
     }
-
   }
 
   return (
     <div className="Settings">
+    { success &&
+      <Alert bsStyle="success">
+        <strong>Success!</strong> User updated
+      </Alert>
+    }
       <form onSubmit={handleSubmit}>
         <FormGroup controlId="name" bsSize="large">
           <ControlLabel>Name</ControlLabel>

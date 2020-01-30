@@ -1,15 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Table, Button, Glyphicon } from "react-bootstrap";
-import { isEmpty, formatDateAndTime, userPlayed } from "../Utils"
+import { isEmpty, formatDateAndTime, userPlayed, myRow } from "../Utils"
 import Excuses from "./Excuses"
 import "./LatestResults.css";
 
 export default function LatestResults(props) {
 
-  const myRow = {
-    backgroundColor: "#ebebf8",
-    fontWeight: "bold"
-  };
 
   function compareCreatedAt(a,b){
     return new Date(b.createdAt) - new Date(a.createdAt);

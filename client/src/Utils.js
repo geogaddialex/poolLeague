@@ -29,3 +29,8 @@ export function userPlayed(game, user){
 export function userInSeason(season, userId){
   return season.players.findIndex(player => player._id == userId) >= 0
 }
+
+export const myRow = {
+  backgroundColor: "#ebebf8",
+  fontWeight: "bold"
+};

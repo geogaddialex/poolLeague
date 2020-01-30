@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Table } from "react-bootstrap";
-import { isEmpty } from "../Utils"
+import { isEmpty, myRow } from "../Utils"
 import "./LeastPlayed.css";
 
 export default function LeastPlayed(props) {
@@ -43,6 +43,10 @@ export default function LeastPlayed(props) {
     return a.count - b.count
   }
 
+  function userPlayed(combo){
+    return (combo.playerOne._id == props.user._id || combo.playerTwo._id == props.user._id )
+  }
+
   return (
 
     <div className="LeastPlayed">
@@ -61,7 +65,7 @@ export default function LeastPlayed(props) {
             .slice(0, props.limit)
             .map((combo, index) => {
               return (
-                <tr key={combo.playerOne._id + combo.playerTwo._id} >
+                <tr key={combo.playerOne._id + combo.playerTwo._id}  style={ userPlayed(combo) ? myRow : null}>
                   <td>{combo.playerOne.name} - {combo.playerTwo.name}</td>
                   <td>{combo.count}</td>
                 </tr>

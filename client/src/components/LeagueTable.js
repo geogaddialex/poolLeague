@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { getMinGames, isEmpty } from "../Utils";
+import { getMinGames, isEmpty, myRow } from "../Utils";
 import { Table } from "react-bootstrap";
 import "./LeagueTable.css";
 
@@ -133,11 +133,6 @@ export default function LeagueTable(props) {
     if (countLosses(a) > countLosses(b)) return 1;
     if (countLosses(a) < countLosses(b)) return -1;
   }
-
-  const myRow = {
-    backgroundColor: "#ebebf8",
-    fontWeight: "bold"
-  };
 
   return (
 
