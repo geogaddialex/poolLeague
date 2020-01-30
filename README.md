@@ -2,7 +2,6 @@
 
 Important:
 
-Favicon
 Multiple seasons (tabs) - don't allow new seasons to overlap existing dates
 Add old season data
 

@@ -23,8 +23,8 @@ function App(props) {
   const [loadedSeasons, setLoadedSeasons] = useState(false)
   const [loadingSeasons, setLoadingSeasons] = useState(false)
 
-  const socket = io("ws://localhost:5000", {transports: ['websocket']})
-  // const socket = io("wss://scrubs-pool-league.herokuapp.com/", {transports: ['websocket']})  
+  // const socket = io("ws://localhost:5000", {transports: ['websocket']})
+  const socket = io("wss://scrubs-pool-league.herokuapp.com/", {transports: ['websocket']})  
 
   useEffect(() => {
 
