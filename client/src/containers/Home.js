@@ -10,7 +10,7 @@ import Streaks from "../components/Streaks";
 import SeasonInfo from "../components/SeasonInfo";
 import RunTheNumbers from "../components/RunTheNumbers";
 import AddSeason from "../components/AddSeason";
-import { isEmpty } from "../Utils";
+import { isEmpty, isSeasonOpen } from "../Utils";
 import "./Home.css";
 
 export default function Home(props) {
@@ -56,7 +56,7 @@ export default function Home(props) {
 	    			<Row> 
 						<Col xs={12} sm={9}> 
 							<Row><Col xs={12}><LeagueTable user={props.user} games={props.games} season={props.seasons[0]} runTheNumbers={runTheNumbers} /></Col></Row>
-							{  !isEmpty(props.user) && userInSeason(props.user) &&
+							{  !isEmpty(props.user) && userInSeason(props.user) && isSeasonOpen(props.seasons[0]) &&
 								<Row>      
 								    <Col xs={12} md={6}><AddGame games={props.games} season={props.seasons[0]} user={props.user} /></Col>
 								    <Col xs={12} md={6}><RunTheNumbers season={props.seasons[0]} runTheNumbers={runTheNumbers} setRunTheNumbers={setRunTheNumbers} /></Col>

@@ -10,7 +10,8 @@ var gameSchema = mongoose.Schema({
     excuses: [{
     	author: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     	comment: { type: String }
-    }]
+    }],
+    addedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
 
 },
 {

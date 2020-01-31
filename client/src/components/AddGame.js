@@ -25,6 +25,7 @@ export default function AddGame(props) {
 
     try {
 
+      fields.addedBy = props.user
       fetch('/api/games', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

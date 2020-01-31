@@ -23,8 +23,8 @@ function App(props) {
   const [loadedSeasons, setLoadedSeasons] = useState(false)
   const [loadingSeasons, setLoadingSeasons] = useState(false)
 
-  // const socket = io("ws://localhost:5000", {transports: ['websocket']})
-  const socket = io("wss://scrubs-pool-league.herokuapp.com/", {transports: ['websocket']})  
+  const socket = io("ws://localhost:5000", {transports: ['websocket']})
+  // const socket = io("wss://scrubs-pool-league.herokuapp.com/", {transports: ['websocket']})  
 
   useEffect(() => {
 
@@ -176,7 +176,10 @@ function App(props) {
       <Navbar fluid collapseOnSelect>
         <Navbar.Header>
           <Navbar.Brand>
-            <Link to="/">Pool League</Link>
+            <Link to="/">
+              <img src="/favicon.ico" height="50px" width="65px"/>
+              Pool League
+            </Link>
           </Navbar.Brand>
           <Navbar.Toggle />
         </Navbar.Header>

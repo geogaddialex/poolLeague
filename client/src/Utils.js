@@ -34,3 +34,11 @@ export const myRow = {
   backgroundColor: "#ebebf8",
   fontWeight: "bold"
 };
+
+export function isSeasonOpen(season){
+  var today = new Date()
+  var start = new Date(season.start)
+  var end = new Date(season.end)
+
+  return today > start && ( today < end || today.getDate() == end.getDate() )
+}

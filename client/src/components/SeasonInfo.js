@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Table } from "react-bootstrap";
-import { getMinGames, isEmpty, formatDate } from "../Utils";
+import { getMinGames, isEmpty, formatDate, isSeasonOpen } from "../Utils";
 import JoinSeason from "../components/JoinSeason";
 import "./SeasonInfo.css";
 
@@ -28,7 +28,7 @@ export default function SeasonInfo(props) {
           
         </>
 
-      { !isEmpty(props.user) && !userInSeason(props.user) &&
+      { !isEmpty(props.user) && !userInSeason(props.user) && isSeasonOpen(props.season) &&
         <JoinSeason block type="submit" bsSize="large" user={props.user} season={props.season}>Join</JoinSeason>
       }
      
