@@ -27,7 +27,7 @@ export default function Login(props) {
         credentials: 'same-origin',
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: fields.name, password: fields.password }),
+        body: JSON.stringify({ name: fields.name.trim(), password: fields.password }),
       })
 
       if(await response.ok){

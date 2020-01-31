@@ -35,7 +35,7 @@ export default function Signup(props) {
         credentials: 'include',
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: fields.name, password: fields.password }),
+        body: JSON.stringify({ name: fields.name.trim(), password: fields.password }),
       })
 
       if(await response.ok){  

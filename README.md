@@ -2,7 +2,6 @@
 
 Important:
 
-Strip name in edit and signup
 User page no such user if id is invalid
 Comment autofocus and enter to submit
 Multiple seasons (tabs) - don't allow new seasons to overlap existing dates
