@@ -14,7 +14,6 @@ exports.list = function( req, res ){
         }
         
         res.json(users);
-            
     })
 }
 
@@ -22,16 +21,30 @@ exports.update = function( req, res ){
 
     var id = req.params.id;
 
-    User.findOneAndUpdate({name: req.user.name}, { $set: { "name": req.body.name } }, {new: true, runValidators: true}, (err, user) => {  
+    User.findOne({name: req.body.name}, function(err,obj) { 
 
-        if( err ){
+        if(err){
             console.log( "error: " + err );
-            return res.status(500).json({ errors: "Could not update user" });
-        } 
+            return res.status(500).json({ errors: "Could not update user" });    
+        }
 
-        var socketio = req.app.get('socketio');
-        socketio.sockets.emit("UpdatedUser", user);
-        return res.status( 200 ).json(user);
+        if(!obj){
+            User.findOneAndUpdate({name: req.user.name}, { $set: { "name": req.body.name } }, {new: true, runValidators: true}, (err, user) => {  
+
+                if( err ){
+                    console.log( "error: " + err );
+                    return res.status(500).json({ errors: "Could not update user" });
+                } 
+
+                var socketio = req.app.get('socketio');
+                socketio.sockets.emit("UpdatedUser", user);
+                return res.status( 200 ).json(user);
+            });
+        }else{
+
+            return res.status(500).json({ errors: "Name already taken" }); 
+        }
+
     });
 };
 

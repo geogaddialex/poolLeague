@@ -23,7 +23,10 @@ export default function user(props) {
   	return (
 	    <div className="User">
 
-		    { props.seasons.length > 0 && !isEmpty(props.seasons[0].players) && userInSeason(props.seasons[0], params.userId) ?
+
+	    	{ props.seasons.length > 0 ?
+
+		    	!isEmpty(props.seasons[0].players) && userInSeason(props.seasons[0], params.userId) ?
 
 	    		<>
 	    			<h1>{getName(params.userId)}</h1>
@@ -41,9 +44,7 @@ export default function user(props) {
 
 				<h3>This user hasn't joined the season!</h3>
 
-		    }
-
-		    { props.seasons.length < 1 &&
+		    :
 		    	<>
 			    	<h3>No seasons exist!</h3>
 		    	</>

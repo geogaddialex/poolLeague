@@ -27,21 +27,29 @@ export default function Signup(props) {
     setFailure(false)
 
     try {
-      fetch('/api/users/update', {
+
+      const response = await fetch('/api/users/update', {
         credentials: 'include',
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name: fields.name }),
-
-      }).then(response =>{
-      	setIsLoading(false)
-        setSuccess(true)
       })
+
+      if(await response.ok){  
+
+        setIsLoading(false)
+        setSuccess(true)
+      }else{
+
+        setFailure(true)
+        setIsLoading(false);
+      }
       
     } catch (e) {
       setFailure(true)
-      setIsLoading(false)
+      setIsLoading(false);
     }
+
   }
 
   return (
@@ -49,6 +57,11 @@ export default function Signup(props) {
     { success &&
       <Alert bsStyle="success">
         <strong>Success!</strong> User updated
+      </Alert>
+    }
+    { failure && 
+      <Alert bsStyle="danger">
+        <strong>Failure!</strong> Couldn't update user
       </Alert>
     }
       <form onSubmit={handleSubmit}>

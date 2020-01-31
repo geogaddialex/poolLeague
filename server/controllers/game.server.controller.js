@@ -16,7 +16,6 @@ exports.list = function( req, res ){
             });
 
             if( err ){
-                console.log( "error: " + err );
                 return res.status( 500 );
             }
             

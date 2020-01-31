@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FormGroup, FormControl, ControlLabel } from "react-bootstrap";
+import { FormGroup, FormControl, ControlLabel, Alert } from "react-bootstrap";
 import LoaderButton from "../components/LoaderButton";
 import { useFormFields } from "../libs/hooksLib";
 import "./Signup.css";
@@ -11,6 +11,8 @@ export default function Signup(props) {
     confirmPassword: "",
   });
   const [isLoading, setIsLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [failure, setFailure] = useState(false);
 
   function validateForm() {
     return (
@@ -24,6 +26,8 @@ export default function Signup(props) {
   async function handleSubmit(event) {
     event.preventDefault();
     setIsLoading(true);
+    setSuccess(false)
+    setFailure(false)
 
     try {
 
@@ -34,21 +38,26 @@ export default function Signup(props) {
         body: JSON.stringify({ name: fields.name, password: fields.password }),
       })
 
-      if(await response.ok){
-          
+      if(await response.ok){  
         response.json().then(json => props.setUser(json))
 
       }else{
+        setFailure(true)
         setIsLoading(false);
       }
       
     } catch (e) {
-      alert(e.message);
+      setFailure(true)
     }
   }
 
   return (
     <div className="Signup">
+    { failure &&
+      <Alert bsStyle="danger">
+        <strong>Failure!</strong> Couldn't sign up
+      </Alert>
+    }
       <form onSubmit={handleSubmit}>
         <FormGroup controlId="name" bsSize="large">
           <ControlLabel>Name</ControlLabel>

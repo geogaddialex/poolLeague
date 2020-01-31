@@ -38,9 +38,6 @@ exports.join = function( req, res ){
     let user = req.body.user
     let season = req.body.season
 
-    console.log("user = " + user)
-    console.log("season = " + season)
-
     Season.findOne({ '_id': season._id }).populate({ 
         path: 'players'
     }).exec( function( err, season ){

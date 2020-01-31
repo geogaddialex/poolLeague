@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { FormGroup, FormControl, ControlLabel } from "react-bootstrap";
+import { FormGroup, FormControl, ControlLabel, Alert } from "react-bootstrap";
 import LoaderButton from "../components/LoaderButton";
 import { useFormFields } from "../libs/hooksLib";
 import "./Login.css";
 
 export default function Login(props) {
   const [isLoading, setIsLoading] = useState(false);
+  const [failure, setFailure] = useState(false);
   const [fields, handleFieldChange] = useFormFields({
     name: "",
     password: ""
@@ -18,6 +19,7 @@ export default function Login(props) {
   async function handleSubmit(event) {
     event.preventDefault();
     setIsLoading(true);
+    setFailure(false)
 
     try {
 
@@ -29,20 +31,25 @@ export default function Login(props) {
       })
 
       if(await response.ok){
-
         response.json().then(json => props.setUser(json))
 
       }else{
+        setFailure(true)
         setIsLoading(false);
       }
       
     } catch (e) {
-      alert(e.message);
+      setFailure(true)
     }
   }
 
   return (
     <div className="Login">
+    { failure &&
+      <Alert bsStyle="danger">
+        <strong>Failure!</strong> Couldn't log in
+      </Alert>
+    }
       <form onSubmit={handleSubmit}>
         <FormGroup controlId="name" bsSize="large">
           <ControlLabel>Name</ControlLabel>
