@@ -23,8 +23,8 @@ function App(props) {
   const [loadedSeasons, setLoadedSeasons] = useState(false)
   const [loadingSeasons, setLoadingSeasons] = useState(false)
 
-  // const socket = io("ws://localhost:5000", {transports: ['websocket']})
-  const socket = io("wss://scrubs-pool-league.herokuapp.com/", {transports: ['websocket']})  
+  const socket = io("ws://localhost:5000", {transports: ['websocket']})
+  // const socket = io("wss://scrubs-pool-league.herokuapp.com/", {transports: ['websocket']})  
 
   useEffect(() => {
 
@@ -184,6 +184,11 @@ function App(props) {
           <Navbar.Toggle />
         </Navbar.Header>
         <Navbar.Collapse>
+          <Nav pullLeft>
+            <LinkContainer to="/all">
+              <NavItem>All time</NavItem>
+            </LinkContainer>
+          </Nav>
           <Nav pullRight>
 
             { !isEmpty(user)
@@ -191,15 +196,14 @@ function App(props) {
                   <LinkContainer to={'/user/'+user._id}>
                     <NavItem>{user.name}</NavItem>
                   </LinkContainer>
+
+                  <LinkContainer to="/admin">
+                    <NavItem>Admin</NavItem>
+                  </LinkContainer>
+                  
                   <LinkContainer to="/settings">
                     <NavItem>Settings</NavItem>
                   </LinkContainer>
-
-                  { user.isAdmin && 
-                    <LinkContainer to="/admin">
-                      <NavItem>Admin</NavItem>
-                    </LinkContainer>
-                  }
 
                   <NavItem onClick={handleLogout}>Logout</NavItem>
               </>

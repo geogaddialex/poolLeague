@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Form, FormGroup, FormControl, ControlLabel, Button } from "react-bootstrap";
 import { useFormFields } from "../libs/hooksLib";
-import { isEmpty } from "../Utils"
+import { isEmpty, isOverlapping } from "../Utils"
 
 import "./AddSeason.css";
 
@@ -13,11 +13,23 @@ export default function AddSeason(props) {
     end: ""
   });
 
+  function seasonNameInUse(name, seasons){
+    if(!isEmpty(seasons)){
+      return seasons.some(season => season.name == fields.name)
+    }
+    
+    return false
+  }
+
   function validateForm() {
     return (
+
       fields.name.length > 0 &&
       fields.start !== "" &&
-      fields.end !== ""
+      fields.end !== "" &&
+      new Date(fields.end) > new Date(fields.start) && 
+      !seasonNameInUse(fields.name, props.seasons) &&
+      !isOverlapping(fields, props.seasons)
     );
   }
 

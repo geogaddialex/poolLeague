@@ -10,6 +10,8 @@ import User from "./containers/User";
 import Settings from "./containers/Settings";
 import Admin from "./containers/Admin";
 import NotFound from "./containers/NotFound";
+import All from "./containers/All";
+
 
 export default function Routes({ appProps }) {
   return (
@@ -20,6 +22,7 @@ export default function Routes({ appProps }) {
       <AuthenticatedRoute path="/settings" exact component={Settings} appProps={appProps} />
       <AuthenticatedRoute path="/admin" exact component={Admin} appProps={appProps} />
       <AppliedRoute path="/user/:userId" exact component={User} appProps={appProps} />
+      <AppliedRoute path="/all" exact component={All} appProps={appProps} />
 
       <Route component={NotFound} />
     </Switch>

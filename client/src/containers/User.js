@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Row, Col } from "react-bootstrap";
+import { Row, Col, Alert } from "react-bootstrap";
 import LatestResults from "../components/LatestResults";
 import CountPlayed from "../components/CountPlayed";
 import AddSeason from "../components/CountPlayed";
@@ -35,7 +35,9 @@ export default function user(props) {
 							 <Col xs={12} sm={4}><CountPlayed user={props.user} player={params.userId} season={props.seasons[0]} games={props.games.filter(x=> userPlayedIn(x))} /></Col>
 					    </Row>
 					:
-					    <h3> No games played </h3>
+					<Alert bsStyle="info">
+						No games played
+					</Alert>
 					}
 				</>
 

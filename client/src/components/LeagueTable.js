@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { getMinGames, isEmpty, myRow } from "../Utils";
-import { Table } from "react-bootstrap";
+import { Table, Tooltip, OverlayTrigger } from "react-bootstrap";
 import "./LeagueTable.css";
 
 export default function LeagueTable(props) {
@@ -134,6 +134,58 @@ export default function LeagueTable(props) {
     if (countLosses(a) < countLosses(b)) return -1;
   }
 
+  const TooltipSevenBall = (
+    <Tooltip id="TooltipSevenBall">
+      <strong>Seven Ball Wins</strong>
+      <br/>Yours / Opponents
+    </Tooltip>
+  );
+
+
+  const TooltipFoul = (
+    <Tooltip id="TooltipFoul">
+      <strong>Foul Wins</strong>
+      <br/>Yours / Opponents
+    </Tooltip>
+  );
+
+
+  const TooltipPenalty = (
+    <Tooltip id="TooltipPenalty">
+      <strong>+1 Unplayed Games Penalty</strong>
+      <br/>Each unplayed opponent
+      <br/>Each game under minimum
+    </Tooltip>
+  );
+
+  const TooltipPoints = (
+    <Tooltip id="TooltipPoints">
+      <strong>+1</strong> win<br/>
+      <strong>+2</strong> seven ball<br/>
+      <strong>-0.5</strong> foul win
+    </Tooltip>
+  );
+
+  const TooltipTNSR = (
+    <Tooltip id="TooltipTNSR">
+      <strong>TNSRating</strong>
+      <br/>Points ÷ ( Losses + Penalty )
+    </Tooltip>
+  );
+
+  const TooltipWinsToFirst = (
+    <Tooltip id="TooltipWinsToFirst">
+      Wins needed for first place
+    </Tooltip>
+  );
+
+  const TooltipWinsToNext = (
+    <Tooltip id="TooltipWinsToNext">
+      Wins needed to rank up
+    </Tooltip>
+  );
+
+
   return (
 
     <div className="LeagueTable">
@@ -148,13 +200,28 @@ export default function LeagueTable(props) {
               <th>Played</th>
               <th>Wins</th>
               <th>Losses</th>
-              <th>7Balls</th>
-              <th>Fouls</th>
-              <th>Points</th>
-              <th>Penalty</th>
-              <th>TNSR</th>
-              <th>#1</th>
-              <th>+1</th>
+              <OverlayTrigger placement="top" overlay={TooltipSevenBall}>
+                <th>7Balls</th>
+              </OverlayTrigger>
+
+              <OverlayTrigger placement="top" overlay={TooltipFoul}>
+                <th>Fouls</th>
+              </OverlayTrigger>
+              <OverlayTrigger placement="top" overlay={TooltipPoints}>
+                <th>Points</th>
+              </OverlayTrigger>
+              <OverlayTrigger placement="top" overlay={TooltipPenalty}>
+                <th>Penalty</th>
+              </OverlayTrigger>
+              <OverlayTrigger placement="top" overlay={TooltipTNSR}>
+                <th>TNSR</th>
+              </OverlayTrigger>
+              <OverlayTrigger placement="top" overlay={TooltipWinsToFirst}>
+                <th>#1</th>
+              </OverlayTrigger>
+              <OverlayTrigger placement="top" overlay={TooltipWinsToNext}>
+                <th>+1</th>
+              </OverlayTrigger>
             </tr>
           </thead>
 

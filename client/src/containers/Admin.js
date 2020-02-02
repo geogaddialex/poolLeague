@@ -15,7 +15,7 @@ export default function Admin(props) {
   	return (
 	    <div className="Admin">
 	    	{ !isLoading && 
-	    		<AddSeason />
+	    		<AddSeason seasons={props.seasons} />
 			}
        	</div>
 	);

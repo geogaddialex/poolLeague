@@ -2,10 +2,13 @@
 
 Important:
 
+Hoverable penalty - shows receipt total for points: unplayed games + score under min
+Login not case sensitive / signup
 User page no such user if id is invalid
 Comment autofocus and enter to submit
-Multiple seasons (tabs) - don't allow new seasons to overlap existing dates
 Add old season data
+Friendly league that never resets
+Tick box on all time to include friendlies
 
 Other:
 

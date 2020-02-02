@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Row, Col, Tabs, Tab } from "react-bootstrap";
+import { Row, Col, Tabs, Tab, Alert } from "react-bootstrap";
 import LeagueTable from "../components/LeagueTable";
 import AddGame from "../components/AddGame";
 import LatestResults from "../components/LatestResults";
@@ -12,39 +12,21 @@ import RunTheNumbers from "../components/RunTheNumbers";
 import AddSeason from "../components/AddSeason";
 import Season from "../components/Season"
 import { isEmpty, isSeasonOpen } from "../Utils";
-import "./Home.css";
+import "./All.css";
 
 export default function Home(props) {
 
-const [key, setKey] = useState()
-
   	return (
-	    <div className="Home">
+	    <div className="All">
 
-		{ !isEmpty(props.seasons) && props.seasons.length > 0 ?
+		{ !isEmpty(props.games) && props.games.length > 0 ?
 
-			<Tabs activeKey={key} >
-
-			{
-				props.seasons.map((season, index) => {
-			        
-			        return (
-			        	<Tab eventKey={index} title={season.name}>
-			          		<Season key={index} user={props.user} games={props.games} season={season} />
-			        	</Tab>
-			    	)
-				})
-			}
-			</Tabs>				
-
+			<Season user={props.user} games={props.games} />
 		:
 
-			<>
-		    	<h3>No seasons exist!</h3>
-		    	{ !isEmpty(props.user) &&
-		    		<AddSeason seasons={props.seasons} />
-		    	}
-			</>
+		    <Alert bsStyle="info">
+				No games played
+			</Alert>
 		} 
        	</div>
 	);

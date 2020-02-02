@@ -42,3 +42,34 @@ export function isSeasonOpen(season){
 
   return today > start && ( today < end || today.getDate() == end.getDate() )
 }
+
+export function isOverlapping(season, seasons){
+
+  var overlapping = false
+  var checkSeasonStart = new Date(season.start)
+  var checkSeasonEnd = new Date(season.end)
+    seasons.map(oneSeason => {
+
+      var oneSeasonStart = new Date(oneSeason.start)
+      var oneSeasonEnd = new Date(oneSeason.end)
+
+      if(checkSeasonStart > oneSeasonStart &&  ( checkSeasonStart < oneSeasonEnd || checkSeasonStart.getDate() == oneSeasonEnd.getDate() ) ){
+        //field start inside another season
+        overlapping =  true
+
+      }else if(checkSeasonEnd > oneSeasonStart &&  ( checkSeasonEnd < oneSeasonEnd || checkSeasonEnd.getDate() == oneSeasonEnd.getDate() ) ){
+        //field end inside another season
+        overlapping = true
+      
+      }else if(oneSeasonStart > checkSeasonStart &&  ( oneSeasonStart < checkSeasonEnd || oneSeasonStart.getDate() == checkSeasonEnd.getDate() )){
+        //loop start inside field range
+        overlapping = true
+
+      }else if(oneSeasonEnd > checkSeasonStart &&  ( oneSeasonEnd < checkSeasonEnd || oneSeasonEnd.getDate() == checkSeasonEnd.getDate() )){
+        //loop end inside field range
+        overlapping = true
+      }
+    })
+
+  return overlapping
+}
