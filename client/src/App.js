@@ -23,8 +23,12 @@ function App(props) {
   const [loadedSeasons, setLoadedSeasons] = useState(false)
   const [loadingSeasons, setLoadingSeasons] = useState(false)
 
-  const socket = io("ws://localhost:5000", {transports: ['websocket']})
-  // const socket = io("wss://scrubs-pool-league.herokuapp.com/", {transports: ['websocket']})  
+  const [users, setUsers] = useState([]);
+  const [loadedUsers, setLoadedUsers] = useState(false)
+  const [loadingUsers, setLoadingUsers] = useState(false)
+
+  // const socket = io("ws://localhost:5000", {transports: ['websocket']})
+  const socket = io("wss://scrubs-pool-league.herokuapp.com/", {transports: ['websocket']})  
 
   useEffect(() => {
 
@@ -40,11 +44,15 @@ function App(props) {
         loadGames()
       }
 
-      if(loadedUser && loadedGames && loadedSeasons){
+      if(!loadedUsers && !loadingUsers){
+        loadUsers()
+      }
+
+      if(loadedUser && loadedGames && loadedSeasons && loadedUsers){
         setIsLoading(false)
       }
-      
-  }, [user, games, seasons]);
+
+  }, [user, games, seasons, users]);
 
   useEffect(() => {
 
@@ -154,6 +162,19 @@ function App(props) {
     })
   }
 
+  async function loadUsers() {
+    setLoadingUsers(true)
+    fetch('/api/users').then(function(response){
+
+      response.json().then(responseUsers =>{
+        setLoadedUsers(true)
+        setUsers(responseUsers)
+        setLoadingUsers(false)
+      })
+      
+    })
+  }
+
   function handleLogout() {
     fetch('/api/auth/logout', {credentials: 'same-origin'}).then(function(response){
       
@@ -196,10 +217,6 @@ function App(props) {
                   <LinkContainer to={'/user/'+user._id}>
                     <NavItem>{user.name}</NavItem>
                   </LinkContainer>
-
-                  <LinkContainer to="/admin">
-                    <NavItem>Admin</NavItem>
-                  </LinkContainer>
                   
                   <LinkContainer to="/settings">
                     <NavItem>Settings</NavItem>
@@ -221,7 +238,7 @@ function App(props) {
         </Navbar.Collapse>
       </Navbar>
 
-      <Routes appProps={{ user, games, seasons, setUser }} />
+      <Routes appProps={{ user, games, seasons, setUser, users }} />
 
     </div>
   );

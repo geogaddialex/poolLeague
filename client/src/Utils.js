@@ -1,8 +1,11 @@
 export function getMinGames(season){
   const oneDay = 24 * 60 * 60 * 1000;
-  const firstDate = new Date(season.start);
+  const seasonStart = new Date(season.start);
+  const seasonEnd = new Date(season.end);
   const today = new Date();
-  const diffDays = Math.floor(Math.abs((firstDate - today) / oneDay));
+
+  const lastDay = today < seasonEnd ? today : seasonEnd
+  const diffDays = Math.floor(Math.abs((seasonStart - lastDay) / oneDay));
   return Math.round(diffDays / 1.5)
 }
 
@@ -31,8 +34,7 @@ export function userInSeason(season, userId){
 }
 
 export const myRow = {
-  backgroundColor: "#ebebf8",
-  fontWeight: "bold"
+  backgroundColor: "#ebebf8"
 };
 
 export function isSeasonOpen(season){
@@ -41,6 +43,17 @@ export function isSeasonOpen(season){
   var end = new Date(season.end)
 
   return today > start && ( today < end || today.getDate() == end.getDate() )
+}
+
+export function getGamesForSeason(games, season){
+  var seasonStart = new Date(season.start)
+  var seasonEnd = new Date(season.end)
+
+  return games.filter(game => {
+
+    var gameDate = new Date(game.createdAt)
+    return gameDate > seasonStart &&  ( gameDate < seasonEnd || gameDate.getDate() == seasonEnd.getDate() )
+  })
 }
 
 export function isOverlapping(season, seasons){

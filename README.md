@@ -2,7 +2,7 @@
 
 Important:
 
-Hoverable penalty - shows receipt total for points: unplayed games + score under min
+Opponents component links to user
 Login not case sensitive / signup
 User page no such user if id is invalid
 Comment autofocus and enter to submit
@@ -12,7 +12,9 @@ Tick box on all time to include friendlies
 
 Other:
 
-Implement Elo?
+Scroll through old games (maybe pagination)
+Emoji support
+Implement Elo
 Run the numbers doesn't work if season is empty
 New rule suggestions and votes (show who voted but not for what)
 Remove / Edit comment or game (that you added)

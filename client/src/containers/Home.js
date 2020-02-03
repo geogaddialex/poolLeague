@@ -11,7 +11,7 @@ import SeasonInfo from "../components/SeasonInfo";
 import RunTheNumbers from "../components/RunTheNumbers";
 import AddSeason from "../components/AddSeason";
 import Season from "../components/Season"
-import { isEmpty, isSeasonOpen } from "../Utils";
+import { isEmpty, isSeasonOpen, getGamesForSeason } from "../Utils";
 import "./Home.css";
 
 export default function Home(props) {
@@ -27,12 +27,16 @@ const [key, setKey] = useState()
 
 			{
 				props.seasons.map((season, index) => {
+
+					const gamesForSeason = getGamesForSeason(props.games, season)
+
+						return (
+				        	<Tab eventKey={index} title={season.name}>
+				          		<Season key={index} user={props.user} games={gamesForSeason} season={season} />
+				        	</Tab>
+				    	)
+					
 			        
-			        return (
-			        	<Tab eventKey={index} title={season.name}>
-			          		<Season key={index} user={props.user} games={props.games} season={season} />
-			        	</Tab>
-			    	)
 				})
 			}
 			</Tabs>				

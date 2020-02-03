@@ -1,51 +1,36 @@
 import React, { useState, useEffect } from "react";
-import { getMinGames, isEmpty, myRow } from "../Utils";
+import { isEmpty, myRow } from "../Utils";
 import { Table, Tooltip, OverlayTrigger } from "react-bootstrap";
-import "./LeagueTable.css";
+import "./AllTimeLeagueTable.css";
 
-export default function LeagueTable(props) {
+export default function AllTimeLeagueTable(props) {
 
   function countWins(user){
-    const realWins = props.games.filter(x => x.winner._id === user._id).length
-    const rtnWins = props.runTheNumbers.filter(x => x.winner === user._id).length
-    return realWins + rtnWins
+    return props.games.filter(x => x.winner._id === user._id).length
   }
 
   function countLosses(user){
-    const realLosses = props.games.filter(x => x.loser._id === user._id).length
-    const rtnLosses = props.runTheNumbers.filter(x => x.loser === user._id).length
-    return realLosses + rtnLosses
+    return props.games.filter(x => x.loser._id === user._id).length
   }
 
   function countPlayed(user){
-    const realPlayed = props.games.filter(x => x.winner._id === user._id || x.loser._id === user._id).length
-    const rtnPlayed = props.runTheNumbers.filter(x => x.winner === user._id || x.loser === user._id).length
-    return realPlayed + rtnPlayed
+    return props.games.filter(x => x.winner._id === user._id || x.loser._id === user._id).length
   }
 
   function countSevenBallsFor(user){
-    const realSevenBallsFor = props.games.filter(game => game.winner._id === user._id && game.special === "7 Ball").length
-    const rtnSevenBallsFor = props.runTheNumbers.filter(game => game.winner === user._id && game.special === "7 Ball").length
-    return realSevenBallsFor + rtnSevenBallsFor
+    return props.games.filter(game => game.winner._id === user._id && game.special === "7 Ball").length
   }
 
   function countSevenBallsAgainst(user){
-    const realSevenBallsAgainst = props.games.filter(game => game.loser._id === user._id && game.special === "7 Ball").length
-    const rtnSevenBallsAgainst = props.runTheNumbers.filter(game => game.loser === user._id && game.special === "7 Ball").length
-    return realSevenBallsAgainst + rtnSevenBallsAgainst
+    return props.games.filter(game => game.loser._id === user._id && game.special === "7 Ball").length
   }
 
   function countFoulsFor(user){
-    const realFoulsFor = props.games.filter(x => x.winner._id === user._id && x.special === "Foul Win").length
-    const rtnFoulsFor = props.runTheNumbers.filter(x => x.winner === user._id && x.special === "Foul Win").length
-    return realFoulsFor + rtnFoulsFor
+    return props.games.filter(x => x.winner._id === user._id && x.special === "Foul Win").length
   }
 
   function countFoulsAgainst(user){
-    const realFoulsAgainst = props.games.filter(x => x.loser._id === user._id && x.special === "Foul Win").length
-    const rtnFoulsAgainst = props.runTheNumbers.filter(x => x.loser === user._id && x.special === "Foul Win").length
-
-    return realFoulsAgainst + rtnFoulsAgainst
+    return props.games.filter(x => x.loser._id === user._id && x.special === "Foul Win").length
   }
 
   function calculatePoints(user){
@@ -54,69 +39,31 @@ export default function LeagueTable(props) {
 
   function calculateTNSR(user){
     let losses = countLosses(user) > 0 ? countLosses(user) : 1
-    return calculatePoints(user) / (losses + countPenalty(user) )
-  }
-
-  function countUnderMin(user){
-    return countPlayed(user) < getMinGames(props.season) ? getMinGames(props.season) - countPlayed(user) : 0
-  }
-
-  function countUnplayed(user){
-    const unique = []
-
-    getGamesForUser(user).forEach((game) => {
-      if(game.winner._id == user._id && !unique.some(opponent => opponent._id == game.loser._id) ){
-        unique.push(game.loser)
-      }else if (game.loser._id == user._id && !unique.some(opponent => opponent._id == game.winner._id) ){
-        unique.push(game.winner)
-      }
-    })
-
-    getRTNForUser(user).forEach(game=>{
-
-      if(game.winner !== "select" && game.loser !== "select"){
-        if(game.winner == user._id && !unique.some(opponent => (opponent._id == game.loser || opponent == game.loser) )){
-          unique.push(game.loser)
-        }else if(game.loser == user._id && !unique.some(opponent => (opponent._id == game.winner || opponent._id == game.loser) ) ){
-          unique.push(game.winner)
-        }
-      }
-    })
-
-    return props.season.players.length - unique.length - 1
-  }
-
-  function countPenalty(user){
-    return countUnderMin(user) + countUnplayed(user)
+    return calculatePoints(user) / losses
   }
 
   function getGamesForUser(user){
     return props.games.filter(game => game.winner._id == user._id || game.loser._id == user._id)
   }
 
-  function getRTNForUser(user){
-    return props.runTheNumbers.filter(game => game.winner == user._id || game.loser == user._id)
-  }
-
   function calculateWinsToFirst(user){
-    let max = props.season.players.sort(compareTNSR)[0]
+    let max = props.players.sort(compareTNSR)[0]
     let TNSRdiff = calculateTNSR(max) - calculateTNSR(user) + 0.01
     let losses = countLosses(user) > 0 ? countLosses(user) : 1
-    let penalty = countPenalty(user)
 
-    return max === user ? 0 : Math.ceil(TNSRdiff * (losses+countPenalty(user)))
+    return max === user ? 0 : Math.ceil(TNSRdiff * losses)
   }
 
   function calculateWinsToRankUp(user){
-    let index = props.season.players.sort(compareTNSR).indexOf(user)
+    let index = props.players.sort(compareTNSR).indexOf(user)
 
     if(index === 0 ){
       return 0
     }else{
-      let upOne = props.season.players[index-1]
+      let upOne = props.players[index-1]
       let TNSRdiff = calculateTNSR(upOne) - calculateTNSR(user) + 0.01
       let losses = countLosses(user) > 0 ? countLosses(user) : 1
-      return Math.ceil(TNSRdiff * (losses+countPenalty(user)))
+      return Math.ceil(TNSRdiff * losses)
     }
     
   }
@@ -141,20 +88,10 @@ export default function LeagueTable(props) {
     </Tooltip>
   );
 
-
   const TooltipFoul = (
     <Tooltip id="TooltipFoul">
       <strong>Foul Wins</strong>
       <br/>Yours / Opponents
-    </Tooltip>
-  );
-
-
-  const TooltipPenalty = (
-    <Tooltip id="TooltipPenalty">
-      <strong>+1 Unplayed Games Penalty</strong>
-      <br/>Each unplayed opponent
-      <br/>Each game under minimum
     </Tooltip>
   );
 
@@ -188,9 +125,9 @@ export default function LeagueTable(props) {
 
   return (
 
-    <div className="LeagueTable">
+    <div className="AllTimeLeagueTable">
 
-    { !isEmpty(props.season.players) &&
+    { !isEmpty(props.players) &&
         <Table striped bordered condensed hover responsive>
 
           <thead>
@@ -203,15 +140,11 @@ export default function LeagueTable(props) {
               <OverlayTrigger placement="top" overlay={TooltipSevenBall}>
                 <th>7Balls</th>
               </OverlayTrigger>
-
               <OverlayTrigger placement="top" overlay={TooltipFoul}>
                 <th>Fouls</th>
               </OverlayTrigger>
               <OverlayTrigger placement="top" overlay={TooltipPoints}>
                 <th>Points</th>
-              </OverlayTrigger>
-              <OverlayTrigger placement="top" overlay={TooltipPenalty}>
-                <th>Penalty</th>
               </OverlayTrigger>
               <OverlayTrigger placement="top" overlay={TooltipTNSR}>
                 <th>TNSR</th>
@@ -228,7 +161,7 @@ export default function LeagueTable(props) {
           <tbody>
 
           { props.games.length > 0 &&
-            props.season.players.sort(compareTNSRthenWinsToFirst).map((user, index) => {
+            props.players.sort(compareTNSRthenWinsToFirst).map((user, index) => {
               return (
                 <tr key={index} style={ user._id == props.user._id ? myRow : null} >
                   <td>{index+1}</td>
@@ -239,7 +172,6 @@ export default function LeagueTable(props) {
                   <td>{countSevenBallsFor(user)} / {countSevenBallsAgainst(user)}</td>
                   <td>{countFoulsFor(user)} / {countFoulsAgainst(user)}</td>
                   <td>{calculatePoints(user)}</td>
-                  <td>{countPenalty(user)}</td>
                   <td><b>{Math.round(calculateTNSR(user) * 100) / 100}</b></td>
                   <td>{calculateWinsToFirst(user)}</td>
                   <td>{calculateWinsToRankUp(user)}</td>
@@ -249,7 +181,7 @@ export default function LeagueTable(props) {
           }
 
           { props.games.length == 0 &&
-            props.season.players.map((user, index) => {
+            props.players.map((user, index) => {
               return (
                 <tr key={index} style={ user._id == props.user._id ? myRow : null}>
                   <td>{index+1}</td>
@@ -260,7 +192,6 @@ export default function LeagueTable(props) {
                   <td>0 / 0</td>
                   <td>0 / 0</td>
                   <td>0</td>
-                  <td>{props.season.players.length-1 + getMinGames(props.season)}</td>
                   <td>0</td>
                   <td>0</td>
                   <td>0</td>
@@ -274,8 +205,8 @@ export default function LeagueTable(props) {
       }
 
       {
-        isEmpty(props.season.players) &&
-          <p>No players have entered the season</p>
+        isEmpty(props.players) &&
+          <p>No players exist</p>
       }
     </div>
 

@@ -1,0 +1,36 @@
+.AllTimeLeagueTable {
+  background-color: #f8f8f8;
+  border: 1px solid #e7e7e7;
+  border-radius: 5px;
+  padding:5px;
+}
+
+@media (max-width: 1050px) {
+    .AllTimeLeagueTable .table thead tr th:nth-child(3),
+	.AllTimeLeagueTable .table tbody tr td:nth-child(3),
+	.AllTimeLeagueTable .table thead tr th:nth-child(6),
+	.AllTimeLeagueTable .table tbody tr td:nth-child(6),
+	.AllTimeLeagueTable .table thead tr th:nth-child(7),
+	.AllTimeLeagueTable .table tbody tr td:nth-child(7)
+	{
+	  display: none;
+	} 
+}
+
+@media (max-width: 550px) {
+    .AllTimeLeagueTable .table thead tr th:nth-child(3),
+	.AllTimeLeagueTable .table tbody tr td:nth-child(3),
+	.AllTimeLeagueTable .table thead tr th:nth-child(6),
+	.AllTimeLeagueTable .table tbody tr td:nth-child(6),
+	.AllTimeLeagueTable .table thead tr th:nth-child(7),
+	.AllTimeLeagueTable .table tbody tr td:nth-child(7),
+	.AllTimeLeagueTable .table thead tr th:nth-child(8),
+	.AllTimeLeagueTable .table tbody tr td:nth-child(8),
+	.AllTimeLeagueTable .table thead tr th:nth-child(10),
+	.AllTimeLeagueTable .table tbody tr td:nth-child(10),
+	.AllTimeLeagueTable .table thead tr th:nth-child(11),
+	.AllTimeLeagueTable .table tbody tr td:nth-child(11)
+	{
+	  display: none;
+	} 
+}

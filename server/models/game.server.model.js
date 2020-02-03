@@ -11,7 +11,8 @@ var gameSchema = mongoose.Schema({
     	author: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     	comment: { type: String }
     }],
-    addedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
+    addedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    createdAt: {type: Date, default: Date.now}
 
 },
 {

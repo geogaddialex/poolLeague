@@ -8,8 +8,8 @@ export default function LeastPlayed(props) {
   function getLeastPlayed(){
     const unique = []
 
-    props.season.players.forEach(playerOne =>{
-      props.season.players.forEach(playerTwo =>{
+    props.players.forEach(playerOne =>{
+      props.players.forEach(playerTwo =>{
         if ( playerOne._id !== playerTwo._id && !unique.some(combo => playerOne._id+playerTwo._id == combo.playerOne._id+combo.playerTwo._id || playerTwo._id+playerOne._id == combo.playerOne._id+combo.playerTwo._id)){
             
           var newCombo = {playerOne: playerOne, playerTwo: playerTwo}

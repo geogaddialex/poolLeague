@@ -65,7 +65,7 @@ export default function TopFarms(props) {
           </thead>
 
           <tbody>
-          { !isEmpty(props.season.players) &&
+          { 
             topFarms
               .sort(compareOccurences)
               .slice(0, props.limit)
