@@ -95,7 +95,7 @@ export default function Season(props) {
 
 					{ isSeasonOpen(props.season) && isEmpty(props.season.players) &&
 						<Alert bsStyle="info">
-				    		<h3>No players have entered the season, be the first!</h3>
+				    		No players have entered the season, be the first!
 				    	</Alert>
 				    }
 				    <Row>	

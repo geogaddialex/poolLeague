@@ -52,7 +52,7 @@ export function getGamesForSeason(games, season){
   return games.filter(game => {
 
     var gameDate = new Date(game.createdAt)
-    return gameDate > seasonStart &&  ( gameDate < seasonEnd || gameDate.getDate() == seasonEnd.getDate() )
+    return ( gameDate > seasonStart || gameDate.getDate() == seasonStart.getDate() ) &&  ( gameDate < seasonEnd || gameDate.getDate() == seasonEnd.getDate() )
   })
 }
 

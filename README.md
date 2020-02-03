@@ -2,16 +2,22 @@
 
 Important:
 
+Fix: Any user setting new name: sets logged in user = the user that updated
+Hide Excuse column when screen too small
+Bigger font - less margin
+Admin add game success Alert
 Opponents component links to user
 Login not case sensitive / signup
 User page no such user if id is invalid
 Comment autofocus and enter to submit
-Add old season data
+Add old season data (Season 1 done: minus Lance and Josh) - Min games is wrong
 Friendly league that never resets
 Tick box on all time to include friendlies
 
 Other:
 
+Mobile tabs solution
+Gambling currency (Place a bet, next time that matchup happens check if bet won)( Odds are All-Time difference in TNSR between players)
 Scroll through old games (maybe pagination)
 Emoji support
 Implement Elo

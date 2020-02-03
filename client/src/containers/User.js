@@ -43,10 +43,13 @@ export default function user(props) {
 
 				:
 
-				<h3>This user hasn't joined the season!</h3>
-
+					<Alert bsStyle="info">
+						This user hasn't joined the season!
+					</Alert>
 		    :
-			    <h3>No seasons exist!</h3>
+		    	<Alert bsStyle="info">
+			    	No seasons exist!
+			    </Alert>
 		    }
        	</div>
 	);

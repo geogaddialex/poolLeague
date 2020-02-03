@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Row, Col, Tabs, Tab } from "react-bootstrap";
+import { Row, Col, Tabs, Tab, Alert } from "react-bootstrap";
 import LeagueTable from "../components/LeagueTable";
 import AddGame from "../components/AddGame";
 import LatestResults from "../components/LatestResults";
@@ -36,15 +36,16 @@ const [key, setKey] = useState()
 				        	</Tab>
 				    	)
 					
-			        
 				})
 			}
 			</Tabs>				
 
 		:
-
 			<>
-		    	<h3>No seasons exist!</h3>
+
+				<Alert bsStyle="info">
+		    		No seasons exist!
+		    	</Alert>
 		    	{ !isEmpty(props.user) &&
 		    		<AddSeason seasons={props.seasons} />
 		    	}
