@@ -7,7 +7,7 @@ import LeastPlayed from "../components/LeastPlayed";
 import { isEmpty, isSeasonOpen } from "../Utils";
 import "./All.css";
 
-export default function Home(props) {
+export default function All(props) {
 
 	const numberOfResults = 10
 

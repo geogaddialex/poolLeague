@@ -27,9 +27,7 @@ export default function Excuses(props) {
     }).then(function(response){
 
         response.json().then(responseJson =>{
-         
           document.body.click()
-
         })
     })
   }

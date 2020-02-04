@@ -5,6 +5,7 @@ var router = express.Router();
 
 router.get('/', games.list );
 router.post('/', games.add );
+router.delete('/:id', games.delete)
 router.post('/addExcuse', games.addExcuse);
 
 module.exports = router;

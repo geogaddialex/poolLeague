@@ -39,6 +39,14 @@ exports.add = function( req, res ){
 
 }
 
+exports.delete = function( req, res ){
+    var id = req.params.id;
+    Game.findByIdAndRemove(id, function(err){
+        if (err) return res.status(404).json({errors: "Could not delete game"})
+    })
+    return res.status(200).json({message: id+" deleted"})
+}
+
 exports.addExcuse = function( req, res ){
 
     let author = req.body.author
