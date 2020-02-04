@@ -35,11 +35,11 @@ export default function Home(props) {
 
 					const gamesForSeason = getGamesForSeason(props.games, season)
 
-						return (
-				        	<Tab key={index} eventKey={index} title={season.name}>
-				          		<Season key={index} user={props.user} games={gamesForSeason} minGames={getMinGames(season)} season={season} />
-				        	</Tab>
-				    	)
+					return (
+			        	<Tab key={index} eventKey={index} title={season.name}>
+			          		<Season key={index} user={props.user} games={gamesForSeason} minGames={getMinGames(season)} season={season} />
+			        	</Tab>
+			    	)
 				})
 			}
 			</Tabs>				

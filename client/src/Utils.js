@@ -62,11 +62,16 @@ export function getGamesForSeason(games, season){
 
     var gameDate = new Date(game.createdAt)
     const gameBetweenDates = gameDate.getTime() > seasonStart.getTime() && gameDate.getTime() < seasonEnd.getTime()
-    const gameOnStart = gameDate.getDate() == seasonStart.getDate()
-    const gameOnEnd = gameDate.getDate() == seasonEnd.getDate()
+    const gameOnStart = sameDay(seasonStart, gameDate)
+    const gameOnEnd = sameDay(seasonEnd, gameDate)
+    const gameInSeason = gameBetweenDates || gameOnStart || gameOnEnd
 
-    return gameBetweenDates || gameOnStart || gameOnEnd
+    return gameInSeason
   })
+}
+
+export function sameDay(a,b){
+  return a.getDate() == b.getDate() && a.getMonth() == b.getMonth() && a.getFullYear == b.getFullYear
 }
 
 export function isOverlapping(season, seasons){
