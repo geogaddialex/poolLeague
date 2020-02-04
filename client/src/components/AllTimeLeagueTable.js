@@ -161,7 +161,7 @@ export default function AllTimeLeagueTable(props) {
           <tbody>
 
           { props.games.length > 0 &&
-            props.players.sort(compareTNSRthenWinsToFirst).map((user, index) => {
+            props.players.sort(compareTNSRthenWinsToFirst).filter(player => countPlayed(player) > 0).map((user, index) => {
               return (
                 <tr key={index} style={ user._id == props.user._id ? myRow : null} >
                   <td>{index+1}</td>

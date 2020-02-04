@@ -1,39 +1,28 @@
 import React, { useState, useEffect } from "react";
 import { Table } from "react-bootstrap";
-import { isEmpty } from "../Utils"
+import { isEmpty, myRow } from "../Utils"
 import "./CountPlayed.css";
 
 export default function CountPlayed(props) {
 
-  const myRow = {
-    backgroundColor: "#ebebf8",
-    fontWeight: "bold"
-  };
-
   function getPlayed(){
 
-    console.log("props.users = " + JSON.stringify(props.users))
+    const count = props.season.players.filter(player => player._id !== props.player).map( player =>{
 
-    if(isEmpty(props.users)){
-      return 0
-    }
+      player.wins = 0
+      player.losses = 0
 
-    const count = props.users.filter(player => player._id !== props.player).map( player =>{
+      props.games.forEach(game =>{
 
-      let wins = 0
-      let losses = 0
+        if( game.winner._id == player._id){
+          player.losses ++
+        }else if(game.loser._id == player._id){
+          player.wins ++
+        }
 
-        props.games.forEach(game =>{
+      })
+      return player
 
-          if( game.winner._id == player._id){
-            player.losses ++
-          }else if(game.loser._id == player._id){
-            player.wins ++
-          }
-
-        })
-
-        return player
     })
     
     return count
@@ -60,14 +49,14 @@ export default function CountPlayed(props) {
         </thead>
 
         <tbody>
-         {  isEmpty(props.users) && 
+         {  !isEmpty(props.season.players) && 
               getPlayed()
               .sort(compareFarms)
-              .slice(0, props.limit)
               .map((player, index) => {
+
                 return (
-                  <tr key={player._id} style={ player._id == props.user._id ? myRow : null} >
-                    <td>{player.name}</td>
+                  <tr key={index} style={ player._id == props.user._id ? myRow : null} >
+                    <td><b><a href={`/user/${player._id}`}>{player.name}</a></b></td>
                     <td>{player.wins + player.losses}</td>
                     <td>{player.wins}</td>
                     <td>{player.losses}</td>

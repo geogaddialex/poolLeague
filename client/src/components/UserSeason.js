@@ -19,7 +19,7 @@ export default function UserSeason(props) {
 	const numberOfResults = 10;
 
 	function userPlayedIn(game){
-		return game.winner._id == props.user._id || game.loser._id == props.user._id
+		return game.winner._id == props.player || game.loser._id == props.player
 	}
 
   	return (
@@ -31,7 +31,7 @@ export default function UserSeason(props) {
 					<>
 						<Row>
 							<Col xs={12}>
-								<CountPlayed user={props.user} player={props.user._id} season={props.season} games={props.games.filter(x=> userPlayedIn(x))} />
+								<CountPlayed user={props.user} player={props.player} season={props.season} games={props.games.filter(x=> userPlayedIn(x))} />
 							</Col>
 						</Row>
 						

@@ -52,6 +52,7 @@ export default function Excuses(props) {
 
       { !isEmpty(props.game.excuses) && 
         props.game.excuses.map((excuse, index) => {
+          
           return (
             <Excuse key={index} name={excuse.author.name} comment={excuse.comment} />
           )

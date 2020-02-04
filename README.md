@@ -2,6 +2,9 @@
 
 Important:
 
+Put All Time user season between latest and last seasons
+User MostPlayed doesn't need to show the users name
+Comments left by deleted users break site - delete all comments by user when deleting
 S3 Lance games and finish S2 check
 Deleting games should update socket
 Admin kick user from season; update socket
