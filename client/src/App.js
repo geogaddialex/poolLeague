@@ -111,7 +111,7 @@ function App(props) {
     const updatedUserHandler = (updatedUser) =>{
       loadSeasons()
       loadGames()
-      setUser(updatedUser)
+      updatedUser._id == user._id ? setUser(updatedUser) : setUser(user)
     }
 
     socket.on("UpdatedUser", updatedUserHandler)

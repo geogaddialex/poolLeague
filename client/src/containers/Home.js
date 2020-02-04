@@ -11,41 +11,45 @@ import SeasonInfo from "../components/SeasonInfo";
 import RunTheNumbers from "../components/RunTheNumbers";
 import AddSeason from "../components/AddSeason";
 import Season from "../components/Season"
-import { isEmpty, isSeasonOpen, getGamesForSeason } from "../Utils";
+import { isEmpty, isSeasonOpen, getGamesForSeason, getMinGames } from "../Utils";
 import "./Home.css";
 
 export default function Home(props) {
 
-const [key, setKey] = useState()
+	const [key, setKey] = useState()
+
+	function startedEarliest(a,b){
+		var aB = new Date(a.start).getTime() < new Date(b.start).getTime()
+		return aB
+	}
 
   	return (
 	    <div className="Home">
 
 		{ !isEmpty(props.seasons) && props.seasons.length > 0 ?
 
-			<Tabs activeKey={key} >
+			<Tabs activeKey={key} id="tabs">
 
 			{
-				props.seasons.map((season, index) => {
+				props.seasons.sort(startedEarliest).map((season, index) => {
 
 					const gamesForSeason = getGamesForSeason(props.games, season)
 
 						return (
-				        	<Tab eventKey={index} title={season.name}>
-				          		<Season key={index} user={props.user} games={gamesForSeason} season={season} />
+				        	<Tab key={index} eventKey={index} title={season.name}>
+				          		<Season key={index} user={props.user} games={gamesForSeason} minGames={getMinGames(season)} season={season} />
 				        	</Tab>
 				    	)
-					
 				})
 			}
 			</Tabs>				
 
 		:
 			<>
-
 				<Alert bsStyle="info">
 		    		No seasons exist!
 		    	</Alert>
+
 		    	{ !isEmpty(props.user) &&
 		    		<AddSeason seasons={props.seasons} />
 		    	}

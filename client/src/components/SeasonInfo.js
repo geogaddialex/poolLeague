@@ -16,8 +16,7 @@ export default function SeasonInfo(props) {
 
         <>
           <p><b>{props.season.name}</b></p>
-          <p>Start: {formatDate(props.season.start)}</p>
-          <p>End: {formatDate(props.season.end)}</p>
+          <p>{formatDate(props.season.start)} - {formatDate(props.season.end)}</p>
 
           { !isEmpty(props.season.players) &&
             <>

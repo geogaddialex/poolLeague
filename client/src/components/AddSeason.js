@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Form, FormGroup, FormControl, ControlLabel, Button } from "react-bootstrap";
+import { Form, FormGroup, FormControl, ControlLabel, Button, Alert } from "react-bootstrap";
 import { useFormFields } from "../libs/hooksLib";
 import { isEmpty, isOverlapping } from "../Utils"
 
@@ -12,6 +12,8 @@ export default function AddSeason(props) {
     start: "",
     end: ""
   });
+
+  const [success, setSuccess] = useState(false)
 
   function seasonNameInUse(name, seasons){
     if(!isEmpty(seasons)){
@@ -35,6 +37,7 @@ export default function AddSeason(props) {
 
   async function handleSubmit(event) {
     event.preventDefault();
+    setSuccess = false;
 
     fields.players = [];
 
@@ -44,6 +47,8 @@ export default function AddSeason(props) {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(fields),
+      }).then(function(response){
+        setSuccess = true;
       })
       
     } catch (e) {
@@ -53,6 +58,12 @@ export default function AddSeason(props) {
 
   return (
     <div className="AddSeason">
+
+      { success &&
+        <Alert bsStyle="success">
+          New season added
+        </Alert>
+      }
       <p><b>Create a Season</b></p>
 
       <Form onSubmit={handleSubmit}>
@@ -84,10 +95,7 @@ export default function AddSeason(props) {
           />
         </FormGroup>
         
-        <Button
-          type="submit"
-          disabled={!validateForm()}
-        >
+        <Button type="submit" disabled={!validateForm()}>
           Add
         </Button>
       </Form>

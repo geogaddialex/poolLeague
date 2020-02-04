@@ -6,7 +6,6 @@ import "./LatestResults.css";
 
 export default function LatestResults(props) {
 
-
   function compareCreatedAt(a,b){
     return new Date(b.createdAt) - new Date(a.createdAt);
   }
@@ -16,7 +15,6 @@ export default function LatestResults(props) {
     <div className="LatestResults">
       <p><b>Latest Results</b></p>
       <Table striped bordered condensed hover>
-
         <thead>
           <tr>
             <th>Date</th>
@@ -34,7 +32,7 @@ export default function LatestResults(props) {
           .slice(0, props.limit)
           .map((game, index) => {
             return (
-              <tr key={game.winner._id + game.loser._id + game.createdAt} style={ userPlayed(game, props.user) ? myRow : null}>
+              <tr key={game._id} style={ userPlayed(game, props.user) ? myRow : null}>
                 <td>{formatDateAndTime(game.createdAt)}</td>
                 <td>{game.winner.name}</td>
                 <td>{game.loser.name}</td>

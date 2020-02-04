@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { getMinGames, isEmpty, myRow } from "../Utils";
-import { Table, Tooltip, OverlayTrigger } from "react-bootstrap";
+import { Table, Tooltip, OverlayTrigger, Alert } from "react-bootstrap";
 import "./LeagueTable.css";
 
 export default function LeagueTable(props) {
@@ -275,7 +275,9 @@ export default function LeagueTable(props) {
 
       {
         isEmpty(props.season.players) &&
-          <p>No players have entered the season</p>
+          <Alert bsStyle="info">
+            No players have entered the season
+          </Alert>
       }
     </div>
 

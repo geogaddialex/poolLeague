@@ -74,7 +74,6 @@ export default function LeastPlayed(props) {
           }
           </tbody>
         
-
         </Table>
     </div>
 

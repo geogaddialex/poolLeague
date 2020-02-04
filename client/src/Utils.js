@@ -1,4 +1,13 @@
 export function getMinGames(season){
+
+  switch(season.name){
+    case "Season 1":
+      return 15;
+    case "Season 2":
+      return 15
+    case "Season 3":
+      return 15
+  }
   const oneDay = 24 * 60 * 60 * 1000;
   const seasonStart = new Date(season.start);
   const seasonEnd = new Date(season.end);
@@ -52,7 +61,11 @@ export function getGamesForSeason(games, season){
   return games.filter(game => {
 
     var gameDate = new Date(game.createdAt)
-    return ( gameDate > seasonStart || gameDate.getDate() == seasonStart.getDate() ) &&  ( gameDate < seasonEnd || gameDate.getDate() == seasonEnd.getDate() )
+    const gameBetweenDates = gameDate.getTime() > seasonStart.getTime() && gameDate.getTime() < seasonEnd.getTime()
+    const gameOnStart = gameDate.getDate() == seasonStart.getDate()
+    const gameOnEnd = gameDate.getDate() == seasonEnd.getDate()
+
+    return gameBetweenDates || gameOnStart || gameOnEnd
   })
 }
 
@@ -68,18 +81,26 @@ export function isOverlapping(season, seasons){
 
       if(checkSeasonStart > oneSeasonStart &&  ( checkSeasonStart < oneSeasonEnd || checkSeasonStart.getDate() == oneSeasonEnd.getDate() ) ){
         //field start inside another season
+        console.log("FAIL 2")
+
         overlapping =  true
 
       }else if(checkSeasonEnd > oneSeasonStart &&  ( checkSeasonEnd < oneSeasonEnd || checkSeasonEnd.getDate() == oneSeasonEnd.getDate() ) ){
         //field end inside another season
+        console.log("FAIL 3")
+
         overlapping = true
       
       }else if(oneSeasonStart > checkSeasonStart &&  ( oneSeasonStart < checkSeasonEnd || oneSeasonStart.getDate() == checkSeasonEnd.getDate() )){
         //loop start inside field range
+        console.log("FAIL 4")
+
         overlapping = true
 
       }else if(oneSeasonEnd > checkSeasonStart &&  ( oneSeasonEnd < checkSeasonEnd || oneSeasonEnd.getDate() == checkSeasonEnd.getDate() )){
         //loop end inside field range
+        console.log("FAIL 5")
+
         overlapping = true
       }
     })
