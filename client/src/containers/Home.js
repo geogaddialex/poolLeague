@@ -42,8 +42,8 @@ export default function Home(props) {
 			    	)
 				})
 			}
-			</Tabs>				
-
+			
+			</Tabs>
 		:
 			<>
 				<Alert bsStyle="info">

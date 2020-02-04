@@ -83,6 +83,9 @@ export default function LeagueTable(props) {
       }
     })
 
+    if(props.season.name == "Season 1" || props.season.name == "Season 2" || props.season.name == "Season 3"){
+      return 0
+    }
     return props.season.players.length - unique.length - 1
   }
 

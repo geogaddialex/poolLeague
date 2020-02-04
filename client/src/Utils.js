@@ -2,7 +2,7 @@ export function getMinGames(season){
 
   switch(season.name){
     case "Season 1":
-      return 15;
+      return 10;
     case "Season 2":
       return 15
     case "Season 3":

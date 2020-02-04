@@ -5,6 +5,7 @@ Important:
 S3 Lance games and finish S2 check
 Deleting games should update socket
 Admin kick user from season; update socket
+Hide users from addGame unless they're in season
 Top Farms loads normally on first click (of All Time) but keep clicking and it eventually  warps to MostPlayed
 Hide Excuse column when screen too small
 Bigger font
@@ -13,7 +14,6 @@ Opponents component links to user
 Login not case sensitive / signup
 User page no such user if id is invalid
 Comment autofocus and enter to submit
-Add old season data (Lance and Missing games)
 Friendly league that never resets
 Option on All Time to include friendlies
 Sort by name in addGame dropdown
@@ -35,7 +35,7 @@ Remove / Edit comment or game (that you added)
 FAQ / Rules list
 Wins to #1 and +1 aren't taking into account the extra wins discounting unplayed losses
 If only one player has >1 unplayed, don't punish the others for that one game
-Colours for TNSR, wins to #1, etc (10 diff colours, colour users cell based on which percentile group they're in)
+Colours for TNSR, wins to #1, etc (10 diff colours, colour users cell based on which % group they're in)
 All time stats/records pages for league and user
 Max games vs one player - 10 seems reasonable?
 Leave league button (doesn’t remove games, just the user from the league table)
