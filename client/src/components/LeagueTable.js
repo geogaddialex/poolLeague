@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { getMinGames, isEmpty, myRow } from "../Utils";
+import { getGamesForUser } from "../UserUtils"
 import { Table, Tooltip, OverlayTrigger, Alert } from "react-bootstrap";
 import "./LeagueTable.css";
 
@@ -64,7 +65,7 @@ export default function LeagueTable(props) {
   function countUnplayed(user){
     const unique = []
 
-    getGamesForUser(user).forEach((game) => {
+    getGamesForUser(props.games, user).forEach((game) => {
       if(game.winner._id == user._id && !unique.some(opponent => opponent._id == game.loser._id) ){
         unique.push(game.loser)
       }else if (game.loser._id == user._id && !unique.some(opponent => opponent._id == game.winner._id) ){
@@ -91,10 +92,6 @@ export default function LeagueTable(props) {
 
   function countPenalty(user){
     return countUnderMin(user) + countUnplayed(user)
-  }
-
-  function getGamesForUser(user){
-    return props.games.filter(game => game.winner._id == user._id || game.loser._id == user._id)
   }
 
   function getRTNForUser(user){

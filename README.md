@@ -2,7 +2,7 @@
 
 Important:
 
-Put All Time user season between latest and last seasons
+User Season Stats - games played, tsnr, etc
 Comments left by deleted users break site - delete all comments by user when deleting
 Admin kick user from season; update socket
 Top Farms loads normally on first click (of All Time) but keep clicking and it eventually  warps to MostPlayed

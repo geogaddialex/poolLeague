@@ -12,15 +12,13 @@ import RunTheNumbers from "../components/RunTheNumbers";
 import AddSeason from "../components/AddSeason";
 import CountPlayed from "../components/CountPlayed";
 import { isEmpty, isSeasonOpen } from "../Utils";
+import { userPlayed, getUser } from "../UserUtils";
 import "./UserSeason.css";
 
 export default function UserSeason(props) {
 
 	const numberOfResults = 10;
-
-	function userPlayedIn(game){
-		return game.winner._id == props.player || game.loser._id == props.player
-	}
+	var player = getUser(props.player, props.users)
 
   	return (
     	<span className="UserSeason">
@@ -31,7 +29,7 @@ export default function UserSeason(props) {
 					<>
 						<Row>
 							<Col xs={12}>
-								<CountPlayed user={props.user} player={props.player} players={props.season.players} games={props.games.filter(x=> userPlayedIn(x))} />
+								<CountPlayed user={props.user} player={props.player} players={props.season.players} games={props.games.filter(game=> userPlayed(game, player))} />
 							</Col>
 						</Row>
 						
@@ -57,7 +55,7 @@ export default function UserSeason(props) {
 				    <Row>	
 				    	<Col xs={12}><SeasonInfo games={props.games} season={props.season} user={props.user} /></Col>
 					</Row>
-					{ props.games.length > 0 && 
+					{ props.games.filter(game=> userPlayed(game, player)).length > 0 && 
 						<Row>
 							<Col xs={12}><MostPlayed user={props.user} limit={numberOfResults} games={props.games} /></Col>
 						</Row>

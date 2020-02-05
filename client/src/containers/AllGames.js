@@ -4,7 +4,8 @@ import AllTimeLeagueTable from "../components/AllTimeLeagueTable";
 import TopFarms from "../components/TopFarms";
 import MostPlayed from "../components/MostPlayed";
 import LeastPlayed from "../components/LeastPlayed";
-import { isEmpty, isSeasonOpen, userPlayed, myRow, formatDateAndTime } from "../Utils";
+import { isEmpty, isSeasonOpen, myRow, formatDateAndTime } from "../Utils";
+import { userPlayed } from "../UserUtils"
 import "./All.css";
 
 export default function Home(props) {

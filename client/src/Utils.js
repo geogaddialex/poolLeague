@@ -1,27 +1,11 @@
-export function getMinGames(season){
-
-  switch(season.name){
-    case "Season 1":
-      return 10;
-    case "Season 2":
-      return 15
-    case "Season 3":
-      return 15
-  }
-  const oneDay = 24 * 60 * 60 * 1000;
-  const seasonStart = new Date(season.start);
-  const seasonEnd = new Date(season.end);
-  const today = new Date();
-
-  const lastDay = today < seasonEnd ? today : seasonEnd
-  const diffDays = Math.floor(Math.abs((seasonStart - lastDay) / oneDay));
-  return Math.round(diffDays / 1.5)
-}
-
 export function isEmpty(obj){
   var objString = JSON.stringify(obj)
   var empty = objString == "{}" || objString == undefined || objString == "[]"
 	return empty
+}
+
+export function sameDay(a,b){
+  return a.getDate() == b.getDate() && a.getMonth() == b.getMonth() && a.getFullYear == b.getFullYear
 }
 
 export function formatDate(dateString){
@@ -32,14 +16,6 @@ export function formatDate(dateString){
 export function formatDateAndTime(dateString){
   var date = new Date(dateString)
   return date.getDate() + "/" + (date.getMonth() + 1) + " " + ('0'+date.getHours()).slice(-2) + ":" + ('0'+date.getMinutes()).slice(-2);
-}
-
-export function userPlayed(game, user){
-  return user._id == game.winner._id || user._id == game.loser._id
-}
-
-export function userInSeason(season, userId){
-  return season.players.findIndex(player => player._id == userId) >= 0
 }
 
 export const myRow = {
@@ -79,8 +55,24 @@ export function getGamesForSeason(games, season){
   })
 }
 
-export function sameDay(a,b){
-  return a.getDate() == b.getDate() && a.getMonth() == b.getMonth() && a.getFullYear == b.getFullYear
+export function getMinGames(season){
+
+  switch(season.name){
+    case "Season 1":
+      return 10;
+    case "Season 2":
+      return 15
+    case "Season 3":
+      return 15
+  }
+  const oneDay = 24 * 60 * 60 * 1000;
+  const seasonStart = new Date(season.start);
+  const seasonEnd = new Date(season.end);
+  const today = new Date();
+
+  const lastDay = today < seasonEnd ? today : seasonEnd
+  const diffDays = Math.floor(Math.abs((seasonStart - lastDay) / oneDay));
+  return Math.round(diffDays / 1.5)
 }
 
 export function isOverlapping(season, seasons){

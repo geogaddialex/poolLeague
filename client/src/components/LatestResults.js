@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Table, Button, Glyphicon } from "react-bootstrap";
-import { isEmpty, formatDateAndTime, userPlayed, myRow } from "../Utils"
+import { isEmpty, formatDateAndTime, myRow } from "../Utils"
+import { userPlayed } from "../UserUtils"
 import Excuses from "./Excuses"
 import "./LatestResults.css";
 

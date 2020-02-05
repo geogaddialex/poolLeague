@@ -11,6 +11,7 @@ import SeasonInfo from "../components/SeasonInfo";
 import RunTheNumbers from "../components/RunTheNumbers";
 import AddSeason from "../components/AddSeason";
 import { isEmpty, isSeasonOpen } from "../Utils";
+import { userInSeason } from "../UserUtils";
 import "./Season.css";
 
 export default function Season(props) {
@@ -43,10 +44,6 @@ export default function Season(props) {
     ])
 	const numberOfResults = 10;
 
-	function userInSeason(){
-		return props.season.players.some(player => player._id == props.user._id)
-	}
-
   	return (
     	<span className="Season">
 			<Row> 
@@ -60,7 +57,7 @@ export default function Season(props) {
 							</Col>
 						</Row>
 						
-						{  !isEmpty(props.user) && userInSeason(props.user) && isSeasonOpen(props.season) && props.season.players.length > 1 &&
+						{  !isEmpty(props.user) && userInSeason(props.season, props.user._id) && isSeasonOpen(props.season) && props.season.players.length > 1 &&
 							<Row>
 								<Col xs={12} md={4}><AddGame games={props.games} season={props.season} user={props.user} /></Col>
 								<Col xs={12} md={8}><RunTheNumbers season={props.season} runTheNumbers={runTheNumbers} setRunTheNumbers={setRunTheNumbers} /></Col>

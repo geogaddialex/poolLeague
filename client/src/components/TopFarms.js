@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Table } from "react-bootstrap";
-import { isEmpty, userPlayed, myRow } from "../Utils"
+import { isEmpty, myRow } from "../Utils"
+import { userPlayed } from "../UserUtils"
+
 import "./TopFarms.css";
 
 export default function TopFarms(props) {
