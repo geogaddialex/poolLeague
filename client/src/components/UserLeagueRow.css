@@ -1,0 +1,38 @@
+.UserLeagueRow {
+  background-color: #f8f8f8;
+  border: 1px solid #e7e7e7;
+  border-radius: 5px;
+  padding:5px;
+}
+
+@media (max-width: 1050px) {
+    .UserLeagueRow .table thead tr th:nth-child(3),
+	.UserLeagueRow .table tbody tr td:nth-child(3),
+	.UserLeagueRow .table thead tr th:nth-child(6),
+	.UserLeagueRow .table tbody tr td:nth-child(6),
+	.UserLeagueRow .table thead tr th:nth-child(7),
+	.UserLeagueRow .table tbody tr td:nth-child(7),
+	.UserLeagueRow .table thead tr th:nth-child(9),
+	.UserLeagueRow .table tbody tr td:nth-child(9)
+	{
+	  display: none;
+	} 
+}
+
+@media (max-width: 550px) {
+    .UserLeagueRow .table thead tr th:nth-child(3),
+	.UserLeagueRow .table tbody tr td:nth-child(3),
+	.UserLeagueRow .table thead tr th:nth-child(6),
+	.UserLeagueRow .table tbody tr td:nth-child(6),
+	.UserLeagueRow .table thead tr th:nth-child(7),
+	.UserLeagueRow .table tbody tr td:nth-child(7),
+	.UserLeagueRow .table thead tr th:nth-child(9),
+	.UserLeagueRow .table tbody tr td:nth-child(9),
+	.UserLeagueRow .table thead tr th:nth-child(11),
+	.UserLeagueRow .table tbody tr td:nth-child(11),
+	.UserLeagueRow .table thead tr th:nth-child(12),
+	.UserLeagueRow .table tbody tr td:nth-child(12)
+	{
+	  display: none;
+	} 
+}

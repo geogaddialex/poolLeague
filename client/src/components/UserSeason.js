@@ -11,6 +11,7 @@ import SeasonInfo from "../components/SeasonInfo";
 import RunTheNumbers from "../components/RunTheNumbers";
 import AddSeason from "../components/AddSeason";
 import CountPlayed from "../components/CountPlayed";
+import UserLeagueRow from "../components/UserLeagueRow";
 import { isEmpty, isSeasonOpen } from "../Utils";
 import { userPlayed, getUser } from "../UserUtils";
 import "./UserSeason.css";
@@ -27,6 +28,11 @@ export default function UserSeason(props) {
 					{ !isEmpty(props.season.players) &&
 
 					<>
+						<Row>
+							<Col xs={12}>
+								<UserLeagueRow users={props.users} user={props.user} player={props.player} games={props.games} season={props.season}/>
+							</Col>
+						</Row>
 						<Row>
 							<Col xs={12}>
 								<CountPlayed user={props.user} player={props.player} players={props.season.players} games={props.games.filter(game=> userPlayed(game, player))} />

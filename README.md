@@ -2,7 +2,7 @@
 
 Important:
 
-User Season Stats - games played, tsnr, etc
+User Season - Top row should be their League Row from that season, played, position, tnsr, etc 
 Comments left by deleted users break site - delete all comments by user when deleting
 Admin kick user from season; update socket
 Top Farms loads normally on first click (of All Time) but keep clicking and it eventually  warps to MostPlayed

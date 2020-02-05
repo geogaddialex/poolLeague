@@ -185,7 +185,6 @@ export default function LeagueTable(props) {
     </Tooltip>
   );
 
-
   return (
 
     <div className="LeagueTable">
@@ -203,7 +202,6 @@ export default function LeagueTable(props) {
               <OverlayTrigger placement="top" overlay={TooltipSevenBall}>
                 <th>7Balls</th>
               </OverlayTrigger>
-
               <OverlayTrigger placement="top" overlay={TooltipFoul}>
                 <th>Fouls</th>
               </OverlayTrigger>
