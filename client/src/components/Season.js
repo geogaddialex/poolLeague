@@ -70,7 +70,7 @@ export default function Season(props) {
 						{ props.games.length > 0 &&
 							<Row>
 								<Col xs={12}>
-									<LatestResults user={props.user} limit={200} season={props.season} games={props.games} />
+									<LatestResults user={props.user} limit={50} season={props.season} games={props.games} />
 								</Col>
 							</Row>
 						}

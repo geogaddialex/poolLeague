@@ -5,10 +5,8 @@ Important:
 Put All Time user season between latest and last seasons
 User MostPlayed doesn't need to show the users name
 Comments left by deleted users break site - delete all comments by user when deleting
-S3 Lance games and finish S2 check
 Deleting games should update socket
 Admin kick user from season; update socket
-Hide users from addGame unless they're in season
 Top Farms loads normally on first click (of All Time) but keep clicking and it eventually  warps to MostPlayed
 Hide Excuse column when screen too small
 Bigger font
@@ -27,6 +25,7 @@ Add a “Real name” field to user - display this on their user page
 
 Other:
 
+Stars next to name for seasons won
 Request a game
 Mobile tabs solution
 Gambling currency (Place a bet, next time that matchup happens check if bet won)( Odds are All-Time difference in TNSR between players)
