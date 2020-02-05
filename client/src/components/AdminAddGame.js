@@ -1,10 +1,15 @@
 import React , {useEffect, useState} from "react";
-import { Form, FormGroup, FormControl, ControlLabel, Button } from "react-bootstrap";
+import { Form, FormGroup, FormControl, ControlLabel, Button, Alert } from "react-bootstrap";
+import LoaderButton from "../components/LoaderButton";
 import { useFormFields } from "../libs/hooksLib";
 import { isEmpty } from "../Utils"
 import "./AddGame.css";
 
 export default function AdminAddGame(props) {
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [failure, setFailure] = useState(false);
 
   const [fields, handleFieldChange] = useFormFields({
     winner: "select",
@@ -24,24 +29,50 @@ export default function AdminAddGame(props) {
 
   async function handleSubmit(event) {
     event.preventDefault();
+    setIsLoading(true);
+    setSuccess(false)
+    setFailure(false)
 
     try {
 
       fields.addedBy = props.user
-      fetch('/api/games', {
+      const response = await fetch('/api/games', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(fields),
       })
-      
-    } catch (e) {
+      if(await response.ok){  
 
+        setIsLoading(false)
+        setSuccess(true)
+      }else{
+
+        setFailure(true)
+        setIsLoading(false);
+      }
+        
+    }catch(e){
+      setFailure(true)
+      setIsLoading(false);
     }
   }
 
   return (
     <div className="AdminAddGame">
-      <p><b>Add a Game</b></p>
+
+      { success &&
+        <Alert bsStyle="success">
+          <strong>Success!</strong> Game added
+        </Alert>
+      }
+      { failure && 
+        <Alert bsStyle="danger">
+          <strong>Failure!</strong> Couldn't add game
+        </Alert>
+      }
+      { !failure && !success &&
+        <p><b>Add a Game</b></p>
+      }
 
       <Form onSubmit={handleSubmit}>
 
@@ -100,7 +131,15 @@ export default function AdminAddGame(props) {
           />
         </FormGroup>
         
-        <Button type="submit" disabled={!validateForm()}>Add</Button>
+          <LoaderButton
+            block
+            type="submit"
+            bsSize="large"
+            isLoading={isLoading}
+            disabled={!validateForm()}
+          >
+            Add
+          </LoaderButton>   
       </Form>
     </div>
   );

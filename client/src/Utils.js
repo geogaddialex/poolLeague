@@ -54,6 +54,15 @@ export function isSeasonOpen(season){
   return today > start && ( today < end || today.getDate() == end.getDate() )
 }
 
+export function canJoinSeason(season){
+  var today = new Date()
+  var start = new Date(season.start)
+  var deadline = new Date(season.start)
+  deadline.setDate(deadline.getDate() + 7);
+
+  return today < deadline || sameDay(today, deadline)
+}
+
 export function getGamesForSeason(games, season){
   var seasonStart = new Date(season.start)
   var seasonEnd = new Date(season.end)
@@ -84,28 +93,13 @@ export function isOverlapping(season, seasons){
       var oneSeasonStart = new Date(oneSeason.start)
       var oneSeasonEnd = new Date(oneSeason.end)
 
-      if(checkSeasonStart > oneSeasonStart &&  ( checkSeasonStart < oneSeasonEnd || checkSeasonStart.getDate() == oneSeasonEnd.getDate() ) ){
-        //field start inside another season
-        console.log("FAIL 2")
-
-        overlapping =  true
-
-      }else if(checkSeasonEnd > oneSeasonStart &&  ( checkSeasonEnd < oneSeasonEnd || checkSeasonEnd.getDate() == oneSeasonEnd.getDate() ) ){
-        //field end inside another season
-        console.log("FAIL 3")
-
+      if(checkSeasonStart > oneSeasonStart &&  ( checkSeasonStart < oneSeasonEnd || sameDay(checkSeasonStart, oneSeasonStart) ) ){
         overlapping = true
-      
-      }else if(oneSeasonStart > checkSeasonStart &&  ( oneSeasonStart < checkSeasonEnd || oneSeasonStart.getDate() == checkSeasonEnd.getDate() )){
-        //loop start inside field range
-        console.log("FAIL 4")
-
+      }else if(checkSeasonEnd > oneSeasonStart &&  ( checkSeasonEnd < oneSeasonEnd || sameDay(checkSeasonEnd, oneSeasonEnd) ) ){
         overlapping = true
-
-      }else if(oneSeasonEnd > checkSeasonStart &&  ( oneSeasonEnd < checkSeasonEnd || oneSeasonEnd.getDate() == checkSeasonEnd.getDate() )){
-        //loop end inside field range
-        console.log("FAIL 5")
-
+      }else if(oneSeasonStart > checkSeasonStart &&  ( oneSeasonStart < checkSeasonEnd || sameDay(oneSeasonStart, checkSeasonEnd) ) ){
+        overlapping = true
+      }else if(oneSeasonEnd > checkSeasonStart &&  ( oneSeasonEnd < checkSeasonEnd || sameDay(oneSeasonEnd, checkSeasonEnd) ) ){
         overlapping = true
       }
     })

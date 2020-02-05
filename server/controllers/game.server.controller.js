@@ -44,6 +44,9 @@ exports.delete = function( req, res ){
     Game.findByIdAndRemove(id, function(err){
         if (err) return res.status(404).json({errors: "Could not delete game"})
     })
+
+    var socketio = req.app.get('socketio');
+    socketio.sockets.emit("DeletedGame", id);
     return res.status(200).json({message: id+" deleted"})
 }
 

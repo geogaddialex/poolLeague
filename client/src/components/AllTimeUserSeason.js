@@ -12,9 +12,9 @@ import RunTheNumbers from "../components/RunTheNumbers";
 import AddSeason from "../components/AddSeason";
 import CountPlayed from "../components/CountPlayed";
 import { isEmpty, isSeasonOpen } from "../Utils";
-import "./UserSeason.css";
+import "./AllTimeUserSeason.css";
 
-export default function UserSeason(props) {
+export default function AllTimeUserSeason(props) {
 
 	const numberOfResults = 10;
 
@@ -23,43 +23,35 @@ export default function UserSeason(props) {
 	}
 
   	return (
-    	<span className="UserSeason">
+    	<span className="AllTimeUserSeason">
 			<Row> 
 				<Col xs={12} sm={8} md={9}> 
-					{ !isEmpty(props.season.players) &&
+					{ !isEmpty(props.users) &&
 
 					<>
 						<Row>
 							<Col xs={12}>
-								<CountPlayed user={props.user} player={props.player} players={props.season.players} games={props.games.filter(x=> userPlayedIn(x))} />
+								<CountPlayed user={props.user} player={props.player} players={props.users} games={props.games.filter(x=> userPlayedIn(x))} />
 							</Col>
 						</Row>
 						
 						{ props.games.length > 0 &&
 							<Row>
 								<Col xs={12}>
-									<LatestResults user={props.user} limit={200} games={props.games} />
+									<LatestResults user={props.user} limit={200} games={props.games.filter(x=> userPlayedIn(x))} />
 								</Col>
 							</Row>
 						}
 
 	    			</>
 	    			}
-    				{ !isSeasonOpen(props.season) && new Date(props.season.start) > new Date() &&
-    					<Alert bsStyle="info">
-							{props.season.name} hasn't started yet
-						</Alert>
-    				}
 				</Col>
 
 				<Col xs={12} sm={4} md={3}>
 
-				    <Row>	
-				    	<Col xs={12}><SeasonInfo games={props.games} season={props.season} user={props.user} /></Col>
-					</Row>
 					{ props.games.length > 0 && 
 						<Row>
-							<Col xs={12}><MostPlayed user={props.user} limit={numberOfResults} games={props.games} /></Col>
+							<Col xs={12}><MostPlayed user={props.user} limit={numberOfResults} games={props.games.filter(x=> userPlayedIn(x))} /></Col>
 						</Row>
 					}
 

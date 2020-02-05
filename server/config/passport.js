@@ -26,13 +26,11 @@ module.exports = function( passport ){
         passwordField : 'password',
         passReqToCallback : true
 
-
     }, function(req, name, password, done) {
 
         process.nextTick(function() {
 
-            User.findOne({ 'name' : name }, function(err, user) {
-
+            User.findOne({ "name" : { $regex : new RegExp(name, "i") } }, function(err, user) {
 
                 if( err ){
                     return done(err);
@@ -46,14 +44,17 @@ module.exports = function( passport ){
 
                     var newUser                 = new User();
                     newUser.name                = req.body.name
-                    newUser.password      = newUser.generateHash(password);
+                    newUser.password            = newUser.generateHash(password);
 
                     newUser.save(function(err) {
                         
                         if (err){
                             done(null)
                         }
-                            
+
+                        var socketio = req.app.get('socketio');
+                        socketio.sockets.emit("NewUser", newUser);
+                        
                         return done(null, newUser);
                     });
                 }
@@ -73,8 +74,7 @@ module.exports = function( passport ){
 
     }, function(req, name, password, done) {
 
-
-        User.findOne({ 'name' : name }, function(err, user) {
+        User.findOne({ "name" : { $regex : new RegExp(name, "i") } }, function(err, user) {
 
             if (err)
                 return done(err);

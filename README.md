@@ -3,33 +3,26 @@
 Important:
 
 Put All Time user season between latest and last seasons
-User MostPlayed doesn't need to show the users name
 Comments left by deleted users break site - delete all comments by user when deleting
-Deleting games should update socket
 Admin kick user from season; update socket
 Top Farms loads normally on first click (of All Time) but keep clicking and it eventually  warps to MostPlayed
 Hide Excuse column when screen too small
-Bigger font
-Admin add game success Alert
-Opponents component links to user
-Login not case sensitive / signup
-User page no such user if id is invalid
-Comment autofocus and enter to submit
 Friendly league that never resets
 Option on All Time to include friendlies
-Sort by name in addGame dropdown
 Filter recent games
-Think about mitigating unplayed from late joiners - closed entry X days from start?
-Remove unplayed fixture penalty from old seasons
-Add a “Real name” field to user - display this on their user page
+Scroll through old games (pagination or 'load more' button)
+Mobile tabs solution
+Avatars
+
 
 Other:
 
 Stars next to name for seasons won
+User MostPlayed doesn't need to show the users name
+Add a “Real name” field to user - display this on their user page
 Request a game
-Mobile tabs solution
+Comment autofocus and enter to submit
 Gambling currency (Place a bet, next time that matchup happens check if bet won)( Odds are All-Time difference in TNSR between players)
-Scroll through old games (pagination or 'load more' button)
 Emoji support
 Implement Elo
 New rule suggestions and votes (show who voted but not for what)

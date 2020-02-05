@@ -4,6 +4,7 @@ import LatestResults from "../components/LatestResults";
 import AddSeason from "../components/AddSeason";
 import Season from "../components/Season";
 import UserSeason from "../components/UserSeason";
+import AllTimeUserSeason from "../components/AllTimeUserSeason";
 import { isEmpty, userInSeason, getGamesForSeason, getMinGames } from "../Utils";
 import "./Home.css";
 
@@ -18,7 +19,7 @@ export default function User(props) {
 	}
 
 	function getName(userId){
-		return props.seasons[0].players.find(player => player._id == userId).name
+		return props.users.find(player => player._id == userId).name
 	}
 
 	function userPlayedIn(game){
@@ -28,24 +29,37 @@ export default function User(props) {
   	return (
 	    <div className="User">
 
-	    	<h1>{getName(params.userId)}</h1>
+	    	{ !isEmpty(props.users) && props.users.find(player => player._id == params.userId) ?
 
-	    	{ !isEmpty(props.users) &&
+	    		<>
+
+	    		<h1>{getName(params.userId)}</h1>
 
 				<Tabs activeKey={key} id="tabs">
+
+					<Tab key={props.seasons.length} eventKey={props.seasons.length} title="All Time">
+				        <AllTimeUserSeason key={props.seasons.length}  users={props.users} player={params.userId} user={props.user} games={props.games} />
+				    </Tab>
 
 					{ props.seasons.sort(startedEarliest).filter(season => userInSeason(season, params.userId)).map((season, index) => {
 
 						const gamesForSeason = getGamesForSeason(props.games.filter(x => userPlayedIn(x)), season)
 
 						return (
-				        	<Tab key={index+1} eventKey={index+1} title={season.name}>
+				        	<Tab key={index} eventKey={index} title={season.name}>
 				          		<UserSeason key={index} player={params.userId} user={props.user} games={gamesForSeason} season={season} />
 				        	</Tab>
 				    	)
 					})}
 
 				</Tabs>	
+				</>
+
+			:
+
+				<Alert bsStyle="info">
+		        	<strong>Uh oh!</strong> This user doesn't exist
+		      	</Alert>
 			}
 
        	</div>

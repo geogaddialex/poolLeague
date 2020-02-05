@@ -7,7 +7,7 @@ export default function CountPlayed(props) {
 
   function getPlayed(){
 
-    const count = props.season.players.filter(player => player._id !== props.player).map( player =>{
+    const count = props.players.filter(player => player._id !== props.player).map( player =>{
 
       player.wins = 0
       player.losses = 0
@@ -49,7 +49,7 @@ export default function CountPlayed(props) {
         </thead>
 
         <tbody>
-         {  !isEmpty(props.season.players) && 
+         {  !isEmpty(props.players) && 
               getPlayed()
               .sort(compareFarms)
               .map((player, index) => {

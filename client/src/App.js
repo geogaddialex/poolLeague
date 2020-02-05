@@ -27,8 +27,8 @@ function App(props) {
   const [loadedUsers, setLoadedUsers] = useState(false)
   const [loadingUsers, setLoadingUsers] = useState(false)
 
-  // const socket = io("ws://localhost:5000", {transports: ['websocket']})
-  const socket = io("wss://scrubs-pool-league.herokuapp.com/", {transports: ['websocket']})  
+  const socket = io("ws://localhost:5000", {transports: ['websocket']})
+  // const socket = io("wss://scrubs-pool-league.herokuapp.com/", {transports: ['websocket']})  
 
   useEffect(() => {
 
@@ -60,6 +60,10 @@ function App(props) {
       setGames([...games, game].sort(compareCreatedAt))
     }
 
+    const deletedGameHandler = (gameId) =>{
+      setGames(games.filter(game => game._id !== gameId).sort(compareCreatedAt))
+    }
+
     const newExcuseHandler = (updatedGame) =>{
 
       var index = games.findIndex(game => game._id == updatedGame._id)
@@ -71,10 +75,12 @@ function App(props) {
     }
 
     socket.on("NewGame", newGameHandler)
+    socket.on("DeletedGame", deletedGameHandler)
     socket.on("NewExcuse", newExcuseHandler)
 
     return () => {
       socket.off("NewGame", newGameHandler)
+      socket.off("DeletedGame", deletedGameHandler)
       socket.off("NewExcuse", newExcuseHandler)
     }
 
@@ -108,19 +114,25 @@ function App(props) {
 
   useEffect(() => {
 
+    const newUserHandler = (user) =>{
+      setUsers([...users, user])
+    }
+
     const updatedUserHandler = (updatedUser) =>{
       loadSeasons()
       loadGames()
       updatedUser._id == user._id ? setUser(updatedUser) : setUser(user)
     }
 
+    socket.on("NewUser", newUserHandler)
     socket.on("UpdatedUser", updatedUserHandler)
 
     return () => {
+      socket.off("NewUser", newUserHandler)
       socket.off("UpdatedUser", updatedUserHandler)
     }
 
-  }, [props.users])
+  }, [users])
 
 
   async function loadUser() {
