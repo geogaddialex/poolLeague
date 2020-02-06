@@ -1,5 +1,6 @@
 # poolLeague.fitness
 
+
 User Season:
 	Fix Wins to first + Position 
 	Fix TNSR for all time
