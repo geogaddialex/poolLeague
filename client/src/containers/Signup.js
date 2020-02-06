@@ -11,7 +11,6 @@ export default function Signup(props) {
     confirmPassword: "",
   });
   const [isLoading, setIsLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
   const [failure, setFailure] = useState(false);
 
   function validateForm() {
@@ -26,7 +25,6 @@ export default function Signup(props) {
   async function handleSubmit(event) {
     event.preventDefault();
     setIsLoading(true);
-    setSuccess(false)
     setFailure(false)
 
     try {

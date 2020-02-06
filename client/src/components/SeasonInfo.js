@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Table } from "react-bootstrap";
-import { getMinGames, isEmpty, formatDate, isSeasonOpen, canJoinSeason } from "../Utils";
-import { userInSeason } from "../UserUtils";
+import { isEmpty, formatDate } from "../Utils/Utils";
+import { getMinGames, isSeasonOpen, canJoinSeason } from "../Utils/SeasonUtils";
+import { userInSeason } from "../Utils/UserUtils";
 import JoinSeason from "../components/JoinSeason";
 import "./SeasonInfo.css";
 

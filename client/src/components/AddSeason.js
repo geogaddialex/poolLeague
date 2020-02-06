@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Form, FormGroup, FormControl, ControlLabel, Button, Alert } from "react-bootstrap";
 import { useFormFields } from "../libs/hooksLib";
-import { isEmpty, isOverlapping } from "../Utils"
+import { isEmpty } from "../Utils/Utils"
+import { isOverlapping } from "../Utils/SeasonUtils"
 
 import "./AddSeason.css";
 

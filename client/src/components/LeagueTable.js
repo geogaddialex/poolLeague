@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { getMinGames, isEmpty, myRow } from "../Utils";
-import { getGamesForUser } from "../UserUtils"
+import { isEmpty, myRow } from "../Utils/Utils";
+import { getMinGames } from "../Utils/SeasonUtils";
+import { getGamesForUser } from "../Utils/UserUtils"
 import { Table, Tooltip, OverlayTrigger, Alert } from "react-bootstrap";
 import "./LeagueTable.css";
 
@@ -125,7 +126,7 @@ export default function LeagueTable(props) {
     return calculateTNSR(b) - calculateTNSR(a);
   }
 
-  function compareTNSRthenWinsToFirst(a, b) {
+  function compareTNSRthenLosses(a, b) {
 
     if (calculateTNSR(a) > calculateTNSR(b)) return -1;
     if (calculateTNSR(a) < calculateTNSR(b)) return 1;
@@ -226,7 +227,7 @@ export default function LeagueTable(props) {
           <tbody>
 
           { props.games.length > 0 &&
-            props.season.players.sort(compareTNSRthenWinsToFirst).map((user, index) => {
+            props.season.players.sort(compareTNSRthenLosses).map((user, index) => {
               return (
                 <tr key={index} style={ user._id == props.user._id ? myRow : null} >
                   <td>{index+1}</td>

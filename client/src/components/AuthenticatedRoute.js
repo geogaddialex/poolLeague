@@ -1,6 +1,6 @@
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
-import { isEmpty } from "../Utils"
+import { isEmpty } from "../Utils/Utils"
 
 export default function AuthenticatedRoute({ component: C, appProps, ...rest }) {
   return (

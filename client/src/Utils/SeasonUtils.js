@@ -1,26 +1,12 @@
-export function isEmpty(obj){
-  var objString = JSON.stringify(obj)
-  var empty = objString == "{}" || objString == undefined || objString == "[]"
-	return empty
-}
+import { sameDay } from "./Utils"
 
-export function sameDay(a,b){
-  return a.getDate() == b.getDate() && a.getMonth() == b.getMonth() && a.getFullYear == b.getFullYear
+export function allTimeSeason(users) {
+  return {
+    start: new Date("01/01/2000"),
+    end: new Date("01/01/3000"),
+    players: users
+  }
 }
-
-export function formatDate(dateString){
-  var date = new Date(dateString)
-  return date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear()
-}
-
-export function formatDateAndTime(dateString){
-  var date = new Date(dateString)
-  return date.getDate() + "/" + (date.getMonth() + 1) + " " + ('0'+date.getHours()).slice(-2) + ":" + ('0'+date.getMinutes()).slice(-2);
-}
-
-export const myRow = {
-  backgroundColor: "#ebebf8"
-};
 
 export function isSeasonOpen(season){
   var today = new Date()

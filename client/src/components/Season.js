@@ -10,8 +10,9 @@ import Streaks from "../components/Streaks";
 import SeasonInfo from "../components/SeasonInfo";
 import RunTheNumbers from "../components/RunTheNumbers";
 import AddSeason from "../components/AddSeason";
-import { isEmpty, isSeasonOpen } from "../Utils";
-import { userInSeason } from "../UserUtils";
+import { isEmpty } from "../Utils/Utils";
+import { isSeasonOpen } from "../Utils/SeasonUtils";
+import { userInSeason } from "../Utils/UserUtils";
 import "./Season.css";
 
 export default function Season(props) {

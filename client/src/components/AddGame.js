@@ -2,7 +2,7 @@ import React , {useEffect, useState} from "react";
 import { Form, FormGroup, FormControl, ControlLabel, Button, Alert } from "react-bootstrap";
 import LoaderButton from "../components/LoaderButton";
 import { useFormFields } from "../libs/hooksLib";
-import { isEmpty } from "../Utils"
+import { isEmpty } from "../Utils/Utils"
 import "./AddGame.css";
 
 export default function AddGame(props) {

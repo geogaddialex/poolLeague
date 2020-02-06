@@ -11,7 +11,8 @@ import SeasonInfo from "../components/SeasonInfo";
 import RunTheNumbers from "../components/RunTheNumbers";
 import AddSeason from "../components/AddSeason";
 import Season from "../components/Season"
-import { isEmpty, isSeasonOpen, getGamesForSeason, getMinGames } from "../Utils";
+import { isEmpty } from "../Utils/Utils";
+import { isSeasonOpen, getGamesForSeason, getMinGames } from "../Utils/SeasonUtils";
 import "./Home.css";
 
 export default function Home(props) {

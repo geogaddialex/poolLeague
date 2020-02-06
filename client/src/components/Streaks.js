@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Table } from "react-bootstrap";
-import { isEmpty, myRow } from "../Utils"
+import { isEmpty, myRow } from "../Utils/Utils"
 import "./Streaks.css";
 
 export default function Streaks(props) {

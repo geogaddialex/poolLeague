@@ -12,8 +12,9 @@ import RunTheNumbers from "../components/RunTheNumbers";
 import AddSeason from "../components/AddSeason";
 import CountPlayed from "../components/CountPlayed";
 import UserLeagueRow from "../components/UserLeagueRow";
-import { isEmpty, isSeasonOpen } from "../Utils";
-import { userPlayed, getUser } from "../UserUtils";
+import { isEmpty } from "../Utils/Utils";
+import { isSeasonOpen } from "../Utils/SeasonUtils";
+import { userPlayed, getUser } from "../Utils/UserUtils";
 import "./UserSeason.css";
 
 export default function UserSeason(props) {
@@ -30,7 +31,7 @@ export default function UserSeason(props) {
 					<>
 						<Row>
 							<Col xs={12}>
-								<UserLeagueRow users={props.users} user={props.user} player={props.player} games={props.games} season={props.season}/>
+								<UserLeagueRow users={props.users} user={props.user} player={player} games={props.games} season={props.season}/>
 							</Col>
 						</Row>
 						<Row>
@@ -39,10 +40,10 @@ export default function UserSeason(props) {
 							</Col>
 						</Row>
 						
-						{ props.games.length > 0 &&
+						{ props.playerGames.length > 0 &&
 							<Row>
 								<Col xs={12}>
-									<LatestResults user={props.user} limit={200} games={props.games} />
+									<LatestResults user={props.user} limit={200} games={props.playerGames} />
 								</Col>
 							</Row>
 						}
@@ -59,11 +60,11 @@ export default function UserSeason(props) {
 				<Col xs={12} sm={4} md={3}>
 
 				    <Row>	
-				    	<Col xs={12}><SeasonInfo games={props.games} season={props.season} user={props.user} /></Col>
+				    	<Col xs={12}><SeasonInfo games={props.playerGames} season={props.season} user={props.user} /></Col>
 					</Row>
-					{ props.games.filter(game=> userPlayed(game, player)).length > 0 && 
+					{ props.playerGames.filter(game=> userPlayed(game, player)).length > 0 && 
 						<Row>
-							<Col xs={12}><MostPlayed user={props.user} limit={numberOfResults} games={props.games} /></Col>
+							<Col xs={12}><MostPlayed user={props.user} limit={numberOfResults} games={props.playerGames} /></Col>
 						</Row>
 					}
 

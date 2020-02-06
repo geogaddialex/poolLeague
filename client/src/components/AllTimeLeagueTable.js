@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { isEmpty, myRow } from "../Utils";
-import { Table, Tooltip, OverlayTrigger } from "react-bootstrap";
+import { isEmpty, myRow } from "../Utils/Utils";
+import { Table, Tooltip, OverlayTrigger, Glyphicon } from "react-bootstrap";
 import "./AllTimeLeagueTable.css";
 
 export default function AllTimeLeagueTable(props) {

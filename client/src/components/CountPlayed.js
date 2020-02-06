@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Table } from "react-bootstrap";
-import { isEmpty, myRow } from "../Utils"
+import { isEmpty, myRow } from "../Utils/Utils"
 import "./CountPlayed.css";
 
 export default function CountPlayed(props) {
@@ -40,8 +40,8 @@ export default function CountPlayed(props) {
 
         <thead>
           <tr>
+            <th>Opponent</th>
             <th>Played</th>
-            <th>Count</th>
             <th>Wins</th>
             <th>Losses</th>
             <th>Farm</th>

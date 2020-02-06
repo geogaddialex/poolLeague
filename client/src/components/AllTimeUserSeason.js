@@ -1,19 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Row, Col, Alert } from "react-bootstrap";
-import LeagueTable from "../components/LeagueTable";
-import AddGame from "../components/AddGame";
 import LatestResults from "../components/LatestResults";
-import TopFarms from "../components/TopFarms";
 import MostPlayed from "../components/MostPlayed";
 import LeastPlayed from "../components/LeastPlayed";
-import Streaks from "../components/Streaks";
-import SeasonInfo from "../components/SeasonInfo";
-import RunTheNumbers from "../components/RunTheNumbers";
-import AddSeason from "../components/AddSeason";
 import CountPlayed from "../components/CountPlayed";
 import UserStats from "../components/UserStats";
-import { isEmpty, isSeasonOpen } from "../Utils";
-import { userPlayed, getUser } from "../UserUtils";
+import AllTimeUserLeagueRow from "../components/AllTimeUserLeagueRow";
+import { isEmpty } from "../Utils/Utils";
+import { userPlayed, getUser } from "../Utils/UserUtils";
+import { allTimeSeason } from "../Utils/SeasonUtils";
 import "./AllTimeUserSeason.css";
 
 export default function AllTimeUserSeason(props) {
@@ -28,6 +23,12 @@ export default function AllTimeUserSeason(props) {
 					{ !isEmpty(props.users) &&
 
 					<>
+
+						<Row>
+							<Col xs={12}>
+								<AllTimeUserLeagueRow users={props.users} user={props.user} player={player} games={props.games} />
+							</Col>
+						</Row>
 						<Row>
 							<Col xs={12}>
 								<CountPlayed user={props.user} player={props.player} players={props.users} games={props.games.filter(game=> userPlayed(game, player))} />

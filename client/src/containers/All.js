@@ -4,7 +4,7 @@ import AllTimeLeagueTable from "../components/AllTimeLeagueTable";
 import TopFarms from "../components/TopFarms";
 import MostPlayed from "../components/MostPlayed";
 import LeastPlayed from "../components/LeastPlayed";
-import { isEmpty, isSeasonOpen } from "../Utils";
+import { isEmpty, isSeasonOpen } from "../Utils/Utils";
 import "./All.css";
 
 export default function All(props) {

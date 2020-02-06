@@ -1,42 +1,51 @@
 import React, { useState, useEffect } from "react";
 import { isEmpty, myRow } from "../Utils/Utils";
-import { getMinGames, getGamesForSeason } from "../Utils/SeasonUtils";
+import { getMinGames, allTimeSeason } from "../Utils/SeasonUtils";
 import { getGamesForUser, getUser, countWins, countLosses, countPlayed, countSevenBallsFor,
-  countSevenBallsAgainst, countFoulsFor, countFoulsAgainst, calculatePoints, calculateTNSR, countUnderMin,
-  countUnplayed, countPenalty, getPosition } from "../Utils/UserUtils"
+  countSevenBallsAgainst, countFoulsFor, countFoulsAgainst, calculatePoints, countUnderMin,
+  countUnplayed, countPenalty } from "../Utils/UserUtils"
 import { Table, Tooltip, OverlayTrigger, Alert } from "react-bootstrap";
-import "./UserLeagueRow.css";
+import "./AllTimeUserLeagueRow.css";
 
-export default function UserLeagueRow(props) {
+export default function AllTimeUserLeagueRow(props) {
+
+  function calculateTNSR(user){
+    let losses = countLosses(props.games, user) > 0 ? countLosses(props.games, user) : 1
+    return calculatePoints(props.games, user) / losses
+  }
+
+  function getPosition(player){
+    const TNSRS = props.users.map( user => calculateTNSR(user))
+    .sort(function(a, b){return b-a})
+
+    const positon = TNSRS.findIndex(value => value == calculateTNSR(player))
+    return positon+1
+}
 
   function calculateWinsToFirst(subjectPlayer){
 
-    const seasonGames = getGamesForSeason(props.games, props.season)
-    const TNSRS = props.season.players.map( user => {
-      const TNSR = calculateTNSR(seasonGames, user, props.season)
-      return TNSR
+    const TNSRS = props.users.map( user => {
+      return calculateTNSR(user)
     })
 
-    let max = props.season.players.find(player => calculateTNSR(seasonGames, player, props.season) == Math.max( ...TNSRS ) )
-    let TNSRdiff = calculateTNSR(seasonGames, max, props.season) - calculateTNSR(seasonGames, subjectPlayer, props.season) + 0.01
+    let max = props.users.find(currentPlayer => calculateTNSR(currentPlayer) == Math.max( ...TNSRS ) )
+    let TNSRdiff = calculateTNSR(max) - calculateTNSR(subjectPlayer) + 0.01
     let losses = countLosses(props.games, subjectPlayer) > 0 ? countLosses(props.games, subjectPlayer) : 1
-    let penalty = countPenalty(props.games, subjectPlayer, props.season)
 
-    return max === subjectPlayer ? 0 : Math.ceil(TNSRdiff * (losses+countPenalty(props.games, subjectPlayer, props.season)))
+    return max === subjectPlayer ? 0 : Math.ceil(TNSRdiff * losses)
   }
 
   function calculateWinsToRankUp(user){
-    let index = props.season.players.sort(compareTNSR).indexOf(user)
+    let index = props.users.sort(compareTNSR).indexOf(user)
 
     if(index === 0 ){
       return 0
     }else{
-      let upOne = props.season.players[index-1]
+      let upOne = props.users[index-1]
       let TNSRdiff = calculateTNSR(upOne) - calculateTNSR(user) + 0.01
       let losses = countLosses(user) > 0 ? countLosses(user) : 1
       return Math.ceil(TNSRdiff * (losses+countPenalty(user)))
     }
-    
   }
 
   function compareTNSR(a, b) {
@@ -59,20 +68,10 @@ export default function UserLeagueRow(props) {
     </Tooltip>
   );
 
-
   const TooltipFoul = (
     <Tooltip id="TooltipFoul">
       <strong>Foul Wins</strong>
       <br/>Yours / Opponents
-    </Tooltip>
-  );
-
-
-  const TooltipPenalty = (
-    <Tooltip id="TooltipPenalty">
-      <strong>+1 Unplayed Games Penalty</strong>
-      <br/>Each unplayed opponent
-      <br/>Each game under minimum
     </Tooltip>
   );
 
@@ -108,7 +107,7 @@ export default function UserLeagueRow(props) {
 
     <div className="UserLeagueRow">
 
-    { !isEmpty(props.season.players) &&
+    { !isEmpty(props.users) &&
         <Table striped bordered condensed hover responsive>
 
           <thead>
@@ -127,9 +126,6 @@ export default function UserLeagueRow(props) {
               <OverlayTrigger placement="top" overlay={TooltipPoints}>
                 <th>Points</th>
               </OverlayTrigger>
-              <OverlayTrigger placement="top" overlay={TooltipPenalty}>
-                <th>Penalty</th>
-              </OverlayTrigger>
               <OverlayTrigger placement="top" overlay={TooltipTNSR}>
                 <th>TNSR</th>
               </OverlayTrigger>
@@ -143,7 +139,7 @@ export default function UserLeagueRow(props) {
 
           { props.games.length > 0 &&
                 <tr>
-                  <td>{getPosition(props.player, props.season, props.games)}</td>
+                  <td>{getPosition(props.player)}</td>
                   <td><b><a href={`/user/${props.player._id}`}>{props.player.name}</a></b></td>
                   <td>{countPlayed(props.games, props.player)}</td>
                   <td>{countWins(props.games, props.player)}</td>
@@ -151,8 +147,7 @@ export default function UserLeagueRow(props) {
                   <td>{countSevenBallsFor(props.games, props.player)} / {countSevenBallsAgainst(props.games, props.player)}</td>
                   <td>{countFoulsFor(props.games, props.player)} / {countFoulsAgainst(props.games, props.player)}</td>
                   <td>{calculatePoints(props.games, props.player)}</td>
-                  <td>{countPenalty(props.games, props.player, props.season)}</td>
-                  <td><b>{Math.round(calculateTNSR(props.games, props.player, props.season) * 100) / 100}</b></td>
+                  <td><b>{Math.round(calculateTNSR(props.player) * 100) / 100}</b></td>
                   <td>{calculateWinsToFirst(props.player)}</td>
                 </tr>
           }

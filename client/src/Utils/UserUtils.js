@@ -1,4 +1,4 @@
-import { getGamesForSeason, getMinGames } from "./Utils";
+import { getGamesForSeason, getMinGames } from "./SeasonUtils";
 
 export function getUser(userId, users){
 	return users.find(player => player._id == userId)
@@ -97,4 +97,17 @@ export function userPlayed(game, player){
 
 export function userInSeason(season, userId){
   return season.players.findIndex(player => player._id == userId) >= 0
+}
+
+export function getPosition(player, season, games){
+
+	const playerTNSR = calculateTNSR(games, player, season)
+
+	const TNSRS = season.players.map( user => {
+      const TNSR = calculateTNSR(games, user, season)
+      return TNSR
+    }).sort(function(a, b){return b-a})
+
+    const positon = TNSRS.findIndex(value => value == playerTNSR)
+    return positon+1
 }

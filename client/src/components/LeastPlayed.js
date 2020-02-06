@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Table } from "react-bootstrap";
-import { isEmpty, myRow } from "../Utils"
+import { isEmpty, myRow } from "../Utils/Utils"
 import "./LeastPlayed.css";
 
 export default function LeastPlayed(props) {
@@ -55,7 +55,7 @@ export default function LeastPlayed(props) {
           <thead>
             <tr>
               <th>Least Played</th>
-              <th>Count</th>
+              <th>#</th>
             </tr>
           </thead>
 

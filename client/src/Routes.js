@@ -12,19 +12,26 @@ import Settings from "./containers/Settings";
 import Admin from "./containers/Admin";
 import NotFound from "./containers/NotFound";
 import All from "./containers/All";
-import AllGames from "./containers/AllGames";
+import Games from "./containers/Games";
+import Rules from "./containers/Rules";
+import Users from "./containers/Users";
 
 export default function Routes({ appProps }) {
   return (
     <Switch>
-      <AppliedRoute path="/" exact component={Home} appProps={appProps} />
-      <UnauthenticatedRoute path="/login" exact component={Login} appProps={appProps} />
-      <UnauthenticatedRoute path="/signup" exact component={Signup} appProps={appProps} />
-      <AuthenticatedRoute path="/settings" exact component={Settings} appProps={appProps} />
-      <AdminRoute path="/admin" exact component={Admin} appProps={appProps} />
+      <AppliedRoute path="/" exact component={Home} appProps={appProps} /> 
       <AppliedRoute path="/user/:userId" exact component={User} appProps={appProps} />
       <AppliedRoute path="/all" exact component={All} appProps={appProps} />
-      <AdminRoute path="/games" exact component={AllGames} appProps={appProps} />
+      <AppliedRoute path="/rules" exact component={Rules} appProps={appProps} />
+
+      <UnauthenticatedRoute path="/login" exact component={Login} appProps={appProps} />
+      <UnauthenticatedRoute path="/signup" exact component={Signup} appProps={appProps} />
+
+      <AuthenticatedRoute path="/settings" exact component={Settings} appProps={appProps} />
+
+      <AdminRoute path="/admin" exact component={Admin} appProps={appProps} />
+      <AdminRoute path="/games" exact component={Games} appProps={appProps} />
+      <AdminRoute path="/users" exact component={Users} appProps={appProps} />
 
       <Route component={NotFound} />
     </Switch>

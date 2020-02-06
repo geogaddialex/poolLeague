@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Table } from "react-bootstrap";
-import { isEmpty, myRow } from "../Utils"
-import { userPlayed } from "../UserUtils"
+import { isEmpty, myRow } from "../Utils/Utils"
+import { userPlayed } from "../Utils/UserUtils"
 
 import "./MostPlayed.css";
 
@@ -49,7 +49,7 @@ export default function MostPlayed(props) {
         <thead>
           <tr>
             <th>Most Played</th>
-            <th>Count</th>
+            <th>#</th>
           </tr>
         </thead>
 

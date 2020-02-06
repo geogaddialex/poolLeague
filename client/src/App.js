@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Link, withRouter } from "react-router-dom";
-import { Nav, Navbar, NavItem } from "react-bootstrap";
+import { Nav, Navbar, NavItem, NavDropdown, MenuItem } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import Routes from "./Routes";
-import { isEmpty } from "./Utils"
+import { isEmpty } from "./Utils/Utils"
 import io from "socket.io-client";
 import "./App.css";
 
@@ -27,8 +27,8 @@ function App(props) {
   const [loadedUsers, setLoadedUsers] = useState(false)
   const [loadingUsers, setLoadingUsers] = useState(false)
 
-  const socket = io("ws://localhost:5000", {transports: ['websocket']})
-  // const socket = io("wss://scrubs-pool-league.herokuapp.com/", {transports: ['websocket']})  
+  // const socket = io("ws://localhost:5000", {transports: ['websocket']})
+  const socket = io("wss://scrubs-pool-league.herokuapp.com/", {transports: ['websocket']})  
 
   useEffect(() => {
 
@@ -221,11 +221,31 @@ function App(props) {
             <LinkContainer to="/all">
               <NavItem>All time</NavItem>
             </LinkContainer>
+
+            <LinkContainer to="/rules">
+              <NavItem>Rules</NavItem>
+            </LinkContainer>
           </Nav>
           <Nav pullRight>
 
             { !isEmpty(user)
               ? <>
+
+                  { user.isAdmin &&
+
+                    <NavDropdown title="Admin" id="basic-nav-dropdown">
+                      <LinkContainer to="/users">
+                        <MenuItem>Users</MenuItem>
+                      </LinkContainer>
+                      <LinkContainer to="/games">
+                        <MenuItem>Games</MenuItem>
+                      </LinkContainer>
+                      <LinkContainer to="/admin">
+                        <MenuItem>Creation</MenuItem>
+                      </LinkContainer>
+                    </NavDropdown>
+                  }
+
                   <LinkContainer to={'/user/'+user._id}>
                     <NavItem>{user.name}</NavItem>
                   </LinkContainer>

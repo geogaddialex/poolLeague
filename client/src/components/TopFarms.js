@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Table } from "react-bootstrap";
-import { isEmpty, myRow } from "../Utils"
-import { userPlayed } from "../UserUtils"
+import { isEmpty, myRow } from "../Utils/Utils"
+import { userPlayed } from "../Utils/UserUtils"
 
 import "./TopFarms.css";
 
@@ -60,9 +60,9 @@ export default function TopFarms(props) {
 
           <thead>
             <tr>
-              <th>Winner</th>
-              <th>Loser</th>
-              <th>Count</th>
+              <th>Farmer</th>
+              <th>Farmed</th>
+              <th>#</th>
             </tr>
           </thead>
 

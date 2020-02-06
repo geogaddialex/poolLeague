@@ -1,0 +1,18 @@
+.AllTimeUserLeagueRow {
+  background-color: #f8f8f8;
+  border: 1px solid #e7e7e7;
+  border-radius: 5px;
+  padding:5px;
+}
+
+@media (max-width: 1050px) {
+	.AllTimeUserLeagueRow .table thead tr th:nth-child(6),
+	.AllTimeUserLeagueRow .table tbody tr td:nth-child(6),
+	.AllTimeUserLeagueRow .table thead tr th:nth-child(7),
+	.AllTimeUserLeagueRow .table tbody tr td:nth-child(7),
+	.AllTimeUserLeagueRow .table thead tr th:nth-child(8),
+	.AllTimeUserLeagueRow .table tbody tr td:nth-child(8)
+	{
+	  display: none;
+	} 
+}

@@ -1,14 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Row, Col, Tabs, Tab, Alert, Button, Table } from "react-bootstrap";
-import AllTimeLeagueTable from "../components/AllTimeLeagueTable";
-import TopFarms from "../components/TopFarms";
-import MostPlayed from "../components/MostPlayed";
-import LeastPlayed from "../components/LeastPlayed";
-import { isEmpty, isSeasonOpen, myRow, formatDateAndTime } from "../Utils";
-import { userPlayed } from "../UserUtils"
-import "./All.css";
+import { isEmpty, myRow, formatDateAndTime } from "../Utils/Utils";
+import { userPlayed } from "../Utils/UserUtils"
+import "./Games.css";
 
-export default function Home(props) {
+export default function Games(props) {
 
 	function compareCreatedAt(a,b){
     	return new Date(b.createdAt) - new Date(a.createdAt);
@@ -26,7 +22,8 @@ export default function Home(props) {
   	}
 
   	return (
-	    <div className="AllGames">
+	    <div className="Games">
+	    <h3>Games</h3>
 
 		{ !isEmpty(props.games) && props.games.length > 0 ?
 
