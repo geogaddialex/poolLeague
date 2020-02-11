@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { isEmpty, myRow } from "../Utils/Utils";
 import { getMinGames } from "../Utils/SeasonUtils";
-import { getGamesForUser } from "../Utils/UserUtils"
-import { Table, Tooltip, OverlayTrigger, Alert } from "react-bootstrap";
+import { getGamesForUser, countSeasonWins } from "../Utils/UserUtils"
+import { Table, Tooltip, OverlayTrigger, Alert, Glyphicon } from "react-bootstrap";
 import "./LeagueTable.css";
 
 export default function LeagueTable(props) {
@@ -146,7 +146,7 @@ export default function LeagueTable(props) {
   const TooltipFoul = (
     <Tooltip id="TooltipFoul">
       <strong>Foul Wins</strong>
-      <br/>Yours / Opponents
+      <br/>Opponent fouled / You fouled
     </Tooltip>
   );
 
@@ -231,7 +231,12 @@ export default function LeagueTable(props) {
               return (
                 <tr key={index} style={ user._id == props.user._id ? myRow : null} >
                   <td>{index+1}</td>
-                  <td><b><a href={`/user/${user._id}`}>{user.name}</a></b></td>
+                  <td>
+                    <b><a href={`/user/${user._id}`}>{user.name} </a></b>
+                    {[...Array(countSeasonWins(user, props.seasons, props.allGames))].map((x, i) =>
+                        <Glyphicon glyph="star" key={i} />
+                    )}
+                  </td>
                   <td>{countPlayed(user)}</td>
                   <td>{countWins(user)}</td>
                   <td>{countLosses(user)}</td>
@@ -252,7 +257,11 @@ export default function LeagueTable(props) {
               return (
                 <tr key={index} style={ user._id == props.user._id ? myRow : null}>
                   <td>{index+1}</td>
-                  <td><b>{user.name}</b></td>
+                  <td><b>{user.name} </b>
+                    {[...Array(countSeasonWins(user, props.seasons, props.allGames))].map((x, i) =>
+                        <Glyphicon glyph="star" key={i} />
+                    )}
+                  </td>
                   <td>0</td>
                   <td>0</td>
                   <td>0</td>

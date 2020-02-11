@@ -54,7 +54,7 @@ export default function Season(props) {
 					<>
 						<Row>
 							<Col xs={12}>
-								<LeagueTable user={props.user} games={props.games} season={props.season} runTheNumbers={runTheNumbers} />
+								<LeagueTable user={props.user} games={props.games} season={props.season} seasons={props.seasons} allGames={props.allGames} runTheNumbers={runTheNumbers} />
 							</Col>
 						</Row>
 						

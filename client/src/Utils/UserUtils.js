@@ -111,3 +111,17 @@ export function getPosition(player, season, games){
     const positon = TNSRS.findIndex(value => value == playerTNSR)
     return positon+1
 }
+
+export function countSeasonWins(player, seasons, games){
+
+	let wins = 0
+	seasons.map( season =>{
+		if(new Date(season.end) < new Date()){
+			if(getPosition(player, season, getGamesForSeason(games, season)) == 1){
+				wins ++
+			}
+		}
+	})
+
+	return wins
+}

@@ -63,10 +63,9 @@ export default function UserLeagueRow(props) {
   const TooltipFoul = (
     <Tooltip id="TooltipFoul">
       <strong>Foul Wins</strong>
-      <br/>Yours / Opponents
+      <br/>Opponent fouled / You fouled
     </Tooltip>
   );
-
 
   const TooltipPenalty = (
     <Tooltip id="TooltipPenalty">

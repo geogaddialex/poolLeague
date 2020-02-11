@@ -71,7 +71,7 @@ export default function AllTimeUserLeagueRow(props) {
   const TooltipFoul = (
     <Tooltip id="TooltipFoul">
       <strong>Foul Wins</strong>
-      <br/>Yours / Opponents
+      <br/>Opponent fouled / You fouled
     </Tooltip>
   );
 
@@ -86,7 +86,7 @@ export default function AllTimeUserLeagueRow(props) {
   const TooltipTNSR = (
     <Tooltip id="TooltipTNSR">
       <strong>TNSRating</strong>
-      <br/>Points ÷ ( Losses + Penalty )
+      <br/>Points ÷ Losses 
     </Tooltip>
   );
 

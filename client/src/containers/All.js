@@ -20,7 +20,7 @@ export default function All(props) {
 				<Col xs={12} sm={8} md={9}> 
 					<Row>
 						<Col xs={12}>
-							<AllTimeLeagueTable user={props.user} games={props.games} players={props.users} />
+							<AllTimeLeagueTable user={props.user} games={props.games} players={props.users} seasons={props.seasons} />
 						</Col>
 					</Row>
 				</Col>

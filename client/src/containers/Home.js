@@ -38,7 +38,7 @@ export default function Home(props) {
 
 					return (
 			        	<Tab key={index} eventKey={index} title={season.name}>
-			          		<Season key={index} user={props.user} games={gamesForSeason} minGames={getMinGames(season)} season={season} />
+			          		<Season key={index} user={props.user} seasons={props.seasons} games={gamesForSeason} minGames={getMinGames(season)} allGames={props.games} season={season} />
 			        	</Tab>
 			    	)
 				})

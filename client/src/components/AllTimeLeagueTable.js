@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { isEmpty, myRow } from "../Utils/Utils";
+import { countSeasonWins } from "../Utils/UserUtils";
 import { Table, Tooltip, OverlayTrigger, Glyphicon } from "react-bootstrap";
 import "./AllTimeLeagueTable.css";
 
@@ -91,7 +92,7 @@ export default function AllTimeLeagueTable(props) {
   const TooltipFoul = (
     <Tooltip id="TooltipFoul">
       <strong>Foul Wins</strong>
-      <br/>Yours / Opponents
+      <br/>Opponent fouled / You fouled
     </Tooltip>
   );
 
@@ -106,7 +107,7 @@ export default function AllTimeLeagueTable(props) {
   const TooltipTNSR = (
     <Tooltip id="TooltipTNSR">
       <strong>TNSRating</strong>
-      <br/>Points ÷ ( Losses + Penalty )
+      <br/>Points ÷ Losses
     </Tooltip>
   );
 
@@ -162,10 +163,16 @@ export default function AllTimeLeagueTable(props) {
 
           { props.games.length > 0 &&
             props.players.sort(compareTNSRthenWinsToFirst).filter(player => countPlayed(player) > 0).map((user, index) => {
+
               return (
                 <tr key={index} style={ user._id == props.user._id ? myRow : null} >
                   <td>{index+1}</td>
-                  <td><b><a href={`/user/${user._id}`}>{user.name}</a></b></td>
+                  <td>
+                    <b><a href={`/user/${user._id}`}>{user.name} </a></b>
+                    {[...Array(countSeasonWins(user, props.seasons, props.games))].map((x, i) =>
+                        <Glyphicon glyph="star" />
+                    )}
+                  </td>
                   <td>{countPlayed(user)}</td>
                   <td>{countWins(user)}</td>
                   <td>{countLosses(user)}</td>
