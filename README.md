@@ -15,6 +15,8 @@ Layout:
 	Colours for TNSR, wins to #1, etc (10 diff colours, colour users cell based on which % group they're in)
 
 Features:
+	Sort tables by headers
+	Hovering a user should show their opponent count for that season
 	Friendly league that never resets
 	Option on All Time to include friendlies
 	Filter recent games
@@ -33,8 +35,9 @@ Features:
 	Leave league button (doesn’t remove games, just the user from the league table)
 
 Bugs:
-	Top Farms loads normally on first click (of All Time) but keep clicking and it eventually  warps to MostPlayed
-	Comment autofocus and enter to submit
+	Comment autofocus and enter to submit - clear after submit
+	TNSR - Player with 0 losses gets divided by 1 still - (divide by 1 only if losses+penalty = 0) (or divide by 0.5)
+	Foul wins 
 
 Calculation:
 	If only one player has >1 unplayed, don't punish the others for that one game

@@ -211,6 +211,7 @@ function App(props) {
           <Navbar.Brand>
             <Link to="/">
               <img src="/favicon.ico" height="50px" width="65px"/>
+              {/* Icon made by Freepik from www.flaticon.com */}
               Pool League
             </Link>
           </Navbar.Brand>

@@ -11,11 +11,11 @@ export default function TopFarms(props) {
 
   useEffect(() => {  
 
-      getTopFarms(props.games)
+    setTopFarms(getTopFarms())
 
   }, [props.games]);
 
-  function getTopFarms(games){
+  function getTopFarms(){
     const unique = []
 
     props.games.forEach((game) => {
@@ -24,31 +24,32 @@ export default function TopFarms(props) {
       }
     })
 
-    const count = unique.map( result => {
-      result.count = countOccurences(result) 
+    const farms = unique.map( result => {
+      result.farm = countOccurences(result)
       return result
-    }).filter( result => result.count > 0)
-    
-    setTopFarms(count)
+    })
+
+    return farms
   }
 
   function countOccurences(unique){
-    let count = 0
-    let negatives = 0
+    let wins = 0
+    let losses = 0
 
     props.games.forEach(game =>{
       if( game.winner._id == unique.winner._id && game.loser._id == unique.loser._id ){
-        count ++
+        wins ++
       }else if( game.winner._id == unique.loser._id && game.loser._id == unique.winner._id ){
-        negatives ++
+        losses ++
       }
     })
 
-    return count - negatives
+    const farm = wins - losses
+    return farm
   }
 
   function compareOccurences(a, b) {
-    return b.count - a.count
+    return b.farm - a.farm
   }
 
   return (
@@ -76,7 +77,7 @@ export default function TopFarms(props) {
                   <tr key={result.winner._id + result.loser._id} style={ userPlayed(result, props.user) ? myRow : null}>
                     <td>{result.winner.name}</td>
                     <td>{result.loser.name}</td>
-                    <td>{result.count}</td>
+                    <td>{result.farm}</td>
                   </tr>
                 )
               })
