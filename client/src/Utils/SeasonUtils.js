@@ -18,10 +18,8 @@ export function isSeasonOpen(season){
 
 export function canJoinSeason(season){
   var today = new Date()
-  var start = new Date(season.start)
   var deadline = new Date(season.start)
   deadline.setDate(deadline.getDate() + 7);
-
   return today < deadline || sameDay(today, deadline)
 }
 

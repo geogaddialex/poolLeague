@@ -75,28 +75,37 @@ export default function Season(props) {
 
 						{ props.season.players.length == 1 &&
 							<Row> 
-								<Alert bsStyle="info">
-									Waiting for more players
-								</Alert>
+							   	<Col xs={12}>
+									<Alert bsStyle="info">
+										Waiting for more players
+									</Alert>
+								</Col>
 							</Row>
 	    				}
 	    			</>
 	    			}
     				{ !isSeasonOpen(props.season) && new Date(props.season.start) > new Date() &&
-    					<Alert bsStyle="info">
-							{props.season.name} hasn't started yet
-						</Alert>
+    					<Row>
+    						<Col xs={12}>
+		    					<Alert bsStyle="info">
+									{props.season.name} hasn't started yet
+								</Alert>
+							</Col>
+						</Row>
     				}
 				</Col>
 
 				<Col xs={12} sm={4} md={3}>
 
-					{ isSeasonOpen(props.season) && isEmpty(props.season.players) &&
-						<Alert bsStyle="info">
-				    		No players have entered the season, be the first!
-				    	</Alert>
-				    }
+
 				    <Row>	
+					    { isSeasonOpen(props.season) && isEmpty(props.season.players) &&
+							<Col xs={12}>
+								<Alert bsStyle="info">
+					    			No players have entered the season, be the first!
+					    		</Alert>
+					    	</Col>
+					    }
 				    	<Col xs={12}><SeasonInfo games={props.games} season={props.season} user={props.user} /></Col>
 					</Row>
 					{ props.games.length > 0 && 

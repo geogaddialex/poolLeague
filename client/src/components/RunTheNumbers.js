@@ -17,10 +17,10 @@ export default function RunTheNumbers(props) {
 
         switch(field) {
           case "winner":
-            game.winner = newValue
+            game.winner = JSON.parse(newValue)
             break;
           case "loser":
-            game.loser = newValue
+            game.loser = JSON.parse(newValue)
             break;
           case "special":
             game.special = newValue
@@ -75,7 +75,7 @@ export default function RunTheNumbers(props) {
                   {
                     props.season.players.map((user, index) => {
                       return (
-                        <option key={index+1} value={user._id}>{user.name}</option>
+                        <option key={index+1} value={JSON.stringify(user)}>{user.name}</option>
                       )
                     })
                   }
@@ -88,7 +88,7 @@ export default function RunTheNumbers(props) {
                   {
                     props.season.players.map((user, index) => {
                       return (
-                        <option key={index+1} value={user._id}>{user.name}</option>
+                        <option key={index+1} value={JSON.stringify(user)}>{user.name}</option>
                       )
                     })
                   }

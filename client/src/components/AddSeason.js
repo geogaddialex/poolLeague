@@ -38,7 +38,7 @@ export default function AddSeason(props) {
 
   async function handleSubmit(event) {
     event.preventDefault();
-    setSuccess = false;
+    setSuccess(false);
 
     fields.players = [];
 
@@ -49,7 +49,7 @@ export default function AddSeason(props) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(fields),
       }).then(function(response){
-        setSuccess = true;
+        setSuccess(true);
       })
       
     } catch (e) {

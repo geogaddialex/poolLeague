@@ -18,6 +18,11 @@ export function formatDateAndTime(dateString){
   return date.getDate() + "/" + (date.getMonth() + 1) + " " + ('0'+date.getHours()).slice(-2) + ":" + ('0'+date.getMinutes()).slice(-2);
 }
 
+export function dp(input){
+	return Math.round(input * 100) / 100
+}
+
 export const myRow = {
   backgroundColor: "#ebebf8"
 };
+
