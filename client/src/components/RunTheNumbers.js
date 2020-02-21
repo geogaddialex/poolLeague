@@ -1,11 +1,9 @@
 import React , {useEffect, useState} from "react";
-import { Form, FormGroup, FormControl, ControlLabel, Button } from "react-bootstrap";
-import { useFormFields } from "../libs/hooksLib";
+import { Form, FormGroup, FormControl, Button } from "react-bootstrap";
 import { isEmpty } from "../Utils/Utils"
 import "./RunTheNumbers.css";
 
 export default function RunTheNumbers(props) {
-
 
   function updateRTN(index, e){
 
@@ -25,6 +23,8 @@ export default function RunTheNumbers(props) {
           case "special":
             game.special = newValue
             break;
+          default:
+            console.log("how could it be anything else?")
         }
       }
       return game
@@ -70,8 +70,8 @@ export default function RunTheNumbers(props) {
             <Form inline key={index}>
 
               <FormGroup controlId="winner">
-                <FormControl componentClass="select" value={game.winner} onChange={(e) => updateRTN(index,e)}>
-                  <option key="0" value="select" disabled>Winner</option>
+                <FormControl componentClass="select" value={JSON.stringify(game.winner)} onChange={(e) => updateRTN(index,e)}>
+                  <option key="0" value="select">Winner</option>
                   {
                     props.season.players.map((user, index) => {
                       return (
@@ -83,8 +83,8 @@ export default function RunTheNumbers(props) {
               </FormGroup>
 
               <FormGroup controlId="loser">
-                <FormControl componentClass="select" value={game.loser} onChange={(e) => updateRTN(index,e)}>
-                  <option key="0" value="select" disabled>Loser</option>
+                <FormControl componentClass="select" value={JSON.stringify(game.loser)} onChange={(e) => updateRTN(index,e)}>
+                  <option key="0" value="select">Loser</option>
                   {
                     props.season.players.map((user, index) => {
                       return (

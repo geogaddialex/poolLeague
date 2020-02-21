@@ -3,9 +3,9 @@
 Priority:
 	Wins #1 and +1 need recalibrating to account for that 1 win isn't 1 point anymore! (could be a range)
 	RTN not working:
-		Penalty shouldn't go below 0 ever - it goes to -1 when selecting winner but then back down when selecting loser
 		TNSR doesn't update unless you select winner AND loser (can't coz it doesn't know how many points you'd get) - add green tick
-		Wrong name displays in field??
+		Keeps jumping back to display Winner / Loser (but function is correct)
+		TSNR reverts to the normal when adding a special condition - print out the game when calculating?
 	changing name (on dev) logs out user
 	Streaks still wrong
 	New rule suggestions and votes (show who voted but not for what)(needs notifications)
@@ -47,6 +47,7 @@ QOL:
 	User MostPlayed doesn't need to show the users name
 	Remove / Edit comment (that you added, or admin can remove)
 	All time page shows best TNSR record (closed seasons only)
+	User page default tab should be current season
 
 
 	http://www.epa.org.uk/images/rules/World%20Rules%202015.pdf

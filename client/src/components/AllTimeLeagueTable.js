@@ -170,7 +170,7 @@ export default function AllTimeLeagueTable(props) {
                   <td>
                     <b><a href={`/user/${user._id}`}>{user.name} </a></b>
                     {[...Array(countSeasonWins(user, props.seasons, props.games))].map((x, i) =>
-                        <Glyphicon glyph="star" />
+                        <Glyphicon glyph="star" key={i}/>
                     )}
                   </td>
                   <td>{countPlayed(user)}</td>

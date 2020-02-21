@@ -105,28 +105,17 @@ export function countUnplayed(games, user, season){
 	const unique = []
 
 	getGamesForUser(games, user).forEach((game) => {
-	  if(game.winner._id == user._id && !unique.some(opponent => opponent._id == game.loser._id) ){
+	  if(game.winner._id == user._id && !unique.some(opponent => opponent._id == game.loser._id) && game.loser !== "select" ){
 	    unique.push(game.loser)
-	  }else if (game.loser._id == user._id && !unique.some(opponent => opponent._id == game.winner._id) ){
+	  }else if (game.loser._id == user._id && !unique.some(opponent => opponent._id == game.winner._id) && game.winner !== "select"){
 	    unique.push(game.winner)
 	  }
 	})
 
-	// getRTNForUser(user).forEach(game=>{
-
- //      if(game.winner !== "select" && game.loser !== "select"){
- //        if(game.winner == user._id && !unique.some(opponent => (opponent._id == game.loser || opponent == game.loser) )){
- //          unique.push(game.loser)
- //        }else if(game.loser == user._id && !unique.some(opponent => (opponent._id == game.winner || opponent._id == game.loser) ) ){
- //          unique.push(game.winner)
- //        }
- //      }
- //    })
-
 	if(season.name == "Season 1" || season.name == "Season 2" || season.name == "Season 3"){
 	  return 0
 	}
-	return season.players.length - unique.length - 1
+	return (season.players.length - unique.length - 1 >= 0) ? season.players.length - unique.length - 1 : 0
 }
 
 export function countPenalty(games, user, season){

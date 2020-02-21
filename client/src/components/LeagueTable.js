@@ -10,10 +10,10 @@ export default function LeagueTable(props) {
   const [sortedPlayers, setSortedPlayers] = useState([]);
 
   useEffect(() => {
+    
+    setSortedPlayers(UserUtils.playersSortedByTNSR([...props.games, ...props.runTheNumbers], props.season))
 
-    setSortedPlayers(UserUtils.playersSortedByTNSR(props.games, props.season))
-
-  }, [props.season.players])
+  }, [props.season.players, props.runTheNumbers])
 
   const TooltipSevenBall = (
     <Tooltip id="TooltipSevenBall">

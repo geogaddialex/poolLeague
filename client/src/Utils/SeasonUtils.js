@@ -1,4 +1,4 @@
-import { sameDay } from "./Utils"
+import * as Utils from "./Utils"
 
 export function allTimeSeason(users) {
   return {
@@ -10,11 +10,8 @@ export function allTimeSeason(users) {
 
 export function getCurrentSeasonIndex(seasons){
   const index = seasons.sort(startedEarliest).map(season =>{
-    console.log(season.name + " = " + isSeasonOpen(season))
     return isSeasonOpen(season)
   }).indexOf(true)
-
-  console.log(index)
   return index
 }
 
@@ -30,7 +27,7 @@ export function canJoinSeason(season){
   var today = new Date()
   var deadline = new Date(season.start)
   deadline.setDate(deadline.getDate() + 7);
-  return today < deadline || sameDay(today, deadline)
+  return today < deadline || Utils.sameDay(today, deadline)
 }
 
 export function getGamesForSeason(games, season){
@@ -41,8 +38,8 @@ export function getGamesForSeason(games, season){
 
     var gameDate = new Date(game.createdAt)
     const gameBetweenDates = gameDate.getTime() > seasonStart.getTime() && gameDate.getTime() < seasonEnd.getTime()
-    const gameOnStart = sameDay(seasonStart, gameDate)
-    const gameOnEnd = sameDay(seasonEnd, gameDate)
+    const gameOnStart = Utils.sameDay(seasonStart, gameDate)
+    const gameOnEnd = Utils.sameDay(seasonEnd, gameDate)
     const gameInSeason = gameBetweenDates || gameOnStart || gameOnEnd
 
     return gameInSeason
@@ -79,13 +76,13 @@ export function isOverlapping(season, seasons){
       var oneSeasonStart = new Date(oneSeason.start)
       var oneSeasonEnd = new Date(oneSeason.end)
 
-      if(checkSeasonStart > oneSeasonStart &&  ( checkSeasonStart < oneSeasonEnd || sameDay(checkSeasonStart, oneSeasonStart) ) ){
+      if(checkSeasonStart > oneSeasonStart &&  ( checkSeasonStart < oneSeasonEnd || Utils.sameDay(checkSeasonStart, oneSeasonStart) ) ){
         overlapping = true
-      }else if(checkSeasonEnd > oneSeasonStart &&  ( checkSeasonEnd < oneSeasonEnd || sameDay(checkSeasonEnd, oneSeasonEnd) ) ){
+      }else if(checkSeasonEnd > oneSeasonStart &&  ( checkSeasonEnd < oneSeasonEnd || Utils.sameDay(checkSeasonEnd, oneSeasonEnd) ) ){
         overlapping = true
-      }else if(oneSeasonStart > checkSeasonStart &&  ( oneSeasonStart < checkSeasonEnd || sameDay(oneSeasonStart, checkSeasonEnd) ) ){
+      }else if(oneSeasonStart > checkSeasonStart &&  ( oneSeasonStart < checkSeasonEnd || Utils.sameDay(oneSeasonStart, checkSeasonEnd) ) ){
         overlapping = true
-      }else if(oneSeasonEnd > checkSeasonStart &&  ( oneSeasonEnd < checkSeasonEnd || sameDay(oneSeasonEnd, checkSeasonEnd) ) ){
+      }else if(oneSeasonEnd > checkSeasonStart &&  ( oneSeasonEnd < checkSeasonEnd || Utils.sameDay(oneSeasonEnd, checkSeasonEnd) ) ){
         overlapping = true
       }
     })
