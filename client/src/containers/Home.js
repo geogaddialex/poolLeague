@@ -12,33 +12,28 @@ import RunTheNumbers from "../components/RunTheNumbers";
 import AddSeason from "../components/AddSeason";
 import Season from "../components/Season"
 import { isEmpty } from "../Utils/Utils";
-import { isSeasonOpen, getGamesForSeason, getMinGames } from "../Utils/SeasonUtils";
+import * as SeasonUtils from "../Utils/SeasonUtils";
 import "./Home.css";
 
 export default function Home(props) {
 
 	const [key, setKey] = useState()
 
-	function startedEarliest(a,b){
-		var aB = new Date(a.start).getTime() < new Date(b.start).getTime()
-		return aB
-	}
-
   	return (
 	    <div className="Home">
 
 		{ !isEmpty(props.seasons) && props.seasons.length > 0 ?
 
-			<Tabs activeKey={key} id="tabs">
+			<Tabs activeKey={key} defaultActiveKey={SeasonUtils.getCurrentSeasonIndex(props.seasons)} id="tabs">
 
 			{
-				props.seasons.sort(startedEarliest).map((season, index) => {
+				props.seasons.sort(SeasonUtils.startedEarliest).map((season, index) => {
 
-					const gamesForSeason = getGamesForSeason(props.games, season)
+					const gamesForSeason = SeasonUtils.getGamesForSeason(props.games, season)
 
 					return (
 			        	<Tab key={index} eventKey={index} title={season.name}>
-			          		<Season key={index} user={props.user} seasons={props.seasons} games={gamesForSeason} minGames={getMinGames(season)} allGames={props.games} season={season} />
+			          		<Season key={index} user={props.user} seasons={props.seasons} games={gamesForSeason} minGames={SeasonUtils.getMinGames(season)} allGames={props.games} season={season} />
 			        	</Tab>
 			    	)
 				})

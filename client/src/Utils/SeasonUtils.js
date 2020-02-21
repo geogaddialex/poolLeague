@@ -8,6 +8,16 @@ export function allTimeSeason(users) {
   }
 }
 
+export function getCurrentSeasonIndex(seasons){
+  const index = seasons.sort(startedEarliest).map(season =>{
+    console.log(season.name + " = " + isSeasonOpen(season))
+    return isSeasonOpen(season)
+  }).indexOf(true)
+
+  console.log(index)
+  return index
+}
+
 export function isSeasonOpen(season){
   var today = new Date()
   var start = new Date(season.start)
@@ -81,4 +91,9 @@ export function isOverlapping(season, seasons){
     })
 
   return overlapping
+}
+
+export function startedEarliest(a,b){
+  var aB = new Date(a.start).getTime() < new Date(b.start).getTime()
+  return aB
 }
