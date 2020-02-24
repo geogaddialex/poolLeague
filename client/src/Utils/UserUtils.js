@@ -1,7 +1,12 @@
 import * as SeasonUtils from "./SeasonUtils";
+import * as Utils from "./Utils";
 
 export function getUser(userId, users){
-	return users.find(player => player._id == userId)
+
+	const user = users.find(player => player._id == userId)
+	const noUser = { _id: "nope", name: "No user found" }
+
+	return Utils.isEmpty(user) ? noUser : user 
 }
 
 export function getName(userId, users){
@@ -60,31 +65,32 @@ export function calculateTNSR(games, user, season){
 
 	opponents.forEach(opponent => {
 
-	  getWinsAgainst(opponent, user, games).forEach( (game, index) => {
+		getWinsAgainst(opponent, user, games).forEach( (game, index) => {
 
-	    const base = Math.pow(0.9, index)
+		const base = Math.pow(0.9, index)
 
-	    switch(game.special){
-	      case "Seven":
-	        points += base*3;
-	        break;
-	      case "Foul":
-	        points += base*0.5;
-	        break;
-	      case "None":
-	        points += base;
-	        break;
-	    }
+			switch(game.special){
+				case "7 Ball":
+					points += base*3;
+					break;
+				case "Foul Win":
+					points += base*0.5;
+					break;
+				case "None":
+					points += base;
+					break;
+			}
+		})
 
-	  })
-
-	  getLossesAgainst(opponent, user, games).forEach( (game, index) =>{
-	    losses += Math.pow(0.9, index)
-	  })
+		getLossesAgainst(opponent, user, games).forEach( (game, index) =>{
+			losses += Math.pow(0.9, index)
+		})
 
 	})
 
-	return points / (losses + countPenalty(games, user, season) )
+	const divisor = (losses + countPenalty(games, user, season)) > 0 ? (losses + countPenalty(games, user, season)) : 1 
+
+	return points / divisor
 }
 
 export function calculateAllTimeTNSR(games, user, users){
@@ -104,6 +110,10 @@ export function getGamesForUser(games, user){
 export function countUnplayed(games, user, season){
 	const unique = []
 
+	if(season.name == "Season 1" || season.name == "Season 2" || season.name == "Season 3"){
+	  return 0
+	}
+
 	getGamesForUser(games, user).forEach((game) => {
 	  if(game.winner._id == user._id && !unique.some(opponent => opponent._id == game.loser._id) && game.loser !== "select" ){
 	    unique.push(game.loser)
@@ -112,9 +122,7 @@ export function countUnplayed(games, user, season){
 	  }
 	})
 
-	if(season.name == "Season 1" || season.name == "Season 2" || season.name == "Season 3"){
-	  return 0
-	}
+	//accounts for RTN undefined opponent and self... could change RTN to only use games with both players filled in
 	return (season.players.length - unique.length - 1 >= 0) ? season.players.length - unique.length - 1 : 0
 }
 

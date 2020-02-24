@@ -106,12 +106,7 @@ export default function LeagueTable(props) {
               return (
                 <tr key={index} style={ user._id == props.user._id ? myRow : null} >
                   <td>{index+1}</td>
-                  <td>
-                    <b><a href={`/user/${user._id}`}>{user.name} </a></b>
-                    {[...Array(UserUtils.countSeasonWins(user, props.seasons, props.allGames))].map((x, i) =>
-                        <Glyphicon glyph="star" key={i} />
-                    )}
-                  </td>
+                  <td><b><a href={`/user/${user._id}`}>{user.name} </a></b></td>
                   <td>{UserUtils.countPlayed([...props.games, ...props.runTheNumbers], user)}</td>
                   <td>{UserUtils.countWins([...props.games, ...props.runTheNumbers], user)}</td>
                   <td>{UserUtils.countLosses([...props.games, ...props.runTheNumbers], user)}</td>

@@ -8,7 +8,8 @@ export default function Rules(props) {
 	const rules = [
 		"Players should play each other at least once, any unplayed games count as losses.",
 		"Players get one loss for each game under the minimum required (which increases as the season progresses).",
-		"If the black ball is potted on the break, re-rack."
+		"If the black ball is potted on the break, re-rack.",
+		"Either player requesting a spectator-free game is enough to enforce one."
 	]
 
   	return (

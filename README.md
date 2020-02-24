@@ -2,14 +2,9 @@
 
 Priority:
 	Wins #1 and +1 need recalibrating to account for that 1 win isn't 1 point anymore! (could be a range)
-	RTN not working:
-		TNSR doesn't update unless you select winner AND loser (can't coz it doesn't know how many points you'd get) - add green tick
-		Keeps jumping back to display Winner / Loser (but function is correct)
-		TSNR reverts to the normal when adding a special condition - print out the game when calculating?
-	changing name (on dev) logs out user
+	RTN - TNSR doesn't update unless you select winner AND loser (can't coz it doesn't know how many points you'd get) - add green tick
 	Streaks still wrong
 	New rule suggestions and votes (show who voted but not for what)(needs notifications)
-	TNSR - Player with 0 losses gets divided by 1 still - (divide by 1 only if losses+penalty = 0)
 
 Admin:
 	Kick user from season (option to remove/maintain their games); update socket
@@ -50,7 +45,7 @@ QOL:
 	User page default tab should be current season
 
 
-	http://www.epa.org.uk/images/rules/World%20Rules%202015.pdf
+http://www.epa.org.uk/images/rules/World%20Rules%202015.pdf
 - You can play any direction from the baulk (E2c)
 - Foul break if four object balls don’t touch the cushion (or a ball is potted) (re rack and 2 shots) (F4)
 - Potting white on a fair break, only one shot to the opponent (F4ci)
