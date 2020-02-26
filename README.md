@@ -1,10 +1,10 @@
 # poolLeague.fitness
 
 Priority:
-	Wins #1 and +1 need recalibrating to account for that 1 win isn't 1 point anymore! (could be a range)
 	RTN - TNSR doesn't update unless you select winner AND loser (can't coz it doesn't know how many points you'd get) - add green tick
 	Streaks still wrong
 	New rule suggestions and votes (show who voted but not for what)(needs notifications)
+	Friendly league that never resets - Option on All Time to include friendlies
 
 Admin:
 	Kick user from season (option to remove/maintain their games); update socket
@@ -19,8 +19,7 @@ Features:
 	Global league chat
 	Sort tables by headers
 	Hovering over penalty should show the breakdown
-	Friendly league that never resets
-	Option on All Time to include friendlies
+
 	Filter recent games
 	Avatars
 	Add a “Real name” field to user - display this on their user page
@@ -36,7 +35,6 @@ Calculation:
 	Wins to #1 and +1 aren't taking into account that each extra win cancels out an underMin loss
 
 QOL:
-	Scroll through old games (pagination or 'load more' button)
 	Comment autofocus and clear after submit
 	Min games for unstarted season shouldn't display
 	User MostPlayed doesn't need to show the users name

@@ -5,7 +5,6 @@ export function getUser(userId, users){
 
 	const user = users.find(player => player._id == userId)
 	const noUser = { _id: "nope", name: "No user found" }
-
 	return Utils.isEmpty(user) ? noUser : user 
 }
 
@@ -56,18 +55,18 @@ export function calculatePoints(games, user){
 	return countWins(games, user) + countSevenBallsFor(games, user)*2 - countFoulsFor(games, user)*0.5
 }
 
-export function calculateTNSR(games, user, season){
+export function getOpponents(season, user){
+	return season.players.filter(player => player._id !== user._id)
+}
 
+export function calculateNewPoints(games, user, season){
 	let points = 0
-	let losses = 0
 
-	const opponents = season.players.filter(player => player._id !== user._id)
-
-	opponents.forEach(opponent => {
+	getOpponents(season, user).forEach(opponent => {
 
 		getWinsAgainst(opponent, user, games).forEach( (game, index) => {
 
-		const base = Math.pow(0.9, index)
+			const base = Math.pow(0.9, index)
 
 			switch(game.special){
 				case "7 Ball":
@@ -81,12 +80,28 @@ export function calculateTNSR(games, user, season){
 					break;
 			}
 		})
+	})
+
+	return points
+}
+
+export function calculateNewLosses(games, user, season){
+	let losses = 0
+
+	getOpponents(season, user).forEach(opponent => {
 
 		getLossesAgainst(opponent, user, games).forEach( (game, index) =>{
 			losses += Math.pow(0.9, index)
 		})
-
 	})
+
+	return losses
+}
+
+export function calculateTNSR(games, user, season){
+
+	let points = calculateNewPoints(games, user, season)
+	let losses = calculateNewLosses(games, user, season)
 
 	const divisor = (losses + countPenalty(games, user, season)) > 0 ? (losses + countPenalty(games, user, season)) : 1 
 
@@ -97,14 +112,6 @@ export function calculateAllTimeTNSR(games, user, users){
 	const player = getUser(user, users)
 	let losses = countLosses(games, player) > 0 ? countLosses(games, player) : 1
 	return Math.round(calculatePoints(games, player) / losses * 100) /100
-}
-
-export function countUnderMin(games, user, season){
-	return countPlayed(games, user) < SeasonUtils.getMinGames(season) ? SeasonUtils.getMinGames(season) - countPlayed(games, user) : 0
-}
-
-export function getGamesForUser(games, user){
-	return games.filter(game => game.winner._id == user._id || game.loser._id == user._id)
 }
 
 export function countUnplayed(games, user, season){
@@ -128,6 +135,14 @@ export function countUnplayed(games, user, season){
 
 export function countPenalty(games, user, season){
 	return countUnderMin(games, user, season) + countUnplayed(games, user, season)
+}
+
+export function countUnderMin(games, user, season){
+	return countPlayed(games, user) < SeasonUtils.getMinGames(season) ? SeasonUtils.getMinGames(season) - countPlayed(games, user) : 0
+}
+
+export function getGamesForUser(games, user){
+	return games.filter(game => game.winner._id == user._id || game.loser._id == user._id)
 }
 
 export function userPlayed(game, player){
@@ -172,13 +187,13 @@ export function getLossesAgainst(opponent, user, games){
 	return games.filter(game => game.loser._id == user._id && game.winner._id == opponent._id)
 }
 
-export function calculateWinsToFirst(games, user, season, players){
-    let max = players[0]
-    let TNSRdiff = calculateTNSR(games, max, season) - calculateTNSR(games, user, season) + 0.01
-    let losses = countLosses(games, user) > 0 ? countLosses(games, user) : 1
-    let penalty = countPenalty(games, user, season)
+export function getMaxTNSR(games, season, players){
+	return calculateTNSR(games, players[0], season)
+}
 
-    return max === user ? 0 : Math.ceil(TNSRdiff * (losses+countPenalty(games, user, season)))
+export function calculateWinsToFirst(games, user, season, players){
+	const maxTNSR = getMaxTNSR(games, season, players)
+	return calculateWinsToTNSR(games, user, season, players, maxTNSR)
 }
 
 export function calculateWinsToRankUp(games, user, season, players){
@@ -188,10 +203,62 @@ export function calculateWinsToRankUp(games, user, season, players){
       return 0
     }else{
       let upOne = season.players[index-1]
-      let TNSRdiff = calculateTNSR(games, upOne, season) - calculateTNSR(games, user, season) + 0.01
-      let losses = countLosses(games, user) > 0 ? countLosses(games, user) : 1
-      return Math.ceil(TNSRdiff * (losses+countPenalty(games, user, season)))
+      let TNSR = calculateTNSR(games, upOne, season)
+      return calculateWinsToTNSR(games, user, season, players, TNSR)
     }
+}
+
+export function calculateWinsToTNSR(games, user, season, players, tnsr){
+
+    let winsAgainst = getOpponents(season, user).map(opponent =>{
+    	return getWinsAgainst(opponent, user, games).length
+    })
+
+    let most = Math.max(...winsAgainst)
+    let least = Math.min(...winsAgainst)
+
+    let leastPoints = calculateNewPoints(games, user, season)
+    let mostPoints = calculateNewPoints(games, user, season)
+    let losses = calculateNewLosses(games, user, season)
+    let penalty = countPenalty(games, user, season)
+
+    let divisor = losses + penalty > 0 ? losses + penalty : 1 
+
+    let leastTNSR = leastPoints / divisor
+    let mostTNSR = mostPoints / divisor
+
+ 	if(leastTNSR == tnsr){
+ 		return 0
+ 	}
+
+    let countLeast = 0
+    let countMost = 0
+
+   	do{
+
+    	leastPoints += Math.pow(0.9, least)
+    	winsAgainst[winsAgainst.indexOf(Math.min(...winsAgainst))] += 1
+    	least = Math.min(...winsAgainst)
+    	countLeast += 1
+    	leastTNSR = leastPoints / divisor
+
+    } while (leastTNSR < tnsr && countLeast <= 99 )
+
+
+    do{
+    	mostPoints += Math.pow(0.9, most)
+    	most += 1
+    	countMost += 1
+    	mostTNSR = mostPoints / divisor
+
+    } while (mostTNSR < tnsr && countMost <= 99 )
+    
+    countMost = countMost < 99 ? countMost : "99+"
+    countLeast = countLeast < 99 ? countLeast : "99+"
+
+    let output = countMost == countLeast ? countLeast : countLeast + " - " + countMost
+
+   	return output
 }
 
 export function playersSortedByTNSR(games, season){
@@ -204,3 +271,6 @@ export function playersSortedByTNSR(games, season){
 	return sortedPlayers
 }
 
+export const myRow = {
+  backgroundColor: "#ebebf8"
+};

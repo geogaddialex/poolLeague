@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { isEmpty, myRow, dp } from "../Utils/Utils";
-import { getMinGames } from "../Utils/SeasonUtils";
-import * as UserUtils from "../Utils/UserUtils"
 import { Table, Tooltip, OverlayTrigger, Alert, Glyphicon } from "react-bootstrap";
+import * as Utils from "../Utils/Utils";
+import * as SeasonUtils from "../Utils/SeasonUtils";
+import * as UserUtils from "../Utils/UserUtils"
 import "./LeagueTable.css";
 
 export default function LeagueTable(props) {
@@ -68,7 +68,7 @@ export default function LeagueTable(props) {
 
     <div className="LeagueTable">
 
-    { !isEmpty(props.season.players) &&
+    { !Utils.isEmpty(props.season.players) &&
         <Table striped bordered condensed hover responsive>
 
           <thead>
@@ -104,7 +104,7 @@ export default function LeagueTable(props) {
           { props.games.length > 0 &&
             sortedPlayers.map((user, index) => {
               return (
-                <tr key={index} style={ user._id == props.user._id ? myRow : null} >
+                <tr key={index} style={ user._id == props.user._id ? UserUtils.myRow : null} >
                   <td>{index+1}</td>
                   <td><b><a href={`/user/${user._id}`}>{user.name} </a></b></td>
                   <td>{UserUtils.countPlayed([...props.games, ...props.runTheNumbers], user)}</td>
@@ -113,7 +113,7 @@ export default function LeagueTable(props) {
                   <td>{UserUtils.countSevenBallsFor([...props.games, ...props.runTheNumbers], user)} / {UserUtils.countSevenBallsAgainst([...props.games, ...props.runTheNumbers], user)}</td>
                   <td>{UserUtils.countFoulsFor([...props.games, ...props.runTheNumbers], user)} / {UserUtils.countFoulsAgainst([...props.games, ...props.runTheNumbers], user)}</td>
                   <td>{UserUtils.countPenalty([...props.games, ...props.runTheNumbers], user, props.season)}</td>
-                  <td><b>{dp(UserUtils.calculateTNSR([...props.games, ...props.runTheNumbers], user, props.season))}</b></td>
+                  <td><b>{Utils.dp(UserUtils.calculateTNSR([...props.games, ...props.runTheNumbers], user, props.season))}</b></td>
                   <td>{UserUtils.calculateWinsToFirst([...props.games, ...props.runTheNumbers], user, props.season, sortedPlayers)}</td>
                   <td>{UserUtils.calculateWinsToRankUp([...props.games, ...props.runTheNumbers], user, props.season, sortedPlayers)}</td>
                 </tr>
@@ -124,7 +124,7 @@ export default function LeagueTable(props) {
           { props.games.length == 0 &&
             props.season.players.map((user, index) => {
               return (
-                <tr key={index} style={ user._id == props.user._id ? myRow : null}>
+                <tr key={index} style={ user._id == props.user._id ? UserUtils.myRow : null}>
                   <td>{index+1}</td>
                   <td><b>{user.name} </b>
                     {[...Array(UserUtils.countSeasonWins(user, props.seasons, props.allGames))].map((x, i) =>
@@ -137,7 +137,7 @@ export default function LeagueTable(props) {
                   <td>0 / 0</td>
                   <td>0 / 0</td>
                   <td>0</td>
-                  <td>{props.season.players.length-1 + getMinGames(props.season)}</td>
+                  <td>{props.season.players.length-1 + SeasonUtils.getMinGames(props.season)}</td>
                   <td>0</td>
                   <td>0</td>
                   <td>0</td>
@@ -151,7 +151,7 @@ export default function LeagueTable(props) {
       }
 
       {
-        isEmpty(props.season.players) &&
+        Utils.isEmpty(props.season.players) &&
           <Alert bsStyle="info">
             No players have entered the season
           </Alert>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Table } from "react-bootstrap";
-import { isEmpty, myRow } from "../Utils/Utils"
+import * as UserUtils from "../Utils/UserUtils"
 import "./Streaks.css";
 
 export default function Streaks(props) {
@@ -58,7 +58,7 @@ export default function Streaks(props) {
           { 
             streaks.sort(compareStreaks).map((user, index) => {
               return (
-                <tr key={user._id} style={ user._id == props.user._id ? myRow : null}>
+                <tr key={user._id} style={ user._id == props.user._id ? UserUtils.myRow : null}>
                   <td>{user.name}</td>
                   <td>{user.streak}</td>
                 </tr>

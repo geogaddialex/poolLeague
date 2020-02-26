@@ -22,7 +22,6 @@ export function dp(input){
 	return Math.round(input * 100) / 100
 }
 
-export const myRow = {
-  backgroundColor: "#ebebf8"
-};
-
+export function compareCreatedAt(a,b){
+  return new Date(b.createdAt) - new Date(a.createdAt);
+}

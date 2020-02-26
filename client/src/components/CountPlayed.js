@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Table } from "react-bootstrap";
-import { isEmpty, myRow } from "../Utils/Utils"
+import * as UserUtils from "../Utils/UserUtils"
+import * as Utils from "../Utils/Utils"
 import "./CountPlayed.css";
 
 export default function CountPlayed(props) {
@@ -49,13 +50,13 @@ export default function CountPlayed(props) {
         </thead>
 
         <tbody>
-         {  !isEmpty(props.players) && 
+         {  !Utils.isEmpty(props.players) && 
               getPlayed()
               .sort(compareFarms)
               .map((player, index) => {
 
                 return (
-                  <tr key={index} style={ player._id == props.user._id ? myRow : null} >
+                  <tr key={index} style={ player._id == props.user._id ? UserUtils.myRow : null} >
                     <td><b><a href={`/user/${player._id}`}>{player.name}</a></b></td>
                     <td>{player.wins + player.losses}</td>
                     <td>{player.wins}</td>

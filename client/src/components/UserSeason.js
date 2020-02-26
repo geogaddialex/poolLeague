@@ -26,7 +26,7 @@ export default function UserSeason(props) {
     	<span className="UserSeason">
 			<Row> 
 				<Col xs={12} sm={8} md={9}> 
-					{ !isEmpty(props.season.players) && SeasonUtils.isSeasonOpen(props.season) &&
+					{ !isEmpty(props.season.players) && SeasonUtils.hasSeasonStarted(props.season) &&
 
 					<>
 						<Row>
@@ -43,14 +43,14 @@ export default function UserSeason(props) {
 						{ props.playerGames.length > 0 &&
 							<Row>
 								<Col xs={12}>
-									<LatestResults user={props.user} limit={200} games={props.playerGames} />
+									<LatestResults user={props.user} limit={10} games={props.playerGames} />
 								</Col>
 							</Row>
 						}
 
 	    			</>
 	    			}
-    				{ !SeasonUtils.isSeasonOpen(props.season) &&
+    				{ !SeasonUtils.hasSeasonStarted(props.season) &&
     					<Alert bsStyle="info">
 							{props.season.name} hasn't started yet
 						</Alert>

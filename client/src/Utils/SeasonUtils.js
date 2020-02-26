@@ -23,6 +23,14 @@ export function isSeasonOpen(season){
   return today > start && ( today < end || today.getDate() == end.getDate() )
 }
 
+export function hasSeasonStarted(season){
+  var today = new Date()
+  var start = new Date(season.start)
+  var end = new Date(season.end)
+
+  return today > start
+}
+
 export function canJoinSeason(season){
   var today = new Date()
   var deadline = new Date(season.start)

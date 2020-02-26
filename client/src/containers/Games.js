@@ -1,14 +1,10 @@
 import React from "react";
 import { Row, Col, Tabs, Tab, Alert, Button, Table } from "react-bootstrap";
-import { isEmpty, myRow, formatDateAndTime } from "../Utils/Utils";
-import { userPlayed } from "../Utils/UserUtils"
+import * as Utils from "../Utils/Utils"
+import * as UserUtils from "../Utils/UserUtils"
 import "./Games.css";
 
 export default function Games(props) {
-
-	function compareCreatedAt(a,b){
-    	return new Date(b.createdAt) - new Date(a.createdAt);
-  	}
 
   	async function deleteGame(id) {
 
@@ -25,7 +21,7 @@ export default function Games(props) {
 	    <div className="Games">
 	    <h3>Games</h3>
 
-		{ !isEmpty(props.games) && props.games.length > 0 ?
+		{ !Utils.isEmpty(props.games) && props.games.length > 0 ?
 
 			<Table striped bordered condensed hover>
 		        <thead>
@@ -41,11 +37,11 @@ export default function Games(props) {
 		        <tbody>
 		        {
 		          props.games
-		          .sort(compareCreatedAt)
+		          .sort(Utils.compareCreatedAt)
 		          .map((game, index) => {
 		            return (
-		              <tr key={game._id} style={ userPlayed(game, props.user) ? myRow : null}>
-		                <td>{formatDateAndTime(game.createdAt)}</td>
+		              <tr key={game._id} style={ UserUtils.userPlayed(game, props.user) ? UserUtils.myRow : null}>
+		                <td>{Utils.formatDateAndTime(game.createdAt)}</td>
 		                <td>{game.winner.name}</td>
 		                <td>{game.loser.name}</td>
 		                <td>{game.special}</td>

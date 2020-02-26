@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { isEmpty, myRow } from "../Utils/Utils";
-import { countSeasonWins } from "../Utils/UserUtils";
+import * as Utils from "../Utils/Utils";
+import * as UserUtils from "../Utils/UserUtils";
 import { Table, Tooltip, OverlayTrigger, Glyphicon } from "react-bootstrap";
 import "./AllTimeLeagueTable.css";
 
@@ -128,7 +128,7 @@ export default function AllTimeLeagueTable(props) {
 
     <div className="AllTimeLeagueTable">
 
-    { !isEmpty(props.players) &&
+    { !Utils.isEmpty(props.players) &&
         <Table striped bordered condensed hover responsive>
 
           <thead>
@@ -165,11 +165,11 @@ export default function AllTimeLeagueTable(props) {
             props.players.sort(compareTNSRthenWinsToFirst).filter(player => countPlayed(player) > 0).map((user, index) => {
 
               return (
-                <tr key={index} style={ user._id == props.user._id ? myRow : null} >
+                <tr key={index} style={ user._id == props.user._id ? UserUtils.myRow : null} >
                   <td>{index+1}</td>
                   <td>
                     <b><a href={`/user/${user._id}`}>{user.name} </a></b>
-                    {[...Array(countSeasonWins(user, props.seasons, props.games))].map((x, i) =>
+                    {[...Array(UserUtils.countSeasonWins(user, props.seasons, props.games))].map((x, i) =>
                         <Glyphicon glyph="star" key={i}/>
                     )}
                   </td>
@@ -190,7 +190,7 @@ export default function AllTimeLeagueTable(props) {
           { props.games.length == 0 &&
             props.players.map((user, index) => {
               return (
-                <tr key={index} style={ user._id == props.user._id ? myRow : null}>
+                <tr key={index} style={ user._id == props.user._id ? UserUtils.myRow : null}>
                   <td>{index+1}</td>
                   <td><b>{user.name}</b></td>
                   <td>0</td>
@@ -212,7 +212,7 @@ export default function AllTimeLeagueTable(props) {
       }
 
       {
-        isEmpty(props.players) &&
+        Utils.isEmpty(props.players) &&
           <p>No players exist</p>
       }
     </div>

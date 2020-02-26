@@ -38,7 +38,7 @@ export default function AllTimeUserSeason(props) {
 						{ props.games.filter(game=> userPlayed(game, props.player)).length > 0 &&
 							<Row>
 								<Col xs={12}>
-									<LatestResults user={props.user} limit={200} games={props.games.filter(game=> userPlayed(game, player))} />
+									<LatestResults user={props.user} limit={20} games={props.games.filter(game=> userPlayed(game, player))} />
 								</Col>
 							</Row>
 						}
