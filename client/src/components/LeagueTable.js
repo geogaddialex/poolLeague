@@ -25,7 +25,7 @@ export default function LeagueTable(props) {
   const TooltipFoul = (
     <Tooltip id="TooltipFoul">
       <strong>Foul Wins</strong>
-      <br/>Opponent fouled / You fouled
+      <br/>You won / Opponent won
     </Tooltip>
   );
 
@@ -48,19 +48,21 @@ export default function LeagueTable(props) {
   const TooltipTNSR = (
     <Tooltip id="TooltipTNSR">
       <strong>TNSRating</strong>
-      <br/>Points ÷ ( Losses + Penalty )
+      <br/>Diminished wins ÷ <br/>( Diminished losses + Penalty )
     </Tooltip>
   );
 
   const TooltipWinsToFirst = (
     <Tooltip id="TooltipWinsToFirst">
-      Wins needed for first place
+      <strong>Wins needed for first place</strong>
+      <br/>Least beaten opponent -<br/> Farming one person
     </Tooltip>
   );
 
   const TooltipWinsToNext = (
     <Tooltip id="TooltipWinsToNext">
-      Wins needed to rank up
+      <strong>Wins needed to rank up</strong>
+      <br/>Least beaten opponent -<br/> Farming one person
     </Tooltip>
   );
 
@@ -126,17 +128,12 @@ export default function LeagueTable(props) {
               return (
                 <tr key={index} style={ user._id == props.user._id ? UserUtils.myRow : null}>
                   <td>{index+1}</td>
-                  <td><b>{user.name} </b>
-                    {[...Array(UserUtils.countSeasonWins(user, props.seasons, props.allGames))].map((x, i) =>
-                        <Glyphicon glyph="star" key={i} />
-                    )}
-                  </td>
+                  <td><b>{user.name}</b></td>
                   <td>0</td>
                   <td>0</td>
                   <td>0</td>
                   <td>0 / 0</td>
                   <td>0 / 0</td>
-                  <td>0</td>
                   <td>{props.season.players.length-1 + SeasonUtils.getMinGames(props.season)}</td>
                   <td>0</td>
                   <td>0</td>

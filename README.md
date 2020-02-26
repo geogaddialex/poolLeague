@@ -2,9 +2,10 @@
 
 Priority:
 	RTN - TNSR doesn't update unless you select winner AND loser (can't coz it doesn't know how many points you'd get) - add green tick
-	Streaks still wrong
 	New rule suggestions and votes (show who voted but not for what)(needs notifications)
 	Friendly league that never resets - Option on All Time to include friendlies
+	Request a game
+	Sort tables by headers
 
 Admin:
 	Kick user from season (option to remove/maintain their games); update socket
@@ -13,17 +14,15 @@ Admin:
 Layout:
 	Mobile tabs solution (Season 5 will cause overflow)
 	Colours for TNSR, wins to #1, etc (10 diff colours, colour users cell based on which % group they're in)
+		divide difference between 1st and last by 10, assign colours by grouping
 
 Features:
 	Player comparison
 	Global league chat
-	Sort tables by headers
 	Hovering over penalty should show the breakdown
-
 	Filter recent games
 	Avatars
 	Add a “Real name” field to user - display this on their user page
-	Request a game
 	Gambling currency (Place a bet, next time that matchup happens check if bet won)( Odds are All-Time difference in TNSR between players)
 	Emoji support
 	Implement Elo
@@ -37,6 +36,7 @@ Calculation:
 QOL:
 	Comment autofocus and clear after submit
 	Min games for unstarted season shouldn't display
+	Hall of shame: See who seven balled who
 	User MostPlayed doesn't need to show the users name
 	Remove / Edit comment (that you added, or admin can remove)
 	All time page shows best TNSR record (closed seasons only)

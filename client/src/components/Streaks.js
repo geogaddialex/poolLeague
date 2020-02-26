@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Table } from "react-bootstrap";
 import * as UserUtils from "../Utils/UserUtils"
+import * as Utils from "../Utils/Utils"
 import "./Streaks.css";
 
 export default function Streaks(props) {
@@ -13,9 +14,9 @@ export default function Streaks(props) {
   }, [props.games, props.season]);
 
   function getStreaks(games, users){
-    setStreaks(props.season.players.map(user => {
+    setStreaks(users.map(user => {
 
-      const sortedGames = props.games.filter(game => game.winner._id == user._id || game.loser._id == user._id).sort(sortGamesByDate)
+      const sortedGames = props.games.filter(game => game.winner._id == user._id || game.loser._id == user._id).sort(Utils.compareCreatedAt)
       const lastWin = sortedGames.findIndex( game => game.winner._id == user._id )
       const lastLoss = sortedGames.findIndex( game => game.loser._id == user._id )
 
@@ -33,10 +34,6 @@ export default function Streaks(props) {
 
   function compareStreaks(a, b) {
     return b.streak - a.streak
-  }
-
-  function sortGamesByDate(a, b){
-    return a.createdAt - b.createdAt
   }
 
   return (

@@ -64,6 +64,9 @@ export function getMinGames(season){
     case "Season 3":
       return 15
   }
+
+  if(!hasSeasonStarted(season)) return 0
+    
   const oneDay = 24 * 60 * 60 * 1000;
   const seasonStart = new Date(season.start);
   const seasonEnd = new Date(season.end);
