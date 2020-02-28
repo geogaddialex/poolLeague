@@ -3,7 +3,7 @@
 Priority:
 	dp shouldn't multiply by 10, that's the job of calculateTNSR
 	RTN - TNSR doesn't update unless you select winner+loser (doesn't know how many points you'd get) - add green tick
-	New rule suggestions and votes (show who voted but not for what)(needs notifications)
+	New rule suggestions and votes (show who voted but not for what)(needs notifications)(need to have 1 game played to vote)
 	Friendly league that never resets - Option on All Time to include friendlies
 	Request a game
 	Sort tables by headers

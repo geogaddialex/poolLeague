@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Link, withRouter } from "react-router-dom";
-import { Nav, Navbar, NavItem, NavDropdown, MenuItem } from "react-bootstrap";
+import { Nav, Navbar, NavItem, NavDropdown, MenuItem, Glyphicon, Popover, Button, OverlayTrigger } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import Routes from "./Routes";
+import Notifications from "./components/Notifications";
 import { isEmpty } from "./Utils/Utils"
 import io from "socket.io-client";
 import "./App.css";
@@ -227,6 +228,14 @@ function App(props) {
             { !isEmpty(user)
               ? <>
 
+                  <NavItem>
+                    <Notifications notifications={[{message: "Joe has challenged you to a game"},{message: "Joe hasn't challenged you to a game"}]} />
+                  </NavItem>
+
+                  <LinkContainer to={'/user/'+user._id}>
+                    <NavItem>{user.name}</NavItem>
+                  </LinkContainer>
+
                   { user.isAdmin &&
 
                     <NavDropdown title="Admin" id="basic-nav-dropdown">
@@ -241,10 +250,6 @@ function App(props) {
                       </LinkContainer>
                     </NavDropdown>
                   }
-
-                  <LinkContainer to={'/user/'+user._id}>
-                    <NavItem>{user.name}</NavItem>
-                  </LinkContainer>
                   
                   <LinkContainer to="/settings">
                     <NavItem>Settings</NavItem>
