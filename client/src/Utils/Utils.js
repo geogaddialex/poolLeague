@@ -19,7 +19,7 @@ export function formatDateAndTime(dateString){
 }
 
 export function dp(input){
-	return Math.round(input * 100) / 100
+	return Math.round(input * 1000) / 100
 }
 
 export function compareCreatedAt(a,b){

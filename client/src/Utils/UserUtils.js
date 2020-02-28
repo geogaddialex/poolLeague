@@ -23,6 +23,10 @@ export function getBestTNSR(user, games, seasons, users){
   	return Math.round(Math.max( ...TNSRS ) * 100) / 100
 }
 
+export function getOpponents(season, user){
+	return season.players.filter(player => player._id !== user._id)
+}
+
 export function countWins(games, user){
     return games.filter(game => game.winner._id === user._id).length
 }
@@ -51,21 +55,15 @@ export function countFoulsAgainst(games, user){
 	return games.filter(game => game.loser._id === user._id && game.special === "Foul Win").length
 }
 
-export function calculatePoints(games, user){
+export function calculateOldPoints(games, user){
 	return countWins(games, user) + countSevenBallsFor(games, user)*2 - countFoulsFor(games, user)*0.5
 }
 
-export function getOpponents(season, user){
-	return season.players.filter(player => player._id !== user._id)
-}
-
-export function calculateNewPoints(games, user, season){
+export function calculatePoints(games, user, season){
 	let points = 0
 
 	getOpponents(season, user).forEach(opponent => {
-
 		getWinsAgainst(opponent, user, games).forEach( (game, index) => {
-
 			const base = Math.pow(0.9, index)
 
 			switch(game.special){
@@ -81,15 +79,13 @@ export function calculateNewPoints(games, user, season){
 			}
 		})
 	})
-
 	return points
 }
 
-export function calculateNewLosses(games, user, season){
+export function calculateLosses(games, user, season){
 	let losses = 0
 
 	getOpponents(season, user).forEach(opponent => {
-
 		getLossesAgainst(opponent, user, games).forEach( (game, index) =>{
 			losses += Math.pow(0.9, index)
 		})
@@ -99,10 +95,8 @@ export function calculateNewLosses(games, user, season){
 }
 
 export function calculateTNSR(games, user, season){
-
-	let points = calculateNewPoints(games, user, season)
-	let losses = calculateNewLosses(games, user, season)
-
+	let points = calculatePoints(games, user, season)
+	let losses = calculateLosses(games, user, season)
 	const divisor = (losses + countPenalty(games, user, season)) > 0 ? (losses + countPenalty(games, user, season)) : 1 
 
 	return points / divisor
@@ -111,7 +105,7 @@ export function calculateTNSR(games, user, season){
 export function calculateAllTimeTNSR(games, user, users){
 	const player = getUser(user, users)
 	let losses = countLosses(games, player) > 0 ? countLosses(games, player) : 1
-	return Math.round(calculatePoints(games, player) / losses * 100) /100
+	return calculateOldPoints(games, player) / losses
 }
 
 export function countUnplayed(games, user, season){
@@ -128,7 +122,6 @@ export function countUnplayed(games, user, season){
 	    unique.push(game.winner)
 	  }
 	})
-
 	//accounts for RTN undefined opponent and self... could change RTN to only use games with both players filled in
 	return (season.players.length - unique.length - 1 >= 0) ? season.players.length - unique.length - 1 : 0
 }
@@ -153,26 +146,12 @@ export function userInSeason(season, userId){
   return season.players.findIndex(player => player._id == userId) >= 0
 }
 
-export function getPosition(player, season, games){
-
-	const playerTNSR = calculateTNSR(games, player, season)
-
-	const TNSRS = season.players.map( user => {
-      const TNSR = calculateTNSR(games, user, season)
-      return TNSR
-    }).sort(function(a, b){return b-a})
-
-    const positon = TNSRS.findIndex(value => value == playerTNSR)
-    return positon+1
-}
-
-export function countSeasonWins(player, seasons, games){
-
+export function countStars(player, seasons, games, position){
 	let wins = 0
 	seasons.map( season =>{
 		if(new Date(season.end) < new Date()){
-			if(getPosition(player, season, SeasonUtils.getGamesForSeason(games, season)) == 1){
-				wins ++
+			if(playersSortedByTNSR(SeasonUtils.getGamesForSeason(games, season), season).findIndex(user =>  user._id == player._id) == position-1){
+				wins++
 			}
 		}
 	})
@@ -199,13 +178,12 @@ export function calculateWinsToFirst(games, user, season, players){
 export function calculateWinsToRankUp(games, user, season, players){
     let index = players.indexOf(user)
 
-    if(index === 0 ){
-      return 0
-    }else{
-      let upOne = season.players[index-1]
-      let TNSR = calculateTNSR(games, upOne, season)
-      return calculateWinsToTNSR(games, user, season, players, TNSR)
-    }
+    if(index === 0) return 0
+
+	let upOne = players[index-1]
+	let nextTNSR = calculateTNSR(games, upOne, season)
+	return calculateWinsToTNSR(games, user, season, players, nextTNSR)
+
 }
 
 export function calculateWinsToTNSR(games, user, season, players, tnsr){
@@ -214,44 +192,41 @@ export function calculateWinsToTNSR(games, user, season, players, tnsr){
     	return getWinsAgainst(opponent, user, games).length
     })
 
-    let most = Math.max(...winsAgainst)
-    let least = Math.min(...winsAgainst)
+    let mostBeatenCount = Math.max(...winsAgainst)
+    let leastBeatenCount = Math.min(...winsAgainst)
 
-    let leastPoints = calculateNewPoints(games, user, season)
-    let mostPoints = calculateNewPoints(games, user, season)
-    let losses = calculateNewLosses(games, user, season)
+    let leastBeatenPoints = calculatePoints(games, user, season)
+    let mostBeatenPoints = calculatePoints(games, user, season)
+    let losses = calculateLosses(games, user, season)
     let penalty = countPenalty(games, user, season)
 
     let divisor = losses + penalty > 0 ? losses + penalty : 1 
 
-    let leastTNSR = leastPoints / divisor
-    let mostTNSR = mostPoints / divisor
+    let leastBeatenTNSR = leastBeatenPoints / divisor
+    let mostBeatenTNSR = mostBeatenPoints / divisor
 
- 	if(leastTNSR == tnsr){
- 		return 0
- 	}
+ 	if(leastBeatenTNSR == tnsr) return 0
 
     let countLeast = 0
     let countMost = 0
 
    	do{
-
-    	leastPoints += Math.pow(0.9, least)
+    	leastBeatenPoints += Math.pow(0.9, leastBeatenCount)
     	winsAgainst[winsAgainst.indexOf(Math.min(...winsAgainst))] += 1
-    	least = Math.min(...winsAgainst)
+    	leastBeatenCount = Math.min(...winsAgainst)
     	countLeast += 1
-    	leastTNSR = leastPoints / divisor
+    	leastBeatenTNSR = leastBeatenPoints / divisor
 
-    } while (leastTNSR < tnsr && countLeast <= 99 )
+    } while (leastBeatenTNSR < tnsr && countLeast <= 99 )
 
 
     do{
-    	mostPoints += Math.pow(0.9, most)
-    	most += 1
+    	mostBeatenPoints += Math.pow(0.9, mostBeatenCount)
+    	mostBeatenCount += 1
     	countMost += 1
-    	mostTNSR = mostPoints / divisor
+    	mostBeatenTNSR = mostBeatenPoints / divisor
 
-    } while (mostTNSR < tnsr && countMost <= 99 )
+    } while (mostBeatenTNSR < tnsr && countMost <= 99 )
     
     countMost = countMost < 99 ? countMost : "99+"
     countLeast = countLeast < 99 ? countLeast : "99+"
@@ -264,11 +239,25 @@ export function calculateWinsToTNSR(games, user, season, players, tnsr){
 export function playersSortedByTNSR(games, season){
 	const sortedPlayers = season.players.map(player => {
 			player.tnsr = calculateTNSR(games, player, season)
+			if(player.name == "AlexTest") console.log(player.tnsr)
 			return player
 		}).sort((a,b) => {
 			return b.tnsr - a.tnsr
 		})
 	return sortedPlayers
+}
+
+export function getPosition(player, season, games){
+
+       const playerTNSR = calculateTNSR(games, player, season)
+
+       const TNSRS = season.players.map( user => {
+      const TNSR = calculateTNSR(games, user, season)
+      return TNSR
+    }).sort(function(a, b){return b-a})
+
+    const positon = TNSRS.findIndex(value => value == playerTNSR)
+    return positon+1
 }
 
 export const myRow = {

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { isEmpty, myRow } from "../Utils/Utils";
+import * as Utils from "../Utils/Utils";
 import { getMinGames, allTimeSeason } from "../Utils/SeasonUtils";
 import { getGamesForUser, getUser, countWins, countLosses, countPlayed, countSevenBallsFor,
-  countSevenBallsAgainst, countFoulsFor, countFoulsAgainst, calculatePoints, countUnderMin,
+  countSevenBallsAgainst, countFoulsFor, countFoulsAgainst, calculateOldPoints, countUnderMin,
   countUnplayed, countPenalty } from "../Utils/UserUtils"
 import { Table, Tooltip, OverlayTrigger, Alert } from "react-bootstrap";
 import "./AllTimeUserLeagueRow.css";
@@ -11,7 +11,7 @@ export default function AllTimeUserLeagueRow(props) {
 
   function calculateTNSR(user){
     let losses = countLosses(props.games, user) > 0 ? countLosses(props.games, user) : 1
-    return calculatePoints(props.games, user) / losses
+    return calculateOldPoints(props.games, user) / losses
   }
 
   function getPosition(player){
@@ -107,7 +107,7 @@ export default function AllTimeUserLeagueRow(props) {
 
     <div className="UserLeagueRow">
 
-    { !isEmpty(props.users) &&
+    { !Utils.isEmpty(props.users) &&
         <Table striped bordered condensed hover responsive>
 
           <thead>
@@ -146,8 +146,8 @@ export default function AllTimeUserLeagueRow(props) {
                   <td>{countLosses(props.games, props.player)}</td>
                   <td>{countSevenBallsFor(props.games, props.player)} / {countSevenBallsAgainst(props.games, props.player)}</td>
                   <td>{countFoulsFor(props.games, props.player)} / {countFoulsAgainst(props.games, props.player)}</td>
-                  <td>{calculatePoints(props.games, props.player)}</td>
-                  <td><b>{Math.round(calculateTNSR(props.player) * 100) / 100}</b></td>
+                  <td>{calculateOldPoints(props.games, props.player)}</td>
+                  <td><b>{Utils.dp(calculateTNSR(props.player))}</b></td>
                   <td>{calculateWinsToFirst(props.player)}</td>
                 </tr>
           }

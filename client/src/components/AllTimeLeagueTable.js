@@ -169,8 +169,14 @@ export default function AllTimeLeagueTable(props) {
                   <td>{index+1}</td>
                   <td>
                     <b><a href={`/user/${user._id}`}>{user.name} </a></b>
-                    {[...Array(UserUtils.countSeasonWins(user, props.seasons, props.games))].map((x, i) =>
-                        <Glyphicon glyph="star" key={i}/>
+                    {[...Array(UserUtils.countStars(user, props.seasons, props.games, 1))].map((x, i) =>
+                        <Glyphicon glyph="star" className="gold" key={i+"gold"}/>
+                    )}
+                    {[...Array(UserUtils.countStars(user, props.seasons, props.games, 2))].map((x, i) =>
+                        <Glyphicon glyph="star" className="silver" key={i+"silver"}/>
+                    )}
+                    {[...Array(UserUtils.countStars(user, props.seasons, props.games, 3))].map((x, i) =>
+                        <Glyphicon glyph="star" className="bronze" key={i+"bronze"}/>
                     )}
                   </td>
                   <td>{countPlayed(user)}</td>
@@ -179,7 +185,7 @@ export default function AllTimeLeagueTable(props) {
                   <td>{countSevenBallsFor(user)} / {countSevenBallsAgainst(user)}</td>
                   <td>{countFoulsFor(user)} / {countFoulsAgainst(user)}</td>
                   <td>{calculatePoints(user)}</td>
-                  <td><b>{Math.round(calculateTNSR(user) * 100) / 100}</b></td>
+                  <td><b>{Utils.dp(calculateTNSR(user))}</b></td>
                   <td>{calculateWinsToFirst(user)}</td>
                   <td>{calculateWinsToRankUp(user)}</td>
                 </tr>

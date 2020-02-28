@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { isEmpty, myRow } from "../Utils/Utils";
+import * as Utils from "../Utils/Utils";
 import { getMinGames, getGamesForSeason } from "../Utils/SeasonUtils";
 import { getGamesForUser, getUser, countWins, countLosses, countPlayed, countSevenBallsFor,
-  countSevenBallsAgainst, countFoulsFor, countFoulsAgainst, calculatePoints, calculateTNSR, countUnderMin,
+  countSevenBallsAgainst, countFoulsFor, countFoulsAgainst, calculateOldPoints, calculateTNSR, countUnderMin,
   countUnplayed, countPenalty, getPosition } from "../Utils/UserUtils"
 import { Table, Tooltip, OverlayTrigger, Alert } from "react-bootstrap";
 import "./UserLeagueRow.css";
@@ -107,7 +107,7 @@ export default function UserLeagueRow(props) {
 
     <div className="UserLeagueRow">
 
-    { !isEmpty(props.season.players) &&
+    { !Utils.isEmpty(props.season.players) &&
         <Table striped bordered condensed hover responsive>
 
           <thead>
@@ -149,9 +149,9 @@ export default function UserLeagueRow(props) {
                   <td>{countLosses(props.games, props.player)}</td>
                   <td>{countSevenBallsFor(props.games, props.player)} / {countSevenBallsAgainst(props.games, props.player)}</td>
                   <td>{countFoulsFor(props.games, props.player)} / {countFoulsAgainst(props.games, props.player)}</td>
-                  <td>{calculatePoints(props.games, props.player)}</td>
+                  <td>{calculateOldPoints(props.games, props.player)}</td>
                   <td>{countPenalty(props.games, props.player, props.season)}</td>
-                  <td><b>{Math.round(calculateTNSR(props.games, props.player, props.season) * 100) / 100}</b></td>
+                  <td><b>{Utils.dp(calculateTNSR(props.games, props.player, props.season))}</b></td>
                   <td>{calculateWinsToFirst(props.player)}</td>
                 </tr>
           }
