@@ -27,8 +27,8 @@ function App(props) {
   const [loadedUsers, setLoadedUsers] = useState(false)
   const [loadingUsers, setLoadingUsers] = useState(false)
 
-  const socket = io("ws://localhost:5000", {transports: ['websocket']})
-  // const socket = io("wss://scrubs-pool-league.herokuapp.com/", {transports: ['websocket']})  
+  // const socket = io("ws://localhost:5000", {transports: ['websocket']})
+  const socket = io("wss://scrubs-pool-league.herokuapp.com/", {transports: ['websocket']})  
 
   useEffect(() => {
 
