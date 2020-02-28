@@ -32,13 +32,20 @@ export default function Excuses(props) {
     })
   }
 
+  function handleKeyPress(target){
+      if(target.charCode==13){
+        addExcuse()
+      } 
+  }
+
   const popover = (
     <Popover id="popover" title="Add a comment">
-      <FormGroup controlId="comment" bsSize="large">
+      <FormGroup controlId="comment">
         <FormControl
           type="text"
           value={fields.comment}
           onChange={handleFieldChange}
+          onKeyPress={handleKeyPress}
         />
       </FormGroup>
       <Button onClick={addExcuse} bsSize="small" disabled={!validateForm()}>

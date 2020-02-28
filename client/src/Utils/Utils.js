@@ -18,6 +18,10 @@ export function formatDateAndTime(dateString){
   return date.getDate() + "/" + (date.getMonth() + 1) + " " + ('0'+date.getHours()).slice(-2) + ":" + ('0'+date.getMinutes()).slice(-2);
 }
 
-export const myRow = {
-  backgroundColor: "#ebebf8"
-};
+export function dp(input){
+	return Math.round(input * 1000) / 100
+}
+
+export function compareCreatedAt(a,b){
+  return new Date(b.createdAt) - new Date(a.createdAt);
+}

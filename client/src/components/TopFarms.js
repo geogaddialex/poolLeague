@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Table } from "react-bootstrap";
-import { isEmpty, myRow } from "../Utils/Utils"
-import { userPlayed } from "../Utils/UserUtils"
+import * as UserUtils from "../Utils/UserUtils"
 
 import "./TopFarms.css";
 
@@ -74,7 +73,7 @@ export default function TopFarms(props) {
               .slice(0, props.limit)
               .map((result, index) => {
                 return (
-                  <tr key={result.winner._id + result.loser._id} style={ userPlayed(result, props.user) ? myRow : null}>
+                  <tr key={result.winner._id + result.loser._id} style={ UserUtils.userPlayed(result, props.user) ? UserUtils.myRow : null}>
                     <td>{result.winner.name}</td>
                     <td>{result.loser.name}</td>
                     <td>{result.farm}</td>

@@ -28,7 +28,6 @@ export default function SeasonInfo(props) {
       { !isEmpty(props.user) && !userInSeason(props.season, props.user._id) && canJoinSeason(props.season) && 
         <JoinSeason block type="submit" bsSize="large" user={props.user} season={props.season}>Join</JoinSeason>
       }
-
     </div>
 
   );

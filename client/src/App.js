@@ -190,12 +190,7 @@ function App(props) {
   function handleLogout() {
     fetch('/api/auth/logout', {credentials: 'same-origin'}).then(function(response){
       
-      if(response.ok){
-        setUser({})
-      }else{
-        console.log("FAILURE: Logging out")
-      }
-
+      if (response.ok) setUser({})
     })
   }
 

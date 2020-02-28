@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Table, Alert } from "react-bootstrap";
 import { isEmpty } from "../Utils/Utils";
-import { getBestTNSR, getName, calculateAllTimeTNSR } from "../Utils/UserUtils"
+import * as UserUtils from "../Utils/UserUtils"
+import * as Utils from "../Utils/Utils"
 import JoinSeason from "../components/JoinSeason";
 import "./UserStats.css";
 
@@ -12,14 +13,14 @@ export default function UserStats(props) {
     <div className="UserStats">
 
         <>
-          <p><b>{getName(props.player, props.users)}</b></p>
+          <p><b>{UserUtils.getName(props.player, props.users)}</b></p>
 
           { !isEmpty(props.games) ?
 
             <>
               <p>Total Games: { props.games.length }</p>
-              <p>Best TNSR: { getBestTNSR(props.player, props.games, props.seasons, props.users) }</p>
-              <p>Overall TNSR: { calculateAllTimeTNSR(props.games, props.player, props.users) }</p>
+              <p>Best TNSR: { Utils.dp(UserUtils.getBestTNSR(props.player, props.games, props.seasons, props.users)) }</p>
+              <p>Overall TNSR: { Utils.dp(UserUtils.calculateAllTimeTNSR(props.games, props.player, props.users)) }</p>
             </>
 
             :

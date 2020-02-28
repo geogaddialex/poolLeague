@@ -1,14 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { Table, Button, Glyphicon } from "react-bootstrap";
-import { isEmpty, formatDateAndTime, myRow } from "../Utils/Utils"
-import { userPlayed } from "../Utils/UserUtils"
+import * as Utils from "../Utils/Utils"
+import * as UserUtils from "../Utils/UserUtils"
 import Excuses from "./Excuses"
 import "./LatestResults.css";
 
 export default function LatestResults(props) {
 
-  function compareCreatedAt(a,b){
-    return new Date(b.createdAt) - new Date(a.createdAt);
+  const [limit, setLimit] = useState(props.limit)
+
+  function loadMore(){
+    setLimit(limit+10)
+  }
+
+  function canLoadMore(){
+    return limit < props.games.length
   }
 
   return (
@@ -29,12 +35,12 @@ export default function LatestResults(props) {
         <tbody>
         {
           props.games
-          .sort(compareCreatedAt)
-          .slice(0, props.limit)
+          .sort(Utils.compareCreatedAt)
+          .slice(0, limit)
           .map((game, index) => {
             return (
-              <tr key={game._id} style={ userPlayed(game, props.user) ? myRow : null}>
-                <td>{formatDateAndTime(game.createdAt)}</td>
+              <tr key={game._id} style={ UserUtils.userPlayed(game, props.user) ? UserUtils.myRow : null}>
+                <td>{Utils.formatDateAndTime(game.createdAt)}</td>
                 <td>{game.winner.name}</td>
                 <td>{game.loser.name}</td>
                 <td>{game.special}</td>
@@ -44,8 +50,10 @@ export default function LatestResults(props) {
           })
         }
         </tbody>
-      
       </Table>
+      <Button onClick={loadMore} disabled={!canLoadMore()}>
+        Load more
+      </Button>
     </div>
 
   );

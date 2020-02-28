@@ -1,30 +1,29 @@
 import React , {useEffect, useState} from "react";
-import { Form, FormGroup, FormControl, ControlLabel, Button } from "react-bootstrap";
-import { useFormFields } from "../libs/hooksLib";
-import { isEmpty } from "../Utils/Utils"
+import { Form, FormGroup, FormControl, Button } from "react-bootstrap";
+import * as UserUtils from "../Utils/UserUtils"
 import "./RunTheNumbers.css";
 
 export default function RunTheNumbers(props) {
-
 
   function updateRTN(index, e){
 
     const newValue = e.target.value
     const field = e.target.id
-
     const newArray = props.runTheNumbers.map((game, rtnIndex)=>{
       if(index == rtnIndex){
 
         switch(field) {
           case "winner":
-            game.winner = newValue
+            game.winner = UserUtils.getUser(newValue, props.season.players)
             break;
           case "loser":
-            game.loser = newValue
+            game.loser = UserUtils.getUser(newValue, props.season.players)
             break;
           case "special":
             game.special = newValue
             break;
+          default:
+            console.log("how could it be anything else? : " + field)
         }
       }
       return game
@@ -34,28 +33,48 @@ export default function RunTheNumbers(props) {
 
   function reset(){
     props.setRunTheNumbers([{
-        winner: "select",
-        loser: "select",
+        winner:{
+          _id : "select"
+        },
+        loser:{
+          _id : "select"
+        },
         special: "None"
       },
       {
-        winner: "select",
-        loser: "select",
+        winner:{
+          _id : "select"
+        },
+        loser:{
+          _id : "select"
+        },
         special: "None"
       },
       {
-        winner: "select",
-        loser: "select",
+        winner:{
+          _id : "select"
+        },
+        loser:{
+          _id : "select"
+        },
         special: "None"
       },
       {
-        winner: "select",
-        loser: "select",
+        winner:{
+          _id : "select"
+        },
+        loser:{
+          _id : "select"
+        },
         special: "None"
       },
-      {
-        winner: "select",
-        loser: "select",
+       {
+        winner:{
+          _id : "select"
+        },
+        loser:{
+          _id : "select"
+        },
         special: "None"
       }
     ])
@@ -65,13 +84,15 @@ export default function RunTheNumbers(props) {
     <div className="RunTheNumbers">
         <p><b>Run the Numbers</b></p>
 
-        { props.runTheNumbers.map((game, index) => { return (
+        { props.runTheNumbers.map((game, index) => { 
+
+          return (
 
             <Form inline key={index}>
 
               <FormGroup controlId="winner">
-                <FormControl componentClass="select" value={game.winner} onChange={(e) => updateRTN(index,e)}>
-                  <option key="0" value="select" disabled>Winner</option>
+                <FormControl componentClass="select" value={game.winner._id} onChange={(e) => updateRTN(index,e)}>
+                  <option key="0" value="select">Winner</option>
                   {
                     props.season.players.map((user, index) => {
                       return (
@@ -83,12 +104,12 @@ export default function RunTheNumbers(props) {
               </FormGroup>
 
               <FormGroup controlId="loser">
-                <FormControl componentClass="select" value={game.loser} onChange={(e) => updateRTN(index,e)}>
-                  <option key="0" value="select" disabled>Loser</option>
+                <FormControl componentClass="select" value={game.loser._id} onChange={(e) => updateRTN(index,e)}>
+                  <option key="0" value="select">Loser</option>
                   {
-                    props.season.players.map((user, index) => {
+                    props.season.players.map((user, i) => {
                       return (
-                        <option key={index+1} value={user._id}>{user.name}</option>
+                        <option key={i+1} value={user._id}>{user.name}</option>
                       )
                     })
                   }
@@ -97,7 +118,7 @@ export default function RunTheNumbers(props) {
 
               <FormGroup controlId="special">
                 <FormControl componentClass="select" value={game.special} onChange={(e) => updateRTN(index,e)}>
-                  <option key="0" value="Special">Special</option>
+                  <option key="0" value="None">Special</option>
                   <option key="1" value="Foul Win">Foul Win</option>
                   <option key="2" value="7 Ball">7 Ball</option>
                 </FormControl>

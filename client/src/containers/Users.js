@@ -7,15 +7,25 @@ export default function Users(props) {
 
   	async function deleteUser(id) {
 
-  		alert("R U SURE?")
+  		alert("R U SURE? user = " + id)
 
-	    // fetch('/api/games/' + id, {
-	    //   credentials: 'same-origin',
-	    //   method: 'DELETE',
-	    //   headers: { 'Content-Type': 'application/json' }
-	    // }).then(function(response){
-	    // 	alert("game deleted: " + id)
-	    // })
+  		fetch('/api/comments/forUser/' + id, {
+  			credentials: 'same-origin',
+	      	method: 'DELETE',
+	      	headers: { 'Content-Type': 'application/json' }
+  		}).then(function(response){
+
+	    	console.log("comments deleted? " + response )
+
+	    	// fetch('/api/games/' + id, {
+		    //   credentials: 'same-origin',
+		    //   method: 'DELETE',
+		    //   headers: { 'Content-Type': 'application/json' }
+		    // }).then(function(response){
+		    // 	console.log("game deleted? " + response )
+		    // })
+	    })
+
   	}
 
   	return (

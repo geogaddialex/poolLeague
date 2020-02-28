@@ -34,3 +34,23 @@
 	  display: none;
 	} 
 }
+
+.glyphicon-star:before{
+	vertical-align: middle;
+}
+
+.glyphicon-star{
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+
+.gold{
+	color: gold;
+}
+
+.silver{
+	color: gainsboro;
+}
+
+.bronze{
+	color:	#cd7f32;
+}
