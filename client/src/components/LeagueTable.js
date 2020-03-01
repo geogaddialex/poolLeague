@@ -128,7 +128,7 @@ export default function LeagueTable(props) {
               return (
                 <tr key={index} style={ user._id == props.user._id ? UserUtils.myRow : null}>
                   <td>{index+1}</td>
-                  <td><b>{user.name}</b></td>
+                  <td><b><a href={`/user/${user._id}`}>{user.name} </a></b></td>
                   <td>0</td>
                   <td>0</td>
                   <td>0</td>

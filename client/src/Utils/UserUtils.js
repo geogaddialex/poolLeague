@@ -64,7 +64,7 @@ export function calculatePoints(games, user, season){
 
 	getOpponents(season, user).forEach(opponent => {
 		getWinsAgainst(opponent, user, games).forEach( (game, index) => {
-			const base = Math.pow(0.9, index)
+			const base = Math.pow(0.8, index)
 
 			switch(game.special){
 				case "7 Ball":
@@ -87,7 +87,7 @@ export function calculateLosses(games, user, season){
 
 	getOpponents(season, user).forEach(opponent => {
 		getLossesAgainst(opponent, user, games).forEach( (game, index) =>{
-			losses += Math.pow(0.9, index)
+			losses += Math.pow(0.8, index)
 		})
 	})
 
