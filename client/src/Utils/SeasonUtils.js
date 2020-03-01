@@ -12,7 +12,7 @@ export function getCurrentSeasonIndex(seasons){
   const index = seasons.sort(startedEarliest).map(season =>{
     return isSeasonOpen(season)
   }).indexOf(true)
-  return index
+  return index > -1 ? index : 0
 }
 
 export function isSeasonOpen(season){

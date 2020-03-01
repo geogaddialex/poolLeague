@@ -27,9 +27,9 @@ export default function User(props) {
 
 	    		<h2>{UserUtils.getName(params.userId, props.users)}</h2>
 
-				<Tabs activeKey={key} id="tabs">
+				<Tabs activeKey={key} defaultActiveKey={SeasonUtils.getCurrentSeasonIndex(props.seasons.sort(startedEarliest).filter(season => UserUtils.userInSeason(season, params.userId)))} id="tabs">
 
-					<Tab key={props.seasons.length} eventKey={props.seasons.length} title="All Time">
+					<Tab key={0} eventKey={0} title="All Time">
 				        <AllTimeUserSeason key={props.seasons.length} users={props.users} player={params.userId} user={props.user} seasons={props.seasons} games={props.games} />
 				    </Tab>
 
@@ -39,7 +39,7 @@ export default function User(props) {
 						const gamesForSeason = SeasonUtils.getGamesForSeason(props.games, season)
 
 						return (
-				        	<Tab key={index} eventKey={index} title={season.name}>
+				        	<Tab key={index+1} eventKey={index+1} title={season.name}>
 				          		<UserSeason key={index} player={params.userId} users={props.users} user={props.user} games={gamesForSeason} playerGames={playerGamesForSeason} season={season} />
 				        	</Tab>
 				    	)

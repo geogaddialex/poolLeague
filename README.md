@@ -1,7 +1,9 @@
 # poolLeague.fitness
 
 Priority:
-	dp shouldn't multiply by 10, that's the job of calculateTNSR
+	Can log in with only part of the username (e.g. Al or ex)
+	When no seasons are open (weekend between seasons) show latest
+	Table - farm factor (gap between most and least played)
 	RTN - TNSR doesn't update unless you select winner+loser (doesn't know how many points you'd get) - add green tick
 	New rule suggestions and votes (show who voted but not for what)(needs notifications)
 	Friendly league that never resets - Option on All Time to include friendlies
@@ -18,6 +20,7 @@ Layout:
 		divide difference between 1st and last by 10, assign colours by grouping
 
 Features:
+	Edit a season
 	Player comparison
 	Global league chat
 	Hovering over penalty should show the breakdown
@@ -42,6 +45,9 @@ QOL:
 	Remove / Edit comment (that you added, or admin can remove)
 	All time page shows best TNSR record (closed seasons only)
 	User page default tab should be current season
+
+Refactor:
+	dp shouldn't multiply by 10, that's the job of calculateTNSR
 
 
 http://www.epa.org.uk/images/rules/World%20Rules%202015.pdf
