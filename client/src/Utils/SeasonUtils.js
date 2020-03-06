@@ -101,6 +101,14 @@ export function isOverlapping(season, seasons){
   return overlapping
 }
 
+export function seasonNameInUse(name, seasons){
+  if(!Utils.isEmpty(seasons)){
+    return seasons.some(season => season.name == fields.name)
+  }
+  return false
+}
+
+
 export function startedEarliest(a,b){
   var aB = new Date(a.start).getTime() < new Date(b.start).getTime()
   return aB

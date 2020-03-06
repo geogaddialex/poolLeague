@@ -1,6 +1,6 @@
 import React from "react";
 import { Row, Col, Tabs, Tab, Alert, Button, Table } from "react-bootstrap";
-import { isEmpty, myRow, formatDateAndTime } from "../Utils/Utils";
+import * as Utils from "../Utils/Utils";
 import "./Users.css";
 
 export default function Users(props) {
@@ -32,7 +32,7 @@ export default function Users(props) {
 	    <div className="Users">
 	    <h3>Users</h3>
 
-		{ !isEmpty(props.users) && props.users.length > 0 ?
+		{ !Utils.isEmpty(props.users) && props.users.length > 0 ?
 
 			<Table striped bordered condensed hover>
 		        <thead>

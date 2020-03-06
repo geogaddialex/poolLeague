@@ -1,9 +1,10 @@
 # poolLeague.fitness
 
 Priority:
-	Can log in with only part of the username (e.g. Al or ex)
-	When no seasons are open (weekend between seasons) show latest
-	Table - farm factor (gap between most and least played)
+	Mobile table hides TNSR
+	7 ball should be its own counter, so 2 then 2*0.8 then 2*0.8*0.8
+	Can log in with only part of the username (e.g. Al or ex) cant sign up with those either
+	Table - farm factor (gap between most and least played) / median farm
 	RTN - TNSR doesn't update unless you select winner+loser (doesn't know how many points you'd get) - add green tick
 	New rule suggestions and votes (show who voted but not for what)(needs notifications)
 	Friendly league that never resets - Option on All Time to include friendlies
@@ -38,6 +39,8 @@ Calculation:
 	Wins to #1 and +1 aren't taking into account that each extra win cancels out an underMin loss
 
 QOL:
+	Green circle shows online status
+	"Load more" jumps to bottom, doesn't display when there's no more, shows (displayed/total)
 	Comment autofocus and clear after submit
 	Min games for unstarted season shouldn't display
 	Hall of shame: See who seven balled who

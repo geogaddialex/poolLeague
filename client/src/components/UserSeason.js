@@ -12,7 +12,7 @@ import RunTheNumbers from "../components/RunTheNumbers";
 import AddSeason from "../components/AddSeason";
 import CountPlayed from "../components/CountPlayed";
 import UserLeagueRow from "../components/UserLeagueRow";
-import { isEmpty } from "../Utils/Utils";
+import * as Utils from "../Utils/Utils";
 import * as SeasonUtils from "../Utils/SeasonUtils";
 import * as UserUtils from "../Utils/UserUtils";
 import "./UserSeason.css";
@@ -26,7 +26,7 @@ export default function UserSeason(props) {
     	<span className="UserSeason">
 			<Row> 
 				<Col xs={12} sm={8} md={9}> 
-					{ !isEmpty(props.season.players) && SeasonUtils.hasSeasonStarted(props.season) &&
+					{ !Utils.isEmpty(props.season.players) && SeasonUtils.hasSeasonStarted(props.season) &&
 
 					<>
 						<Row>

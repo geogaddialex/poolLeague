@@ -11,7 +11,7 @@ import SeasonInfo from "../components/SeasonInfo";
 import RunTheNumbers from "../components/RunTheNumbers";
 import AddSeason from "../components/AddSeason";
 import Season from "../components/Season"
-import { isEmpty } from "../Utils/Utils";
+import * as Utils from "../Utils/Utils";
 import * as SeasonUtils from "../Utils/SeasonUtils";
 import "./Home.css";
 
@@ -22,7 +22,7 @@ export default function Home(props) {
   	return (
 	    <div className="Home">
 
-		{ !isEmpty(props.seasons) && props.seasons.length > 0 ?
+		{ !Utils.isEmpty(props.seasons) && props.seasons.length > 0 ?
 
 			<Tabs activeKey={key} defaultActiveKey={SeasonUtils.getCurrentSeasonIndex(props.seasons)} id="tabs">
 
@@ -46,7 +46,7 @@ export default function Home(props) {
 		    		No seasons exist!
 		    	</Alert>
 
-		    	{ !isEmpty(props.user) &&
+		    	{ !Utils.isEmpty(props.user) &&
 		    		<AddSeason seasons={props.seasons} />
 		    	}
 			</>

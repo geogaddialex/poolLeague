@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Row, Col, Alert, Tabs, Tab } from "react-bootstrap";
 import UserSeason from "../components/UserSeason";
 import AllTimeUserSeason from "../components/AllTimeUserSeason";
-import { isEmpty } from "../Utils/Utils";
+import * as Utils from "../Utils/Utils";
 import * as UserUtils from "../Utils/UserUtils";
 import * as SeasonUtils from "../Utils/SeasonUtils";
 import "./Home.css";
@@ -21,7 +21,7 @@ export default function User(props) {
   	return (
 	    <div className="User">
 
-	    	{ !isEmpty(props.users) && props.users.find(player => player._id == params.userId) ?
+	    	{ !Utils.isEmpty(props.users) && props.users.find(player => player._id == params.userId) ?
 
 	    		<> 
 

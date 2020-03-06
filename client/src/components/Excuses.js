@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { isEmpty } from "../Utils/Utils"
+import * as Utils from "../Utils/Utils"
 import { Button, Glyphicon, Popover, OverlayTrigger, FormGroup, FormControl } from "react-bootstrap";
 import { useFormFields } from "../libs/hooksLib";
 import Excuse from "./Excuse"
@@ -57,7 +57,7 @@ export default function Excuses(props) {
   return (
     <div className="Excuses">
 
-      { !isEmpty(props.game.excuses) && 
+      { !Utils.isEmpty(props.game.excuses) && 
         props.game.excuses.map((excuse, index) => {
           
           return (
@@ -66,7 +66,7 @@ export default function Excuses(props) {
         })
       }
 
-      { !isEmpty(props.user) &&
+      { !Utils.isEmpty(props.user) &&
         <span>
           <OverlayTrigger trigger="click" rootClose placement="bottom" overlay={popover}>
             <Button bsSize="small">

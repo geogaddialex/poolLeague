@@ -1,9 +1,9 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
-import AppliedRoute from "./components/AppliedRoute";
-import AuthenticatedRoute from "./components/AuthenticatedRoute";
-import UnauthenticatedRoute from "./components/UnauthenticatedRoute";
-import AdminRoute from "./components/AdminRoute";
+import AppliedRoute from "./routes/AppliedRoute";
+import AuthenticatedRoute from "./routes/AuthenticatedRoute";
+import UnauthenticatedRoute from "./routes/UnauthenticatedRoute";
+import AdminRoute from "./routes/AdminRoute";
 import Home from "./containers/Home";
 import Login from "./containers/Login";
 import Signup from "./containers/Signup";

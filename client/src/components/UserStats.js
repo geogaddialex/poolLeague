@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Table, Alert } from "react-bootstrap";
-import { isEmpty } from "../Utils/Utils";
+import * as Utils from "../Utils/Utils";
 import * as UserUtils from "../Utils/UserUtils"
-import * as Utils from "../Utils/Utils"
 import JoinSeason from "../components/JoinSeason";
 import "./UserStats.css";
 
@@ -15,7 +14,7 @@ export default function UserStats(props) {
         <>
           <p><b>{UserUtils.getName(props.player, props.users)}</b></p>
 
-          { !isEmpty(props.games) ?
+          { !Utils.isEmpty(props.games) ?
 
             <>
               <p>Total Games: { props.games.length }</p>

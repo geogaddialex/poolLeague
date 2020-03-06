@@ -3,7 +3,7 @@ import { Link, withRouter } from "react-router-dom";
 import { Nav, Navbar, NavItem, NavDropdown, MenuItem } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import Routes from "./Routes";
-import { isEmpty } from "./Utils/Utils"
+import * as Utils from "./Utils/Utils"
 import io from "socket.io-client";
 import "./App.css";
 
@@ -224,7 +224,7 @@ function App(props) {
           </Nav>
           <Nav pullRight>
 
-            { !isEmpty(user)
+            { !Utils.isEmpty(user)
               ? <>
 
                   { user.isAdmin &&

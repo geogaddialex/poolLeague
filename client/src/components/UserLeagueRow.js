@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
 import * as Utils from "../Utils/Utils";
-import { getMinGames, getGamesForSeason } from "../Utils/SeasonUtils";
-import { getGamesForUser, getUser, countWins, countLosses, countPlayed, countSevenBallsFor,
-  countSevenBallsAgainst, countFoulsFor, countFoulsAgainst, calculateOldPoints, calculateTNSR, countUnderMin,
-  countUnplayed, countPenalty, getPosition } from "../Utils/UserUtils"
+import * as SeasonUtils from "../Utils/SeasonUtils";
+import * as UserUtils from "../Utils/UserUtils"
 import { Table, Tooltip, OverlayTrigger, Alert } from "react-bootstrap";
 import "./UserLeagueRow.css";
 
@@ -11,32 +9,18 @@ export default function UserLeagueRow(props) {
 
   function calculateWinsToFirst(subjectPlayer){
 
-    const seasonGames = getGamesForSeason(props.games, props.season)
+    const seasonGames = SeasonUtils.getGamesForSeason(props.games, props.season)
     const TNSRS = props.season.players.map( user => {
-      const TNSR = calculateTNSR(seasonGames, user, props.season)
+      const TNSR = UserUtils.calculateTNSR(seasonGames, user, props.season)
       return TNSR
     })
 
-    let max = props.season.players.find(player => calculateTNSR(seasonGames, player, props.season) == Math.max( ...TNSRS ) )
-    let TNSRdiff = calculateTNSR(seasonGames, max, props.season) - calculateTNSR(seasonGames, subjectPlayer, props.season) + 0.01
-    let losses = countLosses(props.games, subjectPlayer) > 0 ? countLosses(props.games, subjectPlayer) : 1
-    let penalty = countPenalty(props.games, subjectPlayer, props.season)
+    let max = props.season.players.find(player => UserUtils.calculateTNSR(seasonGames, player, props.season) == Math.max( ...TNSRS ) )
+    let TNSRdiff = UserUtils.calculateTNSR(seasonGames, max, props.season) - UserUtils.calculateTNSR(seasonGames, subjectPlayer, props.season) + 0.01
+    let losses = UserUtils.countLosses(props.games, subjectPlayer) > 0 ? UserUtils.countLosses(props.games, subjectPlayer) : 1
+    let penalty = UserUtils.countPenalty(props.games, subjectPlayer, props.season)
 
-    return max === subjectPlayer ? 0 : Math.ceil(TNSRdiff * (losses+countPenalty(props.games, subjectPlayer, props.season)))
-  }
-
-  function calculateWinsToRankUp(user){
-    let index = props.season.players.sort(compareTNSR).indexOf(user)
-
-    if(index === 0 ){
-      return 0
-    }else{
-      let upOne = props.season.players[index-1]
-      let TNSRdiff = calculateTNSR(upOne) - calculateTNSR(user) + 0.01
-      let losses = countLosses(user) > 0 ? countLosses(user) : 1
-      return Math.ceil(TNSRdiff * (losses+countPenalty(user)))
-    }
-    
+    return max === subjectPlayer ? 0 : Math.ceil(TNSRdiff * (losses+UserUtils.countPenalty(props.games, subjectPlayer, props.season)))
   }
 
   function compareTNSR(a, b) {
@@ -45,11 +29,11 @@ export default function UserLeagueRow(props) {
 
   function compareTNSRthenWinsToFirst(a, b) {
 
-    if (calculateTNSR(a) > calculateTNSR(b)) return -1;
-    if (calculateTNSR(a) < calculateTNSR(b)) return 1;
+    if (UserUtils.calculateTNSR(a) > UserUtils.calculateTNSR(b)) return -1;
+    if (UserUtils.calculateTNSR(a) < UserUtils.calculateTNSR(b)) return 1;
 
-    if (countLosses(a) > countLosses(b)) return 1;
-    if (countLosses(a) < countLosses(b)) return -1;
+    if (UserUtils.countLosses(a) > UserUtils.countLosses(b)) return 1;
+    if (UserUtils.countLosses(a) < UserUtils.countLosses(b)) return -1;
   }
 
   const TooltipSevenBall = (
@@ -142,16 +126,16 @@ export default function UserLeagueRow(props) {
 
           { props.games.length > 0 &&
                 <tr>
-                  <td>{getPosition(props.player, props.season, props.games)}</td>
+                  <td>{UserUtils.getPosition(props.player, props.season, props.games)}</td>
                   <td><b><a href={`/user/${props.player._id}`}>{props.player.name}</a></b></td>
-                  <td>{countPlayed(props.games, props.player)}</td>
-                  <td>{countWins(props.games, props.player)}</td>
-                  <td>{countLosses(props.games, props.player)}</td>
-                  <td>{countSevenBallsFor(props.games, props.player)} / {countSevenBallsAgainst(props.games, props.player)}</td>
-                  <td>{countFoulsFor(props.games, props.player)} / {countFoulsAgainst(props.games, props.player)}</td>
-                  <td>{calculateOldPoints(props.games, props.player)}</td>
-                  <td>{countPenalty(props.games, props.player, props.season)}</td>
-                  <td><b>{Utils.dp(calculateTNSR(props.games, props.player, props.season))}</b></td>
+                  <td>{UserUtils.countPlayed(props.games, props.player)}</td>
+                  <td>{UserUtils.countWins(props.games, props.player)}</td>
+                  <td>{UserUtils.countLosses(props.games, props.player)}</td>
+                  <td>{UserUtils.countSevenBallsFor(props.games, props.player)} / {UserUtils.countSevenBallsAgainst(props.games, props.player)}</td>
+                  <td>{UserUtils.countFoulsFor(props.games, props.player)} / {UserUtils.countFoulsAgainst(props.games, props.player)}</td>
+                  <td>{UserUtils.calculateOldPoints(props.games, props.player)}</td>
+                  <td>{UserUtils.countPenalty(props.games, props.player, props.season)}</td>
+                  <td><b>{Utils.dp(UserUtils.calculateTNSR(props.games, props.player, props.season))}</b></td>
                   <td>{calculateWinsToFirst(props.player)}</td>
                 </tr>
           }

@@ -10,8 +10,8 @@ import Streaks from "../components/Streaks";
 import SeasonInfo from "../components/SeasonInfo";
 import RunTheNumbers from "../components/RunTheNumbers";
 import AddSeason from "../components/AddSeason";
-import { isEmpty } from "../Utils/Utils";
-import { isSeasonOpen } from "../Utils/SeasonUtils";
+import * as Utils from "../Utils/Utils";
+import * as SeasonUtils from "../Utils/SeasonUtils";
 import * as UserUtils from "../Utils/UserUtils";
 import "./Season.css";
 
@@ -49,7 +49,7 @@ export default function Season(props) {
     	<span className="Season">
 			<Row> 
 				<Col xs={12} sm={8} md={9}> 
-					{ !isEmpty(props.season.players) &&
+					{ !Utils.isEmpty(props.season.players) &&
 
 					<>
 						<Row>
@@ -58,7 +58,7 @@ export default function Season(props) {
 							</Col>
 						</Row>
 						
-						{  !isEmpty(props.user) && UserUtils.userInSeason(props.season, props.user._id) && isSeasonOpen(props.season) && props.season.players.length > 1 &&
+						{  !Utils.isEmpty(props.user) && UserUtils.userInSeason(props.season, props.user._id) && SeasonUtils.isSeasonOpen(props.season) && props.season.players.length > 1 &&
 							<Row>
 								<Col xs={12} md={4}><AddGame games={props.games} season={props.season} user={props.user} /></Col>
 								<Col xs={12} md={8}><RunTheNumbers season={props.season} runTheNumbers={runTheNumbers} setRunTheNumbers={setRunTheNumbers} /></Col>
@@ -84,7 +84,7 @@ export default function Season(props) {
 	    				}
 	    			</>
 	    			}
-    				{ !isSeasonOpen(props.season) && new Date(props.season.start) > new Date() &&
+    				{ !SeasonUtils.isSeasonOpen(props.season) && new Date(props.season.start) > new Date() &&
     					<Row>
     						<Col xs={12}>
 		    					<Alert bsStyle="info">
@@ -99,7 +99,7 @@ export default function Season(props) {
 
 
 				    <Row>	
-					    { isSeasonOpen(props.season) && isEmpty(props.season.players) &&
+					    { SeasonUtils.isSeasonOpen(props.season) && Utils.isEmpty(props.season.players) &&
 							<Col xs={12}>
 								<Alert bsStyle="info">
 					    			No players have entered the season, be the first!
@@ -111,7 +111,7 @@ export default function Season(props) {
 					{ props.games.length > 0 && 
 						<Row>
 
-							{ isSeasonOpen(props.season) &&
+							{ SeasonUtils.isSeasonOpen(props.season) &&
 								<Col xs={12}><Streaks user={props.user} season={props.season} games={props.games} /></Col>
 							}
 							<Col xs={12}><TopFarms user={props.user} limit={numberOfResults} season={props.season} games={props.games} /></Col>

@@ -4,7 +4,7 @@ import AllTimeLeagueTable from "../components/AllTimeLeagueTable";
 import TopFarms from "../components/TopFarms";
 import MostPlayed from "../components/MostPlayed";
 import LeastPlayed from "../components/LeastPlayed";
-import { isEmpty, isSeasonOpen } from "../Utils/Utils";
+import * as Utils from "../Utils/Utils";
 import "./All.css";
 
 export default function All(props) {
@@ -14,7 +14,7 @@ export default function All(props) {
   	return (
 	    <div className="All">
 
-		{ !isEmpty(props.games) && props.games.length > 0 ?
+		{ !Utils.isEmpty(props.games) && props.games.length > 0 ?
 
 			<Row> 
 				<Col xs={12} sm={8} md={9}> 
@@ -27,7 +27,7 @@ export default function All(props) {
 
 				<Col xs={12} sm={4} md={3}>
 
-					{ !isEmpty(props.games) && !isEmpty(props.users) &&
+					{ !Utils.isEmpty(props.games) && !Utils.isEmpty(props.users) &&
 						<Row>
 							<Col xs={12}><TopFarms user={props.user} limit={numberOfResults} games={props.games} /></Col>
 							<Col xs={12}><MostPlayed user={props.user} limit={numberOfResults} games={props.games} /></Col>

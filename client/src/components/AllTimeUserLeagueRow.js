@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from "react";
 import * as Utils from "../Utils/Utils";
-import { getMinGames, allTimeSeason } from "../Utils/SeasonUtils";
-import { getGamesForUser, getUser, countWins, countLosses, countPlayed, countSevenBallsFor,
-  countSevenBallsAgainst, countFoulsFor, countFoulsAgainst, calculateOldPoints, countUnderMin,
-  countUnplayed, countPenalty } from "../Utils/UserUtils"
+import * as UserUtils from "../Utils/UserUtils"
 import { Table, Tooltip, OverlayTrigger, Alert } from "react-bootstrap";
 import "./AllTimeUserLeagueRow.css";
 
@@ -44,7 +41,7 @@ export default function AllTimeUserLeagueRow(props) {
       let upOne = props.users[index-1]
       let TNSRdiff = calculateTNSR(upOne) - calculateTNSR(user) + 0.01
       let losses = countLosses(user) > 0 ? countLosses(user) : 1
-      return Math.ceil(TNSRdiff * (losses+countPenalty(user)))
+      return Math.ceil(TNSRdiff * (losses+UserUtils.countPenalty(user)))
     }
   }
 
@@ -141,12 +138,12 @@ export default function AllTimeUserLeagueRow(props) {
                 <tr>
                   <td>{getPosition(props.player)}</td>
                   <td><b><a href={`/user/${props.player._id}`}>{props.player.name}</a></b></td>
-                  <td>{countPlayed(props.games, props.player)}</td>
-                  <td>{countWins(props.games, props.player)}</td>
-                  <td>{countLosses(props.games, props.player)}</td>
-                  <td>{countSevenBallsFor(props.games, props.player)} / {countSevenBallsAgainst(props.games, props.player)}</td>
-                  <td>{countFoulsFor(props.games, props.player)} / {countFoulsAgainst(props.games, props.player)}</td>
-                  <td>{calculateOldPoints(props.games, props.player)}</td>
+                  <td>{UserUtils.countPlayed(props.games, props.player)}</td>
+                  <td>{UserUtils.countWins(props.games, props.player)}</td>
+                  <td>{UserUtils.countLosses(props.games, props.player)}</td>
+                  <td>{UserUtils.countSevenBallsFor(props.games, props.player)} / {UserUtils.countSevenBallsAgainst(props.games, props.player)}</td>
+                  <td>{UserUtils.countFoulsFor(props.games, props.player)} / {UserUtils.countFoulsAgainst(props.games, props.player)}</td>
+                  <td>{UserUtils.calculateOldPoints(props.games, props.player)}</td>
                   <td><b>{Utils.dp(calculateTNSR(props.player))}</b></td>
                   <td>{calculateWinsToFirst(props.player)}</td>
                 </tr>
