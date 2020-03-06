@@ -1,6 +1,8 @@
 import * as SeasonUtils from "./SeasonUtils";
 import * as Utils from "./Utils";
 
+const diminishingReturnsFactor = 0.9
+
 export function getUser(userId, users){
 
 	const user = users.find(player => player._id == userId)
@@ -64,7 +66,7 @@ export function calculatePoints(games, user, season){
 
 	getOpponents(season, user).forEach(opponent => {
 		getWinsAgainst(opponent, user, games).forEach( (game, index) => {
-			const base = Math.pow(0.8, index)
+			const base = Math.pow(diminishingReturnsFactor, index)
 
 			switch(game.special){
 				case "7 Ball":
@@ -87,7 +89,7 @@ export function calculateLosses(games, user, season){
 
 	getOpponents(season, user).forEach(opponent => {
 		getLossesAgainst(opponent, user, games).forEach( (game, index) =>{
-			losses += Math.pow(0.8, index)
+			losses += Math.pow(diminishingReturnsFactor, index)
 		})
 	})
 
@@ -211,7 +213,7 @@ export function calculateWinsToTNSR(games, user, season, players, tnsr){
     let countMost = 0
 
    	do{
-    	leastBeatenPoints += Math.pow(0.9, leastBeatenCount)
+    	leastBeatenPoints += Math.pow(diminishingReturnsFactor, leastBeatenCount)
     	winsAgainst[winsAgainst.indexOf(Math.min(...winsAgainst))] += 1
     	leastBeatenCount = Math.min(...winsAgainst)
     	countLeast += 1
@@ -221,7 +223,7 @@ export function calculateWinsToTNSR(games, user, season, players, tnsr){
 
 
     do{
-    	mostBeatenPoints += Math.pow(0.9, mostBeatenCount)
+    	mostBeatenPoints += Math.pow(diminishingReturnsFactor, mostBeatenCount)
     	mostBeatenCount += 1
     	countMost += 1
     	mostBeatenTNSR = mostBeatenPoints / divisor
@@ -239,7 +241,6 @@ export function calculateWinsToTNSR(games, user, season, players, tnsr){
 export function playersSortedByTNSR(games, season){
 	const sortedPlayers = season.players.map(player => {
 			player.tnsr = calculateTNSR(games, player, season)
-			if(player.name == "AlexTest") console.log(player.tnsr)
 			return player
 		}).sort((a,b) => {
 			return b.tnsr - a.tnsr

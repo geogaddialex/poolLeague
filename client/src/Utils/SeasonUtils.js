@@ -103,7 +103,7 @@ export function isOverlapping(season, seasons){
 
 export function seasonNameInUse(name, seasons){
   if(!Utils.isEmpty(seasons)){
-    return seasons.some(season => season.name == fields.name)
+    return seasons.some(season => season.name == name)
   }
   return false
 }

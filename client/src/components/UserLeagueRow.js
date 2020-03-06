@@ -24,7 +24,7 @@ export default function UserLeagueRow(props) {
   }
 
   function compareTNSR(a, b) {
-    return calculateTNSR(b) - calculateTNSR(a);
+    return UserUtils.calculateTNSR(b) - UserUtils.calculateTNSR(a);
   }
 
   function compareTNSRthenWinsToFirst(a, b) {

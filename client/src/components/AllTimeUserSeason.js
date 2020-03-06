@@ -49,12 +49,12 @@ export default function AllTimeUserSeason(props) {
 				<Col xs={12} sm={4} md={3}>
 
 				 	<Row>	
-				    	<Col xs={12}><UserStats games={props.games.filter(game=> UserUtilsuserPlayed(game, player))} player={props.player} users={props.users} user={props.user} seasons={props.seasons} /></Col>
+				    	<Col xs={12}><UserStats games={props.games.filter(game=> UserUtils.userPlayed(game, player))} player={props.player} users={props.users} user={props.user} seasons={props.seasons} /></Col>
 					</Row>
 
-					{ props.games.filter(game=> UserUtilsuserPlayed(game, player)).length > 0 &&
+					{ props.games.filter(game=> UserUtils.userPlayed(game, player)).length > 0 &&
 						<Row>
-							<Col xs={12}><MostPlayed user={props.user} limit={numberOfResults} games={props.games.filter(game=> UserUtilsuserPlayed(game, player))} /></Col>
+							<Col xs={12}><MostPlayed user={props.user} limit={numberOfResults} games={props.games.filter(game=> UserUtils.userPlayed(game, player))} /></Col>
 						</Row>
 					}
 

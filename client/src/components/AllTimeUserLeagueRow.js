@@ -7,8 +7,8 @@ import "./AllTimeUserLeagueRow.css";
 export default function AllTimeUserLeagueRow(props) {
 
   function calculateTNSR(user){
-    let losses = countLosses(props.games, user) > 0 ? countLosses(props.games, user) : 1
-    return calculateOldPoints(props.games, user) / losses
+    let losses = UserUtils.countLosses(props.games, user) > 0 ? UserUtils.countLosses(props.games, user) : 1
+    return UserUtils.calculateOldPoints(props.games, user) / losses
   }
 
   function getPosition(player){
@@ -27,7 +27,7 @@ export default function AllTimeUserLeagueRow(props) {
 
     let max = props.users.find(currentPlayer => calculateTNSR(currentPlayer) == Math.max( ...TNSRS ) )
     let TNSRdiff = calculateTNSR(max) - calculateTNSR(subjectPlayer) + 0.01
-    let losses = countLosses(props.games, subjectPlayer) > 0 ? countLosses(props.games, subjectPlayer) : 1
+    let losses = UserUtils.countLosses(props.games, subjectPlayer) > 0 ? UserUtils.countLosses(props.games, subjectPlayer) : 1
 
     return max === subjectPlayer ? 0 : Math.ceil(TNSRdiff * losses)
   }
@@ -40,7 +40,7 @@ export default function AllTimeUserLeagueRow(props) {
     }else{
       let upOne = props.users[index-1]
       let TNSRdiff = calculateTNSR(upOne) - calculateTNSR(user) + 0.01
-      let losses = countLosses(user) > 0 ? countLosses(user) : 1
+      let losses = UserUtils.countLosses(user) > 0 ? UserUtils.countLosses(user) : 1
       return Math.ceil(TNSRdiff * (losses+UserUtils.countPenalty(user)))
     }
   }
@@ -54,8 +54,8 @@ export default function AllTimeUserLeagueRow(props) {
     if (calculateTNSR(a) > calculateTNSR(b)) return -1;
     if (calculateTNSR(a) < calculateTNSR(b)) return 1;
 
-    if (countLosses(a) > countLosses(b)) return 1;
-    if (countLosses(a) < countLosses(b)) return -1;
+    if (UserUtils.countLosses(a) > UserUtils.countLosses(b)) return 1;
+    if (UserUtils.countLosses(a) < UserUtils.countLosses(b)) return -1;
   }
 
   const TooltipSevenBall = (
