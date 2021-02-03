@@ -2,11 +2,11 @@ module.exports = function( mongoose ){
 
 	if(process.env.NODE_ENV == "production"){
 
-		mongoose.connect('mongodb://admin:th3p455w0rd15@ds263848.mlab.com:63848/pool');
+		mongoose.connect('mongodb+srv://admin:th3p455w0rd15@poolleagueprod.jwboi.mongodb.net/prod?retryWrites=true&w=majority');
 
 	}else{
 
-		mongoose.connect('mongodb://admin:th3p455w0rd15@ds151586.mlab.com:51586/pooldev');
+		mongoose.connect('mongodb+srv://admin:th3p455w0rd15@poolleaguedev.1empn.mongodb.net/dev?retryWrites=true&w=majority');
 	
 	}
 }
